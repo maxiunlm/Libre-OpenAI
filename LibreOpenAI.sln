@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35303.130
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibreOpenAI", "LibreOpenAI\LibreOpenAI.csproj", "{BC834BD5-53BE-4F1C-8B8A-7B1FA1AA9C6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibreOpenAIUnitTestProject", "LibreOpenAIUnitTestProject\LibreOpenAIUnitTestProject.csproj", "{673E29F7-AF91-41CE-A04A-3CBE5DCFA177}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC834BD5-53BE-4F1C-8B8A-7B1FA1AA9C6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC834BD5-53BE-4F1C-8B8A-7B1FA1AA9C6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC834BD5-53BE-4F1C-8B8A-7B1FA1AA9C6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC834BD5-53BE-4F1C-8B8A-7B1FA1AA9C6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{673E29F7-AF91-41CE-A04A-3CBE5DCFA177}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{673E29F7-AF91-41CE-A04A-3CBE5DCFA177}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{673E29F7-AF91-41CE-A04A-3CBE5DCFA177}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{673E29F7-AF91-41CE-A04A-3CBE5DCFA177}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BF7B3809-31CF-418C-A896-C4324754D52E}
+	EndGlobalSection
+EndGlobal
