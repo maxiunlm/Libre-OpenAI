@@ -6,8 +6,8 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response.Choices.Logprobs
 {
     public class LogprobsChoiseResponse : ILogprobsChoiseResponse
     {
-        public List<IContentLogprobsChoiseResponse> Content { get; set; } = new List<IContentLogprobsChoiseResponse>();
+        public List<ContentLogprobsChoiseResponse> Content { get; set; } = new List<ContentLogprobsChoiseResponse>();
 
-        public List<IRefusalLogprobsChoiseResponse> Refusal { get; set; } = new List<IRefusalLogprobsChoiseResponse>();
+        public List<RefusalLogprobsChoiseResponse> Refusal { get; set; } = new List<RefusalLogprobsChoiseResponse>();
     }
 }

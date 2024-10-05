@@ -10,11 +10,11 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response.Choices.Logprobs
         /// A list of message content tokens with log probability information.
         /// </summary>
         [JsonProperty("content")]
-        List<IContentLogprobsChoiseResponse> Content { get; set; }
+        List<ContentLogprobsChoiseResponse> Content { get; set; }
         /// <summary>
         /// A list of message refusal tokens with log probability information.
         /// </summary>
         [JsonProperty("refusal")]
-        List<IRefusalLogprobsChoiseResponse> Refusal { get; set; }
+        List<RefusalLogprobsChoiseResponse> Refusal { get; set; }
     }
 }

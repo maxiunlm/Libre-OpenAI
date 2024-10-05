@@ -6,6 +6,6 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response.Choices.Message.ToolC
     {
         public string Id { get; set; } = string.Empty;
         public string Type { get; set; } = string.Empty;
-        public IToolCallsFunctionResponse Function { get; set; } = new ToolCallsFunctionResponse();
+        public ToolCallsFunctionResponse Function { get; set; } = new ToolCallsFunctionResponse();
     }
 }

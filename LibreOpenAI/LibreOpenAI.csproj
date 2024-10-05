@@ -10,6 +10,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Json\**" />
+    <Compile Remove="Mapper\**" />
+    <EmbeddedResource Remove="Json\**" />
+    <EmbeddedResource Remove="Mapper\**" />
+    <None Remove="Json\**" />
+    <None Remove="Mapper\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Text.Json" Version="8.0.4" />
   </ItemGroup>

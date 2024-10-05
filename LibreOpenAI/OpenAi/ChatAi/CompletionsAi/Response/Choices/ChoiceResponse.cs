@@ -7,7 +7,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response.Choices
     {
         public string FinishReason { get; set; } = string.Empty;
         public int Index { get; set; }
-        public IMessageChoiseResponse Message { get; set; } = new MessageChoiseResponse();
-        public ILogprobsChoiseResponse? Logprobs { get; set; }
+        public MessageChoiseResponse Message { get; set; } = new MessageChoiseResponse();
+        public LogprobsChoiseResponse? Logprobs { get; set; }
     }
 }

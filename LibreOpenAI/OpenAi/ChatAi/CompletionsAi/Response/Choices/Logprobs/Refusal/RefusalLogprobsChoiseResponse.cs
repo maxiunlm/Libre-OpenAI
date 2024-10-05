@@ -8,6 +8,6 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response.Choices.Logprobs.Refu
         public string Token { get; set; } = string.Empty;
         public decimal Logprob { get; set; } = ContentLogprobsChoiseResponse.defultLogprob;
         public List<int>? Bytes { get; set; }
-        public List<ITopLogprobsChoiseResponse> TopLogprobs { get; set; } = new List<ITopLogprobsChoiseResponse>();
+        public List<TopLogprobsChoiseResponse> TopLogprobs { get; set; } = new List<TopLogprobsChoiseResponse>();
     }
 }

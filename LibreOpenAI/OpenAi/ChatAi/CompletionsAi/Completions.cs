@@ -31,7 +31,6 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
             }
         }
 
-
         public async Task<IChatCompletionResponse> Create(IRequestBody request)
         {
             IChatCompletionResponse response = await openAiData.GetChatGptResponse(request);

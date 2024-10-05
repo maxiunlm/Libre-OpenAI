@@ -7,6 +7,6 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response.Usage
         public int CompletionTokens { get; set; }
         public int PromptTokens { get; set; }
         public int TotalTokens { get; set; }
-        public ICompletionTokensDetailsResponse CompletionTokensDetails { get; set; } = new CompletionTokensDetailsResponse();
+        public CompletionTokensDetailsResponse CompletionTokensDetails { get; set; } = new CompletionTokensDetailsResponse();
     }
 }

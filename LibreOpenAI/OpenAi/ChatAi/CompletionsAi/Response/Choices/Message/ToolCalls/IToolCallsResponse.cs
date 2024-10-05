@@ -9,7 +9,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response.Choices.Message.ToolC
         /// The function that the model called.
         /// </summary>
         [JsonProperty("function")]
-        IToolCallsFunctionResponse Function { get; set; }
+        ToolCallsFunctionResponse Function { get; set; }
         /// <summary>
         /// The ID of the tool call.
         /// </summary>

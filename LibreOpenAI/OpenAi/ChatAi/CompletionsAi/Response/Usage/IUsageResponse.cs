@@ -14,7 +14,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response.Usage
         /// Breakdown of tokens used in a completion.
         /// </summary>
         [JsonProperty("completion_tokens_details")]
-        ICompletionTokensDetailsResponse CompletionTokensDetails { get; set; }
+        CompletionTokensDetailsResponse CompletionTokensDetails { get; set; }
         /// <summary>
         /// Number of tokens in the prompt.
         /// </summary>

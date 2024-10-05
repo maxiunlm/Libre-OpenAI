@@ -1,5 +1,4 @@
-﻿using LibreOpenAI.Json.Converters;
-using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response.Choices;
+﻿using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response.Choices;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response.Usage;
 using Newtonsoft.Json;
 
@@ -42,12 +41,12 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response
         /// A list of chat completion choices. Can be more than one if n is greater than 1.
         /// </summary>
         [JsonProperty("choices")]
-        [JsonConverter(typeof(ChoiceResponseConverter))]
-        List<IChoiceResponse> Choices { get; set; }
+        // TODO: this [JsonConverter(typeof(ChoiceResponseConverter))] or AutoMapper
+        List<ChoiceResponse> Choices { get; set; }
         /// <summary>
         /// Usage statistics for the completion request.
         /// </summary>
         [JsonProperty("usage")]
-        IUsageResponse Usage { get; set; }
+        UsageResponse Usage { get; set; }
     }
 }
