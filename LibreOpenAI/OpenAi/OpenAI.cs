@@ -1,5 +1,4 @@
-﻿//using LibreOpenAI.Mapper;
-using LibreOpenAI.OpenAi.ChatAi;
+﻿using LibreOpenAI.OpenAi.ChatAi;
 using LibreOpenAI.OpenAi.ConfigurationAi;
 using LibreOpenAI.OpenAi.Settings;
 
@@ -9,7 +8,6 @@ namespace LibreOpenAI.OpenAi
     {
         private readonly IConfiguration configuration;
         private readonly IOpenAiSettings settings;
-        //private readonly MappedManager mapper = MappedManager.Instance;
 
         public OpenAI()
         {
