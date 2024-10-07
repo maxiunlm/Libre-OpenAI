@@ -48,8 +48,8 @@
     ""total_tokens"": 21,
     ""completion_tokens_details"": {
         ""reasoning_tokens"": 0
+        }
     }
-}
 }
 ";
     }
