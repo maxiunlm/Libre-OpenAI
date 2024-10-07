@@ -21,28 +21,52 @@ namespace LibreOpenAI_UnitTestProject
         [TestMethod]
         public async Task OpenAiUnitTest_WhatIsTheCapitalofFrance()
         {
-            Mock<IHttpClientAi> httpClientAiMock = new Mock<IHttpClientAi>();
-            HttpResponseMessage response = new HttpResponseMessage { Content = new StringContent (ResponseFakes.theCapitalOfFranceIsParisJson) };
-            httpClientAiMock.Setup(o => o.PostAsync(It.IsAny<Uri>(), It.IsAny<StringContent>())).Returns(Task.FromResult(response));
-            IOpenAiData openAiData = new OpenAiData { Client = httpClientAiMock.Object };
-            IRequestBody request = new RequestBody
-            {
-                Model = defaultModel,
-                MaxCompletionTokens = defaultMaxCompletionTokens,
-                Messages = new List<IMessageRequest> {
-                    new MessageRequest { 
-                        Role = defaultRole,
-                        Content = new List<string> { "What is the capilal of France?" }
-                    } 
-                }
-            };
-            IOpenAI sut = new OpenAI();
-            sut.Chat.Completions.OpenAiData = openAiData;
+            IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
+            IOpenAI sut = GetSut(ResponseFakes.theCapitalOfFranceIsParisJson);
 
             IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual("The capital of France is Paris", result.Choices.First().Message.Content);
+            Assert.AreEqual(ResponseFakes.theCapitalOfFranceIsParis, result.Choices.First().Message.Content);
+        }
+
+        [TestMethod]
+        public async Task OpenAiUnitTest_YouAreAHelpfulAssistante()
+        {
+            IRequestBody request = GetRequest(ResponseFakes.youAreAHelpfulAssistant);
+            IOpenAI sut = GetSut(ResponseFakes.youAreAHelpfulAssistantJson);
+
+            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(ResponseFakes.helloThereHowMayIAssistYouToday, result.Choices.First().Message.Content);
+        }
+
+        private IOpenAI GetSut(string responseJson)
+        {
+            Mock<IHttpClientAi> httpClientAiMock = new Mock<IHttpClientAi>();
+            HttpResponseMessage response = new HttpResponseMessage { Content = new StringContent(responseJson) };
+            httpClientAiMock.Setup(o => o.PostAsync(It.IsAny<Uri>(), It.IsAny<StringContent>())).Returns(Task.FromResult(response));
+            IOpenAiData openAiData = new OpenAiData { Client = httpClientAiMock.Object };
+            IOpenAI sut = new OpenAI();
+            sut.Chat.Completions.OpenAiData = openAiData;
+
+            return sut;
+        }
+
+        private IRequestBody GetRequest(string contentMessage)
+        {
+            return new RequestBody
+            {
+                Model = defaultModel,
+                MaxCompletionTokens = defaultMaxCompletionTokens,
+                Messages = new List<IMessageRequest> {
+                    new MessageRequest {
+                        Role = defaultRole,
+                        Content = new List<string> { contentMessage }
+                    }
+                }
+            };
         }
     }
 }
