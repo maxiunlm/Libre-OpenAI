@@ -15,6 +15,7 @@ namespace LibreOpenAI_UnitTestProject
         private const string defaultRole = "user";
         private const string defaultModel = "gpt-3.5-turbo";
         private const int defaultMaxCompletionTokens = 50;
+        private const int aLotOfTokens = 800;
 
         [TestMethod]
         public async Task OpenAiUnitTest_WhatIsTheCapitalofFrance()
@@ -45,7 +46,7 @@ namespace LibreOpenAI_UnitTestProject
         [TestMethod]
         public async Task OpenAiUnitTest_MultiChoiceRequestJson()
         {
-            IRequestBody request = GetRequestWithTemperature(ResponseFakes.multiChoiceResponseJson);
+            IRequestBody request = GetRequestWithTemperature(ResponseFakes.testForMultipleChoices);
             IOpenAI sut = GetSut(ResponseFakes.multiChoiceResponseJson);
 
             IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
@@ -54,6 +55,45 @@ namespace LibreOpenAI_UnitTestProject
             Assert.AreEqual(2, result.Choices.Count);
             Assert.AreEqual(ResponseFakes.testForMultipleChoicesResponseFirst, result.Choices.First().Message.Content);
             Assert.AreEqual(ResponseFakes.testForMultipleChoicesResponseSecond, result.Choices.Last().Message.Content);
+        }
+
+        [TestMethod]
+        public async Task OpenAiUnitTest_TruncatedResponseJson()
+        {
+            IRequestBody request = GetRequestWithTemperature(ResponseFakes.testTruncatedResponse);
+            IOpenAI sut = GetSut(ResponseFakes.truncatedResponseJson);
+
+            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Choices.Count);
+            Assert.AreEqual(ResponseFakes.thisResponseWasCutShort, result.Choices.First().Message.Content);
+        }
+
+        [TestMethod]
+        public async Task OpenAiUnitTest_LogprobsResponseJson()
+        {
+            IRequestBody request = GetRequestWithLogprobs(ResponseFakes.testForLogprobsPresent);
+            IOpenAI sut = GetSut(ResponseFakes.logprobsResponseJson);
+
+            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Choices.Count);
+            Assert.AreEqual(ResponseFakes.hereIAResponseWithLogprobs, result.Choices.First().Message.Content);
+        }
+
+        [TestMethod]
+        public async Task OpenAiUnitTest_HighTokenUsageResponseJson()
+        {
+            IRequestBody request = GetRequestWithLogprobs(ResponseFakes.testHighTokenUsageResponse);
+            IOpenAI sut = GetSut(ResponseFakes.highTokenUsageResponseJson);
+
+            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Choices.Count);
+            Assert.AreEqual(ResponseFakes.hereIsALongResponseToTestHighTokenUsage, result.Choices.First().Message.Content);
         }
 
         private IOpenAI GetSut(string responseJson)
@@ -85,18 +125,26 @@ namespace LibreOpenAI_UnitTestProject
 
         private IRequestBody GetRequestWithTemperature(string contentMessage)
         {
-            return new RequestBody
-            {
-                Model = defaultModel,
-                MaxCompletionTokens = defaultMaxCompletionTokens,
-                Temperature = 0.7m,
-                Messages = new List<IMessageRequest> {
-                    new MessageRequest {
-                        Role = defaultRole,
-                        Content = new List<string> { contentMessage }
-                    }
-                }
-            };
+            IRequestBody result = GetRequest(contentMessage);
+            result.Temperature = 0.7m;
+
+            return result;
+        }
+
+        private IRequestBody GetRequestWithLogprobs(string contentMessage)
+        {
+            IRequestBody result = GetRequestWithTemperature(contentMessage);
+            result.Logprobs = true;
+
+            return result;
+        }
+
+        private IRequestBody GetRequestWithALotOfTokens(string contentMessage)
+        {
+            IRequestBody result = GetRequestWithTemperature(contentMessage);
+            result.MaxCompletionTokens = aLotOfTokens;
+
+            return result;
         }
     }
 }

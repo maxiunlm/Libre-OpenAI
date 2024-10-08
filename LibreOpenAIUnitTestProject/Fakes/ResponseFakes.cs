@@ -63,13 +63,13 @@
   ""choices"": [
     {
       ""index"": 0,
-      ""message"": { ""role"": ""assistant"", ""content"": ""This is the first response.""},
+      ""message"": { ""role"": ""assistant"", ""content"": """ + testForMultipleChoicesResponseFirst + @"""},
       ""logprobs"": null,
       ""finish_reason"": ""stop""
     },
     {
       ""index"": 1,
-      ""message"": { ""role"": ""assistant"", ""content"": ""This is the second response.""},
+      ""message"": { ""role"": ""assistant"", ""content"": """ + testForMultipleChoicesResponseSecond + @"""},
       ""logprobs"": null,
       ""finish_reason"": ""stop""
     }
@@ -80,7 +80,8 @@
     ""total_tokens"": 25
   }
 }";
-        public const string testForDifferentFinishReasonValues = "Test for different finish reason values";
+        public const string testTruncatedResponse = "Can you provide a detailed explanation about how machine learning algorithms work?";
+        public const string thisResponseWasCutShort = "This response was cut short...";
         public const string truncatedResponseJson = @"{
   ""id"": ""chatcmpl-789"",
   ""object"": ""chat.completion"",
@@ -88,7 +89,7 @@
   ""model"": ""gpt-4o-long"",
   ""choices"": [{
     ""index"": 0,
-    ""message"": { ""role"": ""assistant"", ""content"": ""This response was cut short...""},
+    ""message"": { ""role"": ""assistant"", ""content"": """ + thisResponseWasCutShort + @"""},
     ""logprobs"": null,
     ""finish_reason"": ""length""
   }],
@@ -99,6 +100,7 @@
   }
 }";
         public const string testForLogprobsPresent = "Test logprobs presence";
+        public const string hereIAResponseWithLogprobs = "Here's a response with logprobs.";
         public const string logprobsResponseJson = @"{
   ""id"": ""chatcmpl-101"",
   ""object"": ""chat.completion"",
@@ -106,7 +108,7 @@
   ""model"": ""gpt-4o-log"",
   ""choices"": [{
     ""index"": 0,
-    ""message"": { ""role"": ""assistant"", ""content"": ""Here's a response with logprobs.""},
+    ""message"": { ""role"": ""assistant"", ""content"": """ + hereIAResponseWithLogprobs + @"""},
     ""logprobs"": {
       ""tokens"": [""Here's"", ""a"", ""response"", ""with"", ""logprobs.""],
       ""token_logprobs"": [-0.5, -0.3, -0.6, -0.2, -0.1],
@@ -126,7 +128,8 @@
     ""total_tokens"": 28
   }
 }";
-        public const string testHighTokenUsageResponse = "Test for different usage scenarios";
+        public const string testHighTokenUsageResponse = "Generate a long response to test high token usage.";
+        public const string hereIsALongResponseToTestHighTokenUsage = "Here's a long response to test high token usage.";
         public const string highTokenUsageResponseJson = @"{
   ""id"": ""chatcmpl-303"",
   ""object"": ""chat.completion"",
@@ -134,7 +137,7 @@
   ""model"": ""gpt-4o-heavy"",
   ""choices"": [{
     ""index"": 0,
-    ""message"": { ""role"": ""assistant"", ""content"": ""Here's a long response to test high token usage.""},
+    ""message"": { ""role"": ""assistant"", ""content"": """ + hereIsALongResponseToTestHighTokenUsage + @"""},
     ""logprobs"": null,
     ""finish_reason"": ""stop""
   }],
