@@ -6,8 +6,6 @@ using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response;
 using LibreOpenAIUnitTestProject.Fakes;
 using Moq;
-using System.Net;
-using System.Net.Http.Headers;
 
 namespace LibreOpenAI_UnitTestProject
 {
@@ -27,6 +25,7 @@ namespace LibreOpenAI_UnitTestProject
             IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
 
             Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Choices.Count);
             Assert.AreEqual(ResponseFakes.theCapitalOfFranceIsParis, result.Choices.First().Message.Content);
         }
 
@@ -39,7 +38,22 @@ namespace LibreOpenAI_UnitTestProject
             IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
 
             Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Choices.Count);
             Assert.AreEqual(ResponseFakes.helloThereHowMayIAssistYouToday, result.Choices.First().Message.Content);
+        }
+
+        [TestMethod]
+        public async Task OpenAiUnitTest_MultiChoiceRequestJson()
+        {
+            IRequestBody request = GetRequestWithTemperature(ResponseFakes.multiChoiceResponseJson);
+            IOpenAI sut = GetSut(ResponseFakes.multiChoiceResponseJson);
+
+            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, result.Choices.Count);
+            Assert.AreEqual(ResponseFakes.testForMultipleChoicesResponseFirst, result.Choices.First().Message.Content);
+            Assert.AreEqual(ResponseFakes.testForMultipleChoicesResponseSecond, result.Choices.Last().Message.Content);
         }
 
         private IOpenAI GetSut(string responseJson)
@@ -60,6 +74,22 @@ namespace LibreOpenAI_UnitTestProject
             {
                 Model = defaultModel,
                 MaxCompletionTokens = defaultMaxCompletionTokens,
+                Messages = new List<IMessageRequest> {
+                    new MessageRequest {
+                        Role = defaultRole,
+                        Content = new List<string> { contentMessage }
+                    }
+                }
+            };
+        }
+
+        private IRequestBody GetRequestWithTemperature(string contentMessage)
+        {
+            return new RequestBody
+            {
+                Model = defaultModel,
+                MaxCompletionTokens = defaultMaxCompletionTokens,
+                Temperature = 0.7m,
                 Messages = new List<IMessageRequest> {
                     new MessageRequest {
                         Role = defaultRole,
