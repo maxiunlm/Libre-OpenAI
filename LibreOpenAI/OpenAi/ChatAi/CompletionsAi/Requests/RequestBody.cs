@@ -73,7 +73,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
         public int? N { get; set; } = nMinimunCost;
         public int? Seed { get; set; }
         public string ServiceTier { get; set; } = defaultServiceTier;
-        public List<string> Stop { get; set; } = new List<string>();
+        public List<string>? Stop { get; set; } = new List<string>();
         public bool? Stream { get; set; }
         // TODO: Review Important: when using JSON mode, you must also instruct the model to produce JSON yourself via a system or user message.
         // Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request.Also note that the message content may be partially cut off if finish_reason= "length", which indicates the generation exceeded max_tokens or the conversation exceeded the max context length.

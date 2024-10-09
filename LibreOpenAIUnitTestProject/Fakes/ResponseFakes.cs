@@ -147,7 +147,7 @@
     ""total_tokens"": 1800
   }
 }";
-        public const string testEmptyChoicesResponse = "Test edge cases for choices";
+        public const string testEmptyChoicesResponse = "";
         public const string emptyChoicesResponseJson = @"{
   ""id"": ""chatcmpl-404"",
   ""object"": ""chat.completion"",
@@ -160,7 +160,8 @@
     ""total_tokens"": 10
   }
 }";
-        public const string testAStandardCompletionResponseFromChatGpt = "Test a standard completion response from ChatGPT";
+        public const string testAStandardCompletionResponseFromChatGpt = "Say hello.";
+        public const string aStandardCompletionResponseFromChat = "Hello!";
         public const string aStandardCompletionResponseFromChatGptJson = @"{
   ""id"": ""chatcmpl-123"",
   ""object"": ""chat.completion"",
@@ -171,7 +172,7 @@
       ""index"": 0,
       ""message"": {
         ""role"": ""assistant"",
-        ""content"": ""Hello!""
+        ""content"": """ + aStandardCompletionResponseFromChat + @"""
       },
       ""logprobs"": null,
       ""finish_reason"": ""stop""
@@ -183,7 +184,8 @@
     ""total_tokens"": 15
   }
 }";
-        public const string testLogprobsResponseWithTextOffset = "Test logprobs response with text offset";
+        public const string testLogprobsResponseWithTextOffset = "Generate a response with logprobs.";
+        public const string logprobsResponseWithTextOffset = "Here's a response with logprobs and text offsets.";
         public const string logprobsResponseWithTextOffsetJson = @"{
   ""id"": ""chatcmpl-101"",
   ""object"": ""chat.completion"",
@@ -191,7 +193,7 @@
   ""model"": ""gpt-4o-log"",
   ""choices"": [{
     ""index"": 0,
-    ""message"": { ""role"": ""assistant"", ""content"": ""Here's a response with logprobs and text offsets.""},
+    ""message"": { ""role"": ""assistant"", ""content"": """ + logprobsResponseWithTextOffset + @"""},
     ""logprobs"": {
       ""tokens"": [""Here's"", ""a"", ""response"", ""with"", ""logprobs.""],
       ""token_logprobs"": [-0.5, -0.3, -0.6, -0.2, -0.1],
@@ -212,7 +214,9 @@
     ""total_tokens"": 28
   }
 }";
-        public const string testFunctionCallFinishReason = "Test function call finish reason";
+        public const string testFunctionCallFinishReasonSystem = "You are an assistant.";
+        public const string testFunctionCallFinishReasonUser = "Please provide a response with logprobs and text offsets.";
+        public const string functionCallFinishReason = "This response triggered a function call.";
         public const string functionCallFinishReasonJson = @"{
   ""id"": ""chatcmpl-789"",
   ""object"": ""chat.completion"",
@@ -220,7 +224,7 @@
   ""model"": ""gpt-4o-long"",
   ""choices"": [{
     ""index"": 0,
-    ""message"": { ""role"": ""assistant"", ""content"": ""This response triggered a function call.""},
+    ""message"": { ""role"": ""assistant"", ""content"": """ + functionCallFinishReason + @"""},
     ""logprobs"": null,
     ""finish_reason"": ""function_call""
   }],
@@ -230,7 +234,9 @@
     ""total_tokens"": 25
   }
 }";
-        public const string testDetailedTokenUsageResponse = "";
+        public const string testDtailedTokenUsageResponseSystem = "You are an assistant that provides detailed token usage.";
+        public const string testDetailedTokenUsageResponseUser = "Please provide a response that includes detailed token usage.";
+        public const string detailedTokenUsageResponse = "This response includes detailed token usage.";
         public const string detailedTokenUsageResponseJson = @"{
   ""id"": ""chatcmpl-303"",
   ""object"": ""chat.completion"",
@@ -238,7 +244,7 @@
   ""model"": ""gpt-4o-heavy"",
   ""choices"": [{
     ""index"": 0,
-    ""message"": { ""role"": ""assistant"", ""content"": ""This response includes detailed token usage.""},
+    ""message"": { ""role"": ""assistant"", ""content"": """ + detailedTokenUsageResponse + @"""},
     ""logprobs"": null,
     ""finish_reason"": ""stop""
   }],
