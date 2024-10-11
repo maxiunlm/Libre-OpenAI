@@ -81,32 +81,54 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
         // TODO: Only set this when you set stream: true.
         public IStreamOptionsRequest? StreamOptions { get; set; }
         public List<IToolRequest> Tools { get; set; } = new List<IToolRequest>();
-        private string? tool_choiceString;
-        private IToolChoiseRequest? tool_choiceObject;
+        private string? toolChoiceString;
+        public string? ToolChoiceString
+        {
+            get => toolChoiceString;
+            set
+            {
+                toolChoiceObject = null;
+                toolChoiceString = value;
+            }
+        }
+        private IToolChoiseRequest? toolChoiceObject;
+        public IToolChoiseRequest? ToolChoiceObject
+        {
+            get => toolChoiceObject;
+            set
+            {
+                toolChoiceString = null;
+                toolChoiceObject = value;
+            }
+        }
         public object? ToolChoice
         {
             get
             {
-                if (Tools != null && Tools.Any())
+                if (ToolChoiceObject != null)
                 {
-                    tool_choiceString ??= defaultToolChoiseWithTools;
+                    return ToolChoiceObject;
+                }
+                else if (Tools != null && Tools.Any())
+                {
+                    ToolChoiceString ??= defaultToolChoiseWithTools;
                 }
                 else
                 {
-                    tool_choiceString ??= defaultToolChoiseWithoutTools;
+                    ToolChoiceString ??= defaultToolChoiseWithoutTools;
                 }
 
-                return tool_choiceString;
+                return ToolChoiceString;
             }
             set
             {
                 if (value is string)
                 {
-                    tool_choiceString = (string)(value ?? string.Empty);
+                    ToolChoiceString = (string)(value ?? string.Empty);
                 }
                 else
                 {
-                    tool_choiceObject = (IToolChoiseRequest?)value;
+                    ToolChoiceObject = (IToolChoiseRequest?)value;
                 }
             }
         }
