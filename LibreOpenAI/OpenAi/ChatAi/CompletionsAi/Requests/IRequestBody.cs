@@ -2,6 +2,7 @@
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.ResponseFormat;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.StreamOptions;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Tools;
+using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Tools.Choise;
 using Newtonsoft.Json;
 
 namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
@@ -136,6 +137,10 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
         /// <remarks>'none' is the default when no tools are present. 'auto' is the default if tools are present.</remarks>
         [JsonProperty("tool_choice")]
         object? ToolChoice { get; set; }
+        [JsonIgnore]
+        string? ToolChoiceString { get; set; }
+        [JsonIgnore]
+        IToolChoiseRequest? ToolChoiceObject { get; set; }
         /// <summary>
         /// Whether to enable parallel function calling during tool use.
         /// </summary>
