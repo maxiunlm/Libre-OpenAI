@@ -1,26 +1,43 @@
 ﻿using System.Net.Http.Headers;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LibreOpenAI.DAL.Http
 {
     public partial class HttpClientAi : IHttpClientAi
     {
-        private readonly HttpClient client;
+        private IHttpClient? client;
 
-        public HttpClientAi()
-        {
-            client = new HttpClient();
-        }
         public HttpRequestHeaders DefaultRequestHeaders
         {
             get
             {
-                return client.DefaultRequestHeaders;
+                return Client.DefaultRequestHeaders;
             }
+        }
+
+        public IHttpClient Client
+        {
+            get
+            {
+                if(client == null)
+                {
+                    var serviceProvider = new ServiceCollection()
+                        .AddHttpClient()
+                        .BuildServiceProvider();
+
+                    IHttpClientFactory clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
+                    HttpClient client = clientFactory.CreateClient();
+                    this.client = new CustomHttpClient(client);
+                }
+
+                return client;
+            }
+            set => client = value;
         }
 
         public async Task<HttpResponseMessage> PostAsync(Uri requestUri, HttpContent content)
         {
-            HttpResponseMessage response = await client.PostAsync(requestUri, content);
+            HttpResponseMessage response = await Client.PostAsync(requestUri, content);
 
             return response;
         }
