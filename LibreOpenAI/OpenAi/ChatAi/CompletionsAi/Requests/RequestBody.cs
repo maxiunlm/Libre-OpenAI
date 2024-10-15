@@ -1,4 +1,5 @@
-﻿using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages;
+﻿using LibreOpenAI.Exceptions;
+using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.ResponseFormat;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.StreamOptions;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Tools;
@@ -50,8 +51,29 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
                 presence_penalty = value;
             }
         }
+        public bool MustThrowTemperatureOrTopPException { get; set; }
         // TODO: WARNING: We generally recommend altering this or temperature but not both. Defaults to 1
-        public decimal? TopP { get; set; }
+        private decimal? topP { get; set; }
+        public decimal? TopP
+        {
+            get => topP;
+            set
+            {
+                topP = value;
+
+                if (topP != null && temperature != null)
+                {
+                    if (MustThrowTemperatureOrTopPException)
+                    {
+                        throw new LibreOnepAiTemperatureXorTopPException();
+                    }
+                    else
+                    {
+                        temperature = null;
+                    }
+                }
+            }
+        }
         // TODO: WARNING: We generally recommend altering this or top_p but not both. Defaults to 1
 
         private decimal? temperature;
@@ -66,6 +88,18 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
                 }
 
                 temperature = value;
+
+                if (topP != null && temperature != null)
+                {
+                    if (MustThrowTemperatureOrTopPException)
+                    {
+                        throw new LibreOnepAiTemperatureXorTopPException();
+                    }
+                    else
+                    {
+                        topP = null;
+                    }
+                }
             }
         }
         public bool? Logprobs { get; set; }

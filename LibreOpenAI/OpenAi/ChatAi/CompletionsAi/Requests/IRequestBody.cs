@@ -111,6 +111,8 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
         /// <remarks>Only set this when you set stream: true.</remarks>
         [JsonProperty("stream_options")]
         IStreamOptionsRequest? StreamOptions { get; set; }
+        [JsonIgnore]
+        bool MustThrowTemperatureOrTopPException { get; set; }
         /// <summary>
         /// What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
         /// </summary>
