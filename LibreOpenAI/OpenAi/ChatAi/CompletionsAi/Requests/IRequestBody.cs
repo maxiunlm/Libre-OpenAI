@@ -105,6 +105,8 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
         /// <seealso cref="https://platform.openai.com/docs/guides/structured-outputs"/>
         [JsonProperty("response_format")]
         IResponseFormatRequest? ResponseFormat { get; set; }
+        [JsonIgnore]
+        bool MustThrowStreamOptionsException { get; set; }
         /// <summary>
         /// Options for streaming response.
         /// </summary>

@@ -52,7 +52,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
             }
         }
         public bool MustThrowTemperatureOrTopPException { get; set; }
-        // TODO: WARNING: We generally recommend altering this or temperature but not both. Defaults to 1
+        // NOTE: WARNING: We generally recommend altering this or temperature but not both. Defaults to 1
         private decimal? topP { get; set; }
         public decimal? TopP
         {
@@ -74,8 +74,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
                 }
             }
         }
-        // TODO: WARNING: We generally recommend altering this or top_p but not both. Defaults to 1
-
+        // NOTE: WARNING: We generally recommend altering this or top_p but not both. Defaults to 1
         private decimal? temperature;
         public decimal? Temperature
         {
@@ -112,8 +111,32 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
         // TODO: Review Important: when using JSON mode, you must also instruct the model to produce JSON yourself via a system or user message.
         // Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly "stuck" request.Also note that the message content may be partially cut off if finish_reason= "length", which indicates the generation exceeded max_tokens or the conversation exceeded the max context length.
         public IResponseFormatRequest? ResponseFormat { get; set; }
-        // TODO: Only set this when you set stream: true.
-        public IStreamOptionsRequest? StreamOptions { get; set; }
+        public bool MustThrowStreamOptionsException { get; set; }
+        // NOTE: Only set this when you set stream: true.
+        private IStreamOptionsRequest? streamOptions;
+        public IStreamOptionsRequest? StreamOptions { 
+            get
+            {
+                return streamOptions;
+            }
+            set
+            {
+                if (Stream != null && !Stream.Value)
+                {
+                    if (MustThrowStreamOptionsException)
+                    {
+                        throw new LibreOnepStreamOptionsException();
+                    }
+                    else
+                    {
+                        streamOptions = null;
+                        return;
+                    }
+                }
+
+                streamOptions = value;
+            }
+        }
         public List<IToolRequest> Tools { get; set; } = new List<IToolRequest>();
         private string? toolChoiceString;
         public string? ToolChoiceString
