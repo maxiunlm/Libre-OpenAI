@@ -5,10 +5,12 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
 {
     public interface IMessageRequest
     {
+        [JsonIgnore]
+        bool MustThrowRequiredContentException { get; set; }
         /// <summary>
         /// 1 The contents of the system message. (Required)
         /// 2 The contents of the user message. (Required)
-        /// 3 The contents of the assistant message. Required unless tool_calls or function_call is specified.
+        /// 3 The contents of the assistant message. Required unless tool_calls or function_call (deprecated) is specified.
         /// 4 The contents of the tool message. (Required)
         /// </summary>
         [JsonProperty("content")]

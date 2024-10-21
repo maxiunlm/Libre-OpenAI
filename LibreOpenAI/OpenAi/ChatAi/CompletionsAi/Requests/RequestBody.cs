@@ -65,7 +65,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
                 {
                     if (MustThrowTemperatureOrTopPException)
                     {
-                        throw new LibreOnepAiTemperatureXorTopPException();
+                        throw new LibreOpenAiTemperatureXorTopPException();
                     }
                     else
                     {
@@ -92,7 +92,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
                 {
                     if (MustThrowTemperatureOrTopPException)
                     {
-                        throw new LibreOnepAiTemperatureXorTopPException();
+                        throw new LibreOpenAiTemperatureXorTopPException();
                     }
                     else
                     {
@@ -125,7 +125,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
                 {
                     if (MustThrowStreamOptionsException)
                     {
-                        throw new LibreOnepStreamOptionsException();
+                        throw new LibreOpenAiStreamOptionsException();
                     }
                     else
                     {
