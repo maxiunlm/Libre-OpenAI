@@ -1,8 +1,8 @@
 ﻿namespace LibreOpenAI.Exceptions
 {
-    internal class LibreOpenAiRequiredContentException : Exception
+    internal class LibreOpenAiRequiredToolCallIdException : Exception
     {
-        public LibreOpenAiRequiredContentException(string role) : base($"ERROR: The contents of the {role} message is mandatory.")
+        public LibreOpenAiRequiredToolCallIdException(string role) : base($"ERROR: The tool_call_id of the {role} message is mandatory.")
         {
             if (role == null)
             {

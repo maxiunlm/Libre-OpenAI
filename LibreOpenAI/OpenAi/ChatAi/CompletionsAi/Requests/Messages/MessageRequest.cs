@@ -10,30 +10,39 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
         public const string assistantRole = "assistant";
         public const string toolRole = "tool";
         private static readonly List<string> requiredContentList = new List<string>() { systemRole, userRole, toolRole };
-        // TODO: review when every field is required (cases from 1 to 4) using the interface...
+        private static readonly List<string> requiredToolCallIdList = new List<string>() { toolRole };
         public required string Role { get; set; } = systemRole;
         public string Name { get; set; } = string.Empty;
         public string Refusal { get; set; } = string.Empty;
-        public string ToolCallId { get; set; } = string.Empty;
-        public bool MustThrowRequiredContentException { get; set; }
-        private List<string>? content = null;
-        public List<string>? Content { 
+        public bool MustThrowRequiredToolCallIdException { get; set; }
+        private string? toolCallId;
+        public string? ToolCallId { 
             get
             {
-                if (content == null && requiredContentList.Any(r => r == Role))
+                return toolCallId;
+            }
+            set
+            {
+                if(value == null && requiredToolCallIdList.Any(r => r == Role))
                 {
-                    if (MustThrowRequiredContentException)
+                    if (MustThrowRequiredToolCallIdException)
                     {
-                        throw new LibreOpenAiRequiredContentException(Role);
+                        throw new LibreOpenAiRequiredToolCallIdException(Role);
                     }
-                    else if(!ToolCalls.Any()) // NOTE:  function_call is deprecated
+                    else
                     {
-                        content = new List<string>();
+                        toolCallId = string.Empty;
                     }
                 }
 
-                return content;
+                toolCallId = value;
             }
+        }
+        public bool MustThrowRequiredContentException { get; set; }
+        private List<string>? content = null;
+        public List<string>? Content
+        {
+            get => content;
             set
             {
                 if (value == null && requiredContentList.Any(r => r == Role))
