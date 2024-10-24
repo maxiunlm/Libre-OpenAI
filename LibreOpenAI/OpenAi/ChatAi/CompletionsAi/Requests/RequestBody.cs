@@ -22,10 +22,10 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
         [JsonProperty("logit_bias")]
         public Dictionary<string, int> LogitBias { get; set; } = new Dictionary<string, int>();
 
-        private decimal? frequency_penalty;
+        private decimal? frequencyPenalty;
         public decimal? FrequencyPenalty
         {
-            get => frequency_penalty;
+            get => frequencyPenalty;
             set
             {
                 if (value != null && (value < -2.0m || value > 2.0m))
@@ -33,14 +33,14 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
                     throw new ArgumentOutOfRangeException(nameof(value), "Frequency_Penalty must be between -2.0 and 2.0.");
                 }
 
-                frequency_penalty = value;
+                frequencyPenalty = value;
             }
         }
 
-        private decimal? presence_penalty;
+        private decimal? presencePenalty;
         public decimal? PresencePenalty
         {
-            get => presence_penalty;
+            get => presencePenalty;
             set
             {
                 if (value != null && (value < -2.0m || value > 2.0m))
@@ -48,7 +48,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
                     throw new ArgumentOutOfRangeException(nameof(value), "Presence_penalty must be between -2.0 and 2.0.");
                 }
 
-                presence_penalty = value;
+                presencePenalty = value;
             }
         }
         public bool MustThrowTemperatureOrTopPException { get; set; }
@@ -108,11 +108,13 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
         public string ServiceTier { get; set; } = defaultServiceTier;
         public List<string>? Stop { get; set; } = new List<string>();
         public bool? Stream { get; set; }
-        // TODO: Review Important: when using JSON mode, you must also instruct the model to produce JSON yourself via a system or user message.
+        // NOTE: Review Important: when using JSON mode, you must also instruct the model to produce JSON yourself via a system or user message.
         // Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit,
         // resulting in a long-running and seemingly "stuck" request.
         // Also note that the message content may be partially cut off if finish_reason= "length",
         // which indicates the generation exceeded max_tokens or the conversation exceeded the max context length.
+        // That's the reason why we are not allowing to use "response_format": "json".
+        private IResponseFormatRequest? responseFormat { get; set; }
         public IResponseFormatRequest? ResponseFormat { get; set; }
         public bool MustThrowStreamOptionsException { get; set; }
         // NOTE: Only set this when you set stream: true.

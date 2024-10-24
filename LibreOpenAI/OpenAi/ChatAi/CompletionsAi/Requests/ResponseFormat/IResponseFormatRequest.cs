@@ -5,6 +5,8 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.ResponseFormat
 {
     public interface IResponseFormatRequest
     {
+        [JsonIgnore]
+        bool MustThrowRequiredJsonSchemaException { get; set; }
         /// <summary>
         /// 1 The type of response format being defined: text (Required)
         /// 2 The type of response format being defined: json_object (Required)
