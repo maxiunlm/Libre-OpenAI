@@ -16,6 +16,6 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.ResponseFormat
         /// 3 Only for json_schema type (Required)
         /// </summary>
         [JsonProperty("json_schema")]
-        IJsonSchemaRequest JsonSchema { get; set; }
+        IJsonSchemaRequest? JsonSchema { get; set; }
     }
 }
