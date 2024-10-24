@@ -108,7 +108,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
         public string ServiceTier { get; set; } = defaultServiceTier;
         public List<string>? Stop { get; set; } = new List<string>();
         public bool? Stream { get; set; }
-        // NOTE: Review Important: when using JSON mode, you must also instruct the model to produce JSON yourself via a system or user message.
+        // NOTE: WARNING: Review Important: when using JSON mode, you must also instruct the model to produce JSON yourself via a system or user message.
         // Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit,
         // resulting in a long-running and seemingly "stuck" request.
         // Also note that the message content may be partially cut off if finish_reason= "length",
