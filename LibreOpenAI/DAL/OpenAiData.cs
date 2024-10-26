@@ -90,40 +90,49 @@ namespace LibreOpenAI.DAL
             {
                 throw new LibreOpenAiAuthenticationException(e);
             }
-            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.InternalServerError ||
-                                                  e.StatusCode == HttpStatusCode.BadGateway ||
-                                                  e.StatusCode == HttpStatusCode.ServiceUnavailable ||
-                                                  e.StatusCode == HttpStatusCode.GatewayTimeout)
+            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.InternalServerError )
             {
-                throw new Exception("Server error from OpenAI. The service may be temporarily unavailable. Try again later.", e);
+                throw new LibreOpenAiInternalServerErrorException(e);
+            }
+            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.BadGateway)
+            {
+                throw new LibreOpenAiBadGatewayException(e);
+            }
+            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.ServiceUnavailable)
+            {
+                throw new LibreOpenAiServiceUnavailableException(e);
+            }
+            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.GatewayTimeout)
+            {
+                throw new LibreOpenAiGatewayTimeoutException(e);
             }
             // Deserialization errors
             catch (JsonSerializationException e)
             {
-                throw new Exception("Deserialization error: The API response does not match the expected structure. Check for possible changes in the API response format.", e);
+                throw new LibreOpenAiJsonSerializationException(e);
             }
             catch (JsonReaderException e)
             {
-                throw new Exception("JSON reading error: The JSON response format is unexpected. Check the API response.", e);
+                throw new LibreOpenAiJsonReaderException(e);
             }
             // Invalid argument exceptions
             catch (ArgumentException e)
             {
-                throw new ArgumentException("Argument error: Invalid parameters in the request. Check message content or request configuration.", e);
+                throw new LibreOpenAiArgumentException(e);
             }
             // Timeout or cancellation errors
             catch (TaskCanceledException e)
             {
-                throw new TimeoutException("Request timed out: The API request took too long to respond. Consider increasing the timeout.", e);
+                throw new LibreOpenAiTaskCanceledException(e);
             }
             catch (OperationCanceledException e)
             {
-                throw new OperationCanceledException("Operation canceled: The request was canceled, possibly due to a cancellation token.", e);
+                throw new LibreOpenAiOperationCanceledException(e);
             }
             // Catch any other unexpected exception
             catch (Exception e)
             {
-                throw new Exception("An unexpected error occurred while processing the request to the OpenAI API.", e);
+                throw new LibreOpenAiUnexpectedException(e);
             }
         }
 

@@ -8,6 +8,6 @@ namespace LibreOpenAI.Exceptions.OpenAI
             : base("Error 401: Invalid or missing API key. Verify your API key and try again.",
                   inner,
                   HttpStatusCode.Unauthorized)
-    { }
-}
+        { }
+    }
 }
