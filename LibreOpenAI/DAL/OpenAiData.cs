@@ -1,9 +1,12 @@
 ﻿using LibreOpenAI.DAL.Http;
+using LibreOpenAI.Exceptions.OpenAI;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response;
 using LibreOpenAI.OpenAi.Settings;
 using Newtonsoft.Json;
+using System.Net;
 using System.Net.Http.Headers;
+using System.Security.Authentication;
 
 namespace LibreOpenAI.DAL
 {
@@ -78,19 +81,55 @@ namespace LibreOpenAI.DAL
 
                 return result;
             }
-            catch (HttpRequestException e)
+            // Specific OpenAI API exceptions
+            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.TooManyRequests)
             {
-                throw new Exception($"[ERROR (1)] IChatGptBase.GetGptResponse [requestJson]: {requestJson}", e);
+                throw new LibreOpenAITooManyRequestsException(e);
             }
+            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new LibreOpenAiAuthenticationException(e);
+            }
+            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.InternalServerError ||
+                                                  e.StatusCode == HttpStatusCode.BadGateway ||
+                                                  e.StatusCode == HttpStatusCode.ServiceUnavailable ||
+                                                  e.StatusCode == HttpStatusCode.GatewayTimeout)
+            {
+                throw new Exception("Server error from OpenAI. The service may be temporarily unavailable. Try again later.", e);
+            }
+            // Deserialization errors
+            catch (JsonSerializationException e)
+            {
+                throw new Exception("Deserialization error: The API response does not match the expected structure. Check for possible changes in the API response format.", e);
+            }
+            catch (JsonReaderException e)
+            {
+                throw new Exception("JSON reading error: The JSON response format is unexpected. Check the API response.", e);
+            }
+            // Invalid argument exceptions
+            catch (ArgumentException e)
+            {
+                throw new ArgumentException("Argument error: Invalid parameters in the request. Check message content or request configuration.", e);
+            }
+            // Timeout or cancellation errors
+            catch (TaskCanceledException e)
+            {
+                throw new TimeoutException("Request timed out: The API request took too long to respond. Consider increasing the timeout.", e);
+            }
+            catch (OperationCanceledException e)
+            {
+                throw new OperationCanceledException("Operation canceled: The request was canceled, possibly due to a cancellation token.", e);
+            }
+            // Catch any other unexpected exception
             catch (Exception e)
             {
-                throw new Exception($"[ERROR (2)] IChatGptBase.GetGptResponse [requestJson]: {requestJson}", e);
+                throw new Exception("An unexpected error occurred while processing the request to the OpenAI API.", e);
             }
         }
 
         private void SetAuthorization()
         {
-            client.DefaultRequestHeaders.Authorization = authorization;
+            client.DefaultRequestHeaders.Authorization = Authorization;
         }
     }
 }
