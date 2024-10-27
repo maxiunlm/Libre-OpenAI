@@ -2,14 +2,7 @@
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response;
 using LibreOpenAI.OpenAi;
 using LibreOpenAIUnitTestProject.Fakes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LibreOpenAIUnitTestProject.Base;
-using LibreOpenAI.DAL;
-using Moq;
 using LibreOpenAI.Exceptions.OpenAI;
 using System.Net;
 using Newtonsoft.Json;
