@@ -33,6 +33,18 @@ namespace LibreOpenAIUnitTestProject.Base
             return sut;
         }
 
+        protected IOpenAI GetSutWichThrowsException(string responseJson, Exception ex)
+        {
+            Mock<IHttpClientAi> httpClientAiMock = new Mock<IHttpClientAi>();
+            HttpResponseMessage response = new HttpResponseMessage { Content = new StringContent(responseJson) };
+            httpClientAiMock.Setup(o => o.PostAsync(It.IsAny<Uri>(), It.IsAny<StringContent>())).Throws(ex);
+            IOpenAiData openAiData = new OpenAiData { Client = httpClientAiMock.Object };
+            IOpenAI sut = new OpenAI();
+            sut.Chat.Completions.OpenAiData = openAiData;
+
+            return sut;
+        }
+
         protected IRequestBody GetRequest(string contentMessage)
         {
             return new RequestBody

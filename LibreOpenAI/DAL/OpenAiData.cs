@@ -6,14 +6,13 @@ using LibreOpenAI.OpenAi.Settings;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Headers;
-using System.Security.Authentication;
 
 namespace LibreOpenAI.DAL
 {
     public class OpenAiData : IOpenAiData
     {
-        private IHttpClientAi client;
-        private AuthenticationHeaderValue authorization;
+        private IHttpClientAi? client;
+        private AuthenticationHeaderValue? authorization;
         private readonly string apiKey;
         private readonly IOpenAiSettings settings;
 
