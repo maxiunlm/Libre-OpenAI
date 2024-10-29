@@ -1,14 +1,10 @@
 ﻿using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LibreOpenAI.DAL.Http;
 using LibreOpenAI.DAL;
 using LibreOpenAI.OpenAi;
 using Moq;
+using LibreOpenAIExtensions.OpenAi.ChatAi.CompletionsAi.Requests;
 
 namespace LibreOpenAIUnitTestProject.Base
 {
@@ -18,7 +14,7 @@ namespace LibreOpenAIUnitTestProject.Base
         protected const string systemRole = "system";
         protected const string defaultModel = "gpt-3.5-turbo";
         protected const int noMaxCompletionTokens = 0;
-        protected const int defaultMaxCompletionTokens = 50;
+        public const int defaultMaxCompletionTokens = 50;
         protected const int aLotOfMaxCompletionTokens = 800;
 
         protected IOpenAI GetSut(string responseJson)
@@ -43,6 +39,21 @@ namespace LibreOpenAIUnitTestProject.Base
             sut.Chat.Completions.OpenAiData = openAiData;
 
             return sut;
+        }
+
+        protected IRequestBodyExtension GetExtensionRequest(string contentMessage)
+        {
+            return new RequestBodyExtension
+            {
+                Model = defaultModel,
+                MaxTokens = defaultMaxCompletionTokens, // NOTE: This field is deprecated, see: MaxCompletionTokens
+                Messages = new List<IMessageRequest> {
+                    new MessageRequest {
+                        Role = defaultRole,
+                        Content = new List<string> { contentMessage }
+                    }
+                }
+            };
         }
 
         protected IRequestBody GetRequest(string contentMessage)

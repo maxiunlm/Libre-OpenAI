@@ -1,12 +1,8 @@
-using LibreOpenAI.DAL;
-using LibreOpenAI.DAL.Http;
 using LibreOpenAI.OpenAi;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests;
-using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response;
 using LibreOpenAIUnitTestProject.Base;
 using LibreOpenAIUnitTestProject.Fakes;
-using Moq;
 
 namespace LibreOpenAIUnitTestProject
 {
