@@ -47,6 +47,7 @@ namespace LibreOpenAIUnitTestProject.Base
             {
                 Model = defaultModel,
                 MaxTokens = defaultMaxCompletionTokens, // NOTE: This field is deprecated, see: MaxCompletionTokens
+                FunctionCallString = RequestBodyExtension.autoFunctionCall, // NOTE: This field is deprecated, see: ToolChoice
                 Messages = new List<IMessageRequest> {
                     new MessageRequest {
                         Role = defaultRole,
