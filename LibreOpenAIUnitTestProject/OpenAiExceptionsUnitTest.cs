@@ -6,6 +6,12 @@ using LibreOpenAIUnitTestProject.Base;
 using LibreOpenAI.Exceptions.OpenAI;
 using System.Net;
 using Newtonsoft.Json;
+using LibreOpenAI.Exceptions;
+using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Tools;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Tools.Function;
+using LibreOpenAIExtensions.OpenAi.ChatAi.CompletionsAi.Requests;
+using LibreOpenAIExtensions.OpenAi.ChatAi.CompletionsAi.Requests.Tools.Function;
 
 namespace LibreOpenAIUnitTestProject
 {
@@ -16,7 +22,7 @@ namespace LibreOpenAIUnitTestProject
 #if DEBUG
 
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_ApiKeyMaxTokensExceded()
+        public async Task OpenAiExceptionsUnitTest_MaxTokensExceded()
         {
             IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
             IOpenAI sut = new OpenAI();
@@ -41,7 +47,7 @@ namespace LibreOpenAIUnitTestProject
         // */
 
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_ApiKeyMaxTokensExceded_ThrowsLibreOpenAITooManyRequestsException()
+        public async Task OpenAiExceptionsUnitTest_MaxTokensExceded_ThrowsLibreOpenAITooManyRequestsException()
         {
             IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
             IOpenAI sut = GetSutWichThrowsException(
@@ -66,7 +72,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_ApiKeyMaxTokensExceded_ThrowsLibreOpenAiAuthenticationException()
+        public async Task OpenAiExceptionsUnitTest_HttpRequestException_ThrowsLibreOpenAiAuthenticationException()
         {
             IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
             IOpenAI sut = GetSutWichThrowsException(
@@ -91,7 +97,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_ApiKeyMaxTokensExceded_ThrowsLibreOpenAiInternalServerErrorException()
+        public async Task OpenAiExceptionsUnitTest_HttpRequestException_ThrowsLibreOpenAiInternalServerErrorException()
         {
             IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
             IOpenAI sut = GetSutWichThrowsException(
@@ -116,7 +122,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_ApiKeyMaxTokensExceded_ThrowsLibreOpenAiBadGatewayException()
+        public async Task OpenAiExceptionsUnitTest_HttpRequestException_ThrowsLibreOpenAiBadGatewayException()
         {
             IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
             IOpenAI sut = GetSutWichThrowsException(
@@ -141,7 +147,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_ApiKeyMaxTokensExceded_ThrowsLibreOpenAiServiceUnavailableException()
+        public async Task OpenAiExceptionsUnitTest_HttpRequestException_ThrowsLibreOpenAiServiceUnavailableException()
         {
             IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
             IOpenAI sut = GetSutWichThrowsException(
@@ -166,7 +172,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_ApiKeyMaxTokensExceded_ThrowsLibreOpenAiGatewayTimeoutException()
+        public async Task OpenAiExceptionsUnitTest_HttpRequestException_ThrowsLibreOpenAiGatewayTimeoutException()
         {
             IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
             IOpenAI sut = GetSutWichThrowsException(
@@ -191,7 +197,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_ApiKeyMaxTokensExceded_ThrowsLibreOpenAiJsonSerializationException()
+        public async Task OpenAiExceptionsUnitTest_JsonSerializationException_ThrowsLibreOpenAiJsonSerializationException()
         {
             IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
             IOpenAI sut = GetSutWichThrowsException(
@@ -216,7 +222,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_ApiKeyMaxTokensExceded_ThrowsLibreOpenAiJsonReaderException()
+        public async Task OpenAiExceptionsUnitTest_JsonReaderException_ThrowsLibreOpenAiJsonReaderException()
         {
             IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
             IOpenAI sut = GetSutWichThrowsException(
@@ -241,7 +247,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_ApiKeyMaxTokensExceded_ThrowsLibreOpenAiArgumentException()
+        public async Task OpenAiExceptionsUnitTest_ArgumentException_ThrowsLibreOpenAiArgumentException()
         {
             IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
             IOpenAI sut = GetSutWichThrowsException(
@@ -266,7 +272,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_ApiKeyMaxTokensExceded_ThrowsLibreOpenAiTaskCanceledException()
+        public async Task OpenAiExceptionsUnitTest_TaskCanceledException_ThrowsLibreOpenAiTaskCanceledException()
         {
             IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
             IOpenAI sut = GetSutWichThrowsException(
@@ -291,7 +297,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_ApiKeyMaxTokensExceded_ThrowsLibreOpenAiOperationCanceledException()
+        public async Task OpenAiExceptionsUnitTest_OperationCanceledException_ThrowsLibreOpenAiOperationCanceledException()
         {
             IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
             IOpenAI sut = GetSutWichThrowsException(
@@ -316,7 +322,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_ApiKeyMaxTokensExceded_ThrowsLibreOpenAiUnexpectedException()
+        public async Task OpenAiExceptionsUnitTest_UnexpectedException_ThrowsLibreOpenAiUnexpectedException()
         {
             IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
             IOpenAI sut = GetSutWichThrowsException(
@@ -337,6 +343,62 @@ namespace LibreOpenAIUnitTestProject
             catch (Exception ex)
             {
                 Assert.IsTrue(false, $"An LibreOpenAiUnexpectedException was expected, but it was '{ex.GetType().ToString()}'.");
+            }
+        }
+
+        [TestMethod]
+        public async Task OpenAiExceptionsUnitTest_InvaliedFunctionToolName_ThrowsLibreOpenAiNameRegexException()
+        {
+            IRequestBody sut = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
+
+            try
+            {
+                sut.Tools = new List<ToolRequest>();
+                sut.Tools.Add(new ToolRequest
+                {
+                    Type = ToolRequest.defaultType,
+                    Function = new FunctionToolRequest
+                    {
+                        MustThrowNameRegexException = true,
+                        Name = "$invelid Name!"
+                    }
+                });
+
+                Assert.IsTrue(false, "An LibreOpenAiNameRegexException was expected.");
+            }
+            catch (LibreOpenAiNameRegexException)
+            {
+                Assert.IsTrue(true);
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(false, $"An LibreOpenAiNameRegexException was expected, but it was '{ex.GetType().ToString()}'.");
+            }
+        }
+
+        [TestMethod]
+        public async Task OpenAiExceptionsUnitTest_DeprecatedInvaliedFunctionName_ThrowsLibreOpenAiNameRegexException()
+        {
+            IRequestBodyExtension sut = GetExtensionRequest(ResponseFakes.whatIsTheCapitalOfFrance);
+
+            try
+            {
+                sut.Functions = new List<FunctionsRequest>();
+                sut.Functions.Add(new FunctionsRequest
+                {
+                    MustThrowNameRegexException = true,
+                    Name = "$invelid Name!"
+                });
+
+                Assert.IsTrue(false, "An LibreOpenAiNameRegexException was expected.");
+            }
+            catch (LibreOpenAiNameRegexException)
+            {
+                Assert.IsTrue(true);
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(false, $"An LibreOpenAiNameRegexException was expected, but it was '{ex.GetType().ToString()}'.");
             }
         }
     }

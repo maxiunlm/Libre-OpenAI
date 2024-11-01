@@ -17,7 +17,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
 
         public int? MaxCompletionTokens { get; set; }
         public required string Model { get; set; }
-        public required List<IMessageRequest> Messages { get; set; }
+        public virtual required List<MessageRequest> Messages { get; set; }
 
         [JsonProperty("logit_bias")]
         public Dictionary<string, int> LogitBias { get; set; } = new Dictionary<string, int>();
@@ -142,7 +142,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
                 streamOptions = value;
             }
         }
-        public List<IToolRequest> Tools { get; set; } = new List<IToolRequest>();
+        public List<ToolRequest> Tools { get; set; } = new List<ToolRequest>();
         private string? toolChoiceString;
         public string? ToolChoiceString
         {

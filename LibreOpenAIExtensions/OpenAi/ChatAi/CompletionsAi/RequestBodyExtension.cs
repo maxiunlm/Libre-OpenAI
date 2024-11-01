@@ -1,4 +1,6 @@
-﻿using LibreOpenAIExtensions.OpenAi.ChatAi.CompletionsAi.Requests;
+﻿using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages;
+using LibreOpenAIExtensions.OpenAi.ChatAi.CompletionsAi.Requests;
+using LibreOpenAIExtensions.OpenAi.ChatAi.CompletionsAi.Requests.Messages;
 using LibreOpenAIExtensions.OpenAi.ChatAi.CompletionsAi.Requests.Tools.Function;
 
 namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
@@ -9,6 +11,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
         public const string noneFunctionCall = "none";
 
         public int? MaxTokens { get; set; }
+        public List<FunctionsRequest>? Functions { get; set; }
 
         private string? functionCallString;
         public string? FunctionCallString
@@ -60,5 +63,22 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
                 }
             }
         }
+        private List<MessageRequestExtension>? messagesExtension;
+        public override required List<MessageRequest> Messages
+        {
+            get
+            {
+                return (messagesExtension ?? new List<MessageRequestExtension>()).Select(o => (MessageRequest)o).ToList();
+            }
+            set
+            {
+                base.Messages = (value ?? new List<MessageRequest>()).Select(o => (new MessageRequestExtension(o) { 
+                    Role = MessageRequestExtension.functionRole,
+                    Name = o.Name ?? string.Empty,
+                    Content = o.Content,
+                }) as MessageRequest).ToList(); ;
+            }
+        }
+        public List<MessageRequestExtension>? MessagesExtension { get => messagesExtension; set => messagesExtension = value; }
     }
 }

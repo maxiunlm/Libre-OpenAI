@@ -48,7 +48,7 @@ namespace LibreOpenAIUnitTestProject.Base
                 Model = defaultModel,
                 MaxTokens = defaultMaxCompletionTokens, // NOTE: This field is deprecated, see: MaxCompletionTokens
                 FunctionCallString = RequestBodyExtension.autoFunctionCall, // NOTE: This field is deprecated, see: ToolChoice
-                Messages = new List<IMessageRequest> {
+                Messages = new List<MessageRequest> {
                     new MessageRequest {
                         Role = defaultRole,
                         Content = new List<string> { contentMessage }
@@ -63,7 +63,7 @@ namespace LibreOpenAIUnitTestProject.Base
             {
                 Model = defaultModel,
                 MaxCompletionTokens = defaultMaxCompletionTokens,
-                Messages = new List<IMessageRequest> {
+                Messages = new List<MessageRequest> {
                     new MessageRequest {
                         Role = defaultRole,
                         Content = new List<string> { contentMessage }
@@ -105,7 +105,7 @@ namespace LibreOpenAIUnitTestProject.Base
                 Temperature = 0.5m,
                 TopP = 1,
                 Stop = null,
-                Messages = new List<IMessageRequest> {
+                Messages = new List<MessageRequest> {
                     new MessageRequest {
                         Role = systemRole,
                         Content = new List<string> { systemContentMessage }
@@ -128,7 +128,7 @@ namespace LibreOpenAIUnitTestProject.Base
                 MaxCompletionTokens = aLotOfMaxCompletionTokens,
                 Logprobs = true,
                 N = 1,
-                Messages = new List<IMessageRequest> {
+                Messages = new List<MessageRequest> {
                     new MessageRequest {
                         Role = systemRole,
                         Content = new List<string> { systemContentMessage }

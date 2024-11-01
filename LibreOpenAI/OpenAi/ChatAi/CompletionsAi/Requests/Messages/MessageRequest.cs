@@ -11,8 +11,8 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
         public const string toolRole = "tool";
         private static readonly List<string> requiredContentList = new List<string>() { systemRole, userRole, toolRole };
         private static readonly List<string> requiredToolCallIdList = new List<string>() { toolRole };
-        public required string Role { get; set; } = systemRole;
-        public string Name { get; set; } = string.Empty;
+        public virtual required string Role { get; set; } = systemRole;
+        public virtual string Name { get; set; } = string.Empty;
         public string Refusal { get; set; } = string.Empty;
         public bool MustThrowRequiredToolCallIdException { get; set; }
         private string? toolCallId;
@@ -39,8 +39,8 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
             }
         }
         public bool MustThrowRequiredContentException { get; set; }
-        private List<string>? content = null;
-        public List<string>? Content
+        protected List<string>? content = null;
+        public virtual List<string>? Content
         {
             get => content;
             set

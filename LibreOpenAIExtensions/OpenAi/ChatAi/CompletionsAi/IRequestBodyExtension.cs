@@ -1,4 +1,6 @@
 ﻿using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests;
+using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages;
+using LibreOpenAIExtensions.OpenAi.ChatAi.CompletionsAi.Requests.Messages;
 using LibreOpenAIExtensions.OpenAi.ChatAi.CompletionsAi.Requests.Tools.Function;
 using Newtonsoft.Json;
 
@@ -26,5 +28,13 @@ namespace LibreOpenAIExtensions.OpenAi.ChatAi.CompletionsAi.Requests
         string? FunctionCallString { get; set; }
         [JsonIgnore]
         IFunctionCallRequest? FunctionCallObject { get; set; }
+        /// <summary>
+        /// A list of functions the model may generate JSON inputs for.
+        /// </summary>
+        /// <remarks>This value is now deprecated in favor of tools.</remarks>
+        [JsonProperty("functions")]
+        List<FunctionsRequest>? Functions { get; set; }
+        [JsonIgnore]
+        List<MessageRequestExtension>? MessagesExtension { get; set; }
     }
 }
