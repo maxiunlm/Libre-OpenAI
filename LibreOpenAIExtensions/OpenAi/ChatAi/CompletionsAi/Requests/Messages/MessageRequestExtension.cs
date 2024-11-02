@@ -45,7 +45,7 @@ namespace LibreOpenAIExtensions.OpenAi.ChatAi.CompletionsAi.Requests.Messages
                 {
                     if (MustThrowRequiredContentException)
                     {
-                        throw new LibreOpenAiRequiredContentException(Role); // TODO: D O   U N I T   T E S T S  !!!
+                        throw new LibreOpenAiRequiredContentException(Role);
                     }
                 }
 

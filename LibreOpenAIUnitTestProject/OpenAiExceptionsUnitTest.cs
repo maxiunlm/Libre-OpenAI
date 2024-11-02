@@ -12,6 +12,10 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Tools.Function;
 using LibreOpenAIExtensions.OpenAi.ChatAi.CompletionsAi.Requests;
 using LibreOpenAIExtensions.OpenAi.ChatAi.CompletionsAi.Requests.Tools.Function;
+using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages;
+using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.StreamOptions;
+using Newtonsoft.Json.Schema;
+using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.ResponseFormat;
 
 namespace LibreOpenAIUnitTestProject
 {
@@ -347,7 +351,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_InvaliedFunctionToolName_ThrowsLibreOpenAiNameRegexException()
+        public void OpenAiExceptionsUnitTest_InvaliedFunctionToolName_ThrowsLibreOpenAiNameRegexException()
         {
             IRequestBody sut = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
 
@@ -377,7 +381,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_DeprecatedInvaliedFunctionName_ThrowsLibreOpenAiNameRegexException()
+        public void OpenAiExceptionsUnitTest_DeprecatedInvaliedFunctionName_ThrowsLibreOpenAiNameRegexException()
         {
             IRequestBodyExtension sut = GetExtensionRequest(ResponseFakes.whatIsTheCapitalOfFrance);
 
@@ -399,6 +403,154 @@ namespace LibreOpenAIUnitTestProject
             catch (Exception ex)
             {
                 Assert.IsTrue(false, $"An LibreOpenAiNameRegexException was expected, but it was '{ex.GetType().ToString()}'.");
+            }
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsUnitTest_WithNoContent_ThrowsLibreOpenAiRequiredContentException()
+        {
+            IRequestBodyExtension sut = GetExtensionRequest(ResponseFakes.whatIsTheCapitalOfFrance);
+
+            try
+            {
+                sut.Messages = new List<MessageRequest>();
+                sut.Messages.Add(new MessageRequest
+                {
+                    Role = MessageRequest.userRole,
+                    MustThrowRequiredContentException = true,
+                    Content = null
+                });
+
+                Assert.IsTrue(false, "An LibreOpenAiRequiredContentException was expected.");
+            }
+            catch (LibreOpenAiRequiredContentException)
+            {
+                Assert.IsTrue(true);
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(false, $"An LibreOpenAiRequiredContentException was expected, but it was '{ex.GetType().ToString()}'.");
+            }
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsUnitTest_WithNoTemperatureOrTop_ThrowsLibreOpenAiTemperatureXorTopPException()
+        {
+            IRequestBodyExtension sut = GetExtensionRequest(ResponseFakes.whatIsTheCapitalOfFrance);
+
+            try
+            {
+                sut.MustThrowTemperatureOrTopPException = true;
+                sut.TopP = RequestBody.defaultTopP;
+                sut.Temperature = RequestBody.defaultTemperature;
+
+                Assert.IsTrue(false, "An LibreOpenAiTemperatureXorTopPException was expected.");
+            }
+            catch (LibreOpenAiTemperatureXorTopPException)
+            {
+                Assert.IsTrue(true);
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(false, $"An LibreOpenAiTemperatureXorTopPException was expected, but it was '{ex.GetType().ToString()}'.");
+            }
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsUnitTest_WithNoTopOrTemperature_ThrowsLibreOpenAiTemperatureXorTopPException()
+        {
+            IRequestBodyExtension sut = GetExtensionRequest(ResponseFakes.whatIsTheCapitalOfFrance);
+
+            try
+            {
+                sut.MustThrowTemperatureOrTopPException = true;
+                sut.Temperature = RequestBody.defaultTemperature;
+                sut.TopP = RequestBody.defaultTopP;
+
+                Assert.IsTrue(false, "An LibreOpenAiTemperatureXorTopPException was expected.");
+            }
+            catch (LibreOpenAiTemperatureXorTopPException)
+            {
+                Assert.IsTrue(true);
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(false, $"An LibreOpenAiTemperatureXorTopPException was expected, but it was '{ex.GetType().ToString()}'.");
+            }
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsUnitTest_WithStreamOptionsAndStreamOnTrue_ThrowsLibreOpenAiStreamOptionsException()
+        {
+            IRequestBodyExtension sut = GetExtensionRequest(ResponseFakes.whatIsTheCapitalOfFrance);
+
+            try
+            {
+                sut.MustThrowStreamOptionsException = true;
+                sut.Stream = false;
+                sut.StreamOptions = new StreamOptionsRequest();
+
+                Assert.IsTrue(false, "An LibreOpenAiStreamOptionsException was expected.");
+            }
+            catch (LibreOpenAiStreamOptionsException)
+            {
+                Assert.IsTrue(true);
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(false, $"An LibreOpenAiStreamOptionsException was expected, but it was '{ex.GetType().ToString()}'.");
+            }
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsUnitTest_WithoutRequiredToolCallId_ThrowsLibreOpenAiRequiredToolCallIdException()
+        {
+            IRequestBodyExtension sut = GetExtensionRequest(ResponseFakes.whatIsTheCapitalOfFrance);
+
+            try
+            {
+                sut.Messages = new List<MessageRequest>();
+                sut.Messages.Add(new MessageRequest
+                {
+                    Role = MessageRequest.toolRole,
+                    MustThrowRequiredToolCallIdException = true,
+                    ToolCallId = null
+                });
+
+                Assert.IsTrue(false, "An LibreOpenAiRequiredToolCallIdException was expected.");
+            }
+            catch (LibreOpenAiRequiredToolCallIdException)
+            {
+                Assert.IsTrue(true);
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(false, $"An LibreOpenAiRequiredToolCallIdException was expected, but it was '{ex.GetType().ToString()}'.");
+            }
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsUnitTest_WithJsonSchemaTypeAndNoJsonSchema_LibreOpenAiRequiredJsonSchemaException()
+        {
+            IRequestBodyExtension sut = GetExtensionRequest(ResponseFakes.whatIsTheCapitalOfFrance);
+
+            try
+            {
+                sut.ResponseFormat = new ResponseFormatRequest {
+                    MustThrowRequiredJsonSchemaException = true,
+                    Type = ResponseFormatRequest.jsonSchemaType,
+                    JsonSchema = null,
+                };
+
+                Assert.IsTrue(false, "An LibreOpenAiRequiredJsonSchemaException was expected.");
+            }
+            catch (LibreOpenAiRequiredJsonSchemaException)
+            {
+                Assert.IsTrue(true);
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(false, $"An LibreOpenAiRequiredJsonSchemaException was expected, but it was '{ex.GetType().ToString()}'.");
             }
         }
     }

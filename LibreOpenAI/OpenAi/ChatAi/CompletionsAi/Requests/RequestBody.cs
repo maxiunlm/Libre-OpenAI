@@ -10,6 +10,8 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
 {
     public class RequestBody : IRequestBody
     {
+        public const decimal defaultTopP = 1m;
+        public const decimal defaultTemperature = 1m;
         private const int nMinimunCost = 1;
         private const string defaultServiceTier = "default";
         private const string defaultToolChoiseWithTools = "auto";
@@ -119,14 +121,15 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
         public bool MustThrowStreamOptionsException { get; set; }
         // NOTE: Only set this when you set stream: true.
         private IStreamOptionsRequest? streamOptions;
-        public IStreamOptionsRequest? StreamOptions { 
+        public IStreamOptionsRequest? StreamOptions
+        {
             get
             {
                 return streamOptions;
             }
             set
             {
-                if (Stream != null && !Stream.Value)
+                if (value != null && (Stream == null || !Stream.Value))
                 {
                     if (MustThrowStreamOptionsException)
                     {
