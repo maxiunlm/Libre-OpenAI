@@ -11,6 +11,11 @@ namespace LibreOpenAI.DAL
 {
     public class OpenAiData : IOpenAiData
     {
+        private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
+        {
+            NullValueHandling = NullValueHandling.Ignore,
+            // DefaultValueHandling = DefaultValueHandling.Ignore
+        };
         private IHttpClientAi? client;
         private AuthenticationHeaderValue? authorization;
         private readonly string apiKey;
@@ -66,7 +71,7 @@ namespace LibreOpenAI.DAL
         public async Task<IChatCompletionResponse> GetChatGptResponse(IRequestBody request)
         {
             string responseBody = string.Empty;
-            string requestJson = JsonConvert.SerializeObject(request);
+            string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
 
             try
             {

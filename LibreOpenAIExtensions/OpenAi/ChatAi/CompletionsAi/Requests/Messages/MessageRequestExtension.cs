@@ -32,12 +32,11 @@ namespace LibreOpenAIExtensions.OpenAi.ChatAi.CompletionsAi.Requests.Messages
         /// <summary>
         /// 5 The contents of the function message. (Required)
         /// </summary>
-        public override required List<string> Content
+        public override required object? Content
         {
             get
             {
-                content = content ?? new List<string>();
-                return content;
+                return base.Content;
             }
             set
             {
@@ -49,7 +48,7 @@ namespace LibreOpenAIExtensions.OpenAi.ChatAi.CompletionsAi.Requests.Messages
                     }
                 }
 
-                content = value ?? new List<string>();
+                base.Content = value;
             }
         }
     }

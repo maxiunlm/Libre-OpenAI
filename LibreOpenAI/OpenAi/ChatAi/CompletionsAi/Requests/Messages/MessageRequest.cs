@@ -12,18 +12,19 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
         private static readonly List<string> requiredContentList = new List<string>() { systemRole, userRole, toolRole };
         private static readonly List<string> requiredToolCallIdList = new List<string>() { toolRole };
         public virtual required string Role { get; set; } = systemRole;
-        public virtual string Name { get; set; } = string.Empty;
-        public string Refusal { get; set; } = string.Empty;
+        public virtual string? Name { get; set; } // HACK:= string.Empty;
+        public string? Refusal { get; set; } // HACK:= string.Empty;
         public bool MustThrowRequiredToolCallIdException { get; set; }
         private string? toolCallId;
-        public string? ToolCallId { 
+        public string? ToolCallId
+        {
             get
             {
                 return toolCallId;
             }
             set
             {
-                if(value == null && requiredToolCallIdList.Any(r => r == Role))
+                if (value == null && requiredToolCallIdList.Any(r => r == Role))
                 {
                     if (MustThrowRequiredToolCallIdException)
                     {
@@ -39,28 +40,80 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
             }
         }
         public bool MustThrowRequiredContentException { get; set; }
-        protected List<string>? content = null;
-        public virtual List<string>? Content
+        private string? oneContent;
+        public string? OneContent
         {
-            get => content;
+            get => oneContent;
             set
             {
-                if (value == null && requiredContentList.Any(r => r == Role))
-                {
-                    if (MustThrowRequiredContentException)
-                    {
-                        throw new LibreOpenAiRequiredContentException(Role);
-                    }
-                    else if (!ToolCalls.Any()) // NOTE:  function_call is deprecated
-                    {
-                        content = new List<string>();
-                        return;
-                    }
-                }
-
-                content = value;
+                contentList = null;
+                oneContent = value;
             }
         }
-        public List<IToolCallRequest> ToolCalls { get; set; } = [];
+        private List<string>? contentList = null;
+        public List<string>? ContentList
+        {
+            get => contentList;
+            set
+            {
+                oneContent = null;
+                contentList = value;
+
+                if (value == null)
+                {
+                    if (requiredContentList.Any(r => r == Role))
+                    {
+                        if (MustThrowRequiredContentException)
+                        {
+                            throw new LibreOpenAiRequiredContentException(Role);
+                        }
+                        // HACK: 
+                        //else if (!ToolCalls.Any()) // NOTE:  function_call is deprecated
+                        //{
+                        //    contentList = new List<string>();
+                        //    return;
+                        //}
+                    }
+                }
+                else if (value.Count() == 1)
+                {
+                    oneContent = value.First();
+                    contentList = null;
+                }
+            }
+        }
+        public virtual object? Content
+        {
+            get
+            {
+                object? content = ContentList;
+
+                if (OneContent != null)
+                {
+                    content = OneContent;
+                }
+
+                return content;
+            }
+            set
+            {
+                if (value == null)
+                {
+                    oneContent = null;
+                    contentList = null;
+                }
+                else if (value is string)
+                {
+                    contentList = null;
+                    oneContent = value as string;
+                }
+                else
+                {
+                    oneContent = null;
+                    ContentList = value as List<string>;
+                }
+            }
+        }
+        public List<IToolCallRequest>? ToolCalls { get; set; } // HACK: = [];
     }
 }

@@ -21,8 +21,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
         public required string Model { get; set; }
         public virtual required List<MessageRequest> Messages { get; set; }
 
-        [JsonProperty("logit_bias")]
-        public Dictionary<string, int> LogitBias { get; set; } = new Dictionary<string, int>();
+        public Dictionary<string, int>? LogitBias { get; set; } // HACK: = new Dictionary<string, int>();
 
         private decimal? frequencyPenalty;
         public decimal? FrequencyPenalty
@@ -107,8 +106,8 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
         public int? TopLogprobs { get; set; }
         public int? N { get; set; } = nMinimunCost;
         public int? Seed { get; set; }
-        public string ServiceTier { get; set; } = defaultServiceTier;
-        public List<string>? Stop { get; set; } = new List<string>();
+        public string? ServiceTier { get; set; } // HACK: = defaultServiceTier;
+        public List<string>? Stop { get; set; } // HACK: = new List<string>();
         public bool? Stream { get; set; }
         // NOTE: WARNING: Review Important: when using JSON mode, you must also instruct the model to produce JSON yourself via a system or user message.
         // Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit,
@@ -145,7 +144,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
                 streamOptions = value;
             }
         }
-        public List<ToolRequest> Tools { get; set; } = new List<ToolRequest>();
+        public List<ToolRequest>? Tools { get; set; } // HACK: = new List<ToolRequest>();
         private string? toolChoiceString;
         public string? ToolChoiceString
         {
@@ -178,10 +177,11 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
                 {
                     ToolChoiceString ??= defaultToolChoiseWithTools;
                 }
-                else
-                {
-                    ToolChoiceString ??= defaultToolChoiseWithoutTools;
-                }
+                // HACK:
+                //else
+                //{
+                //    ToolChoiceString ??= defaultToolChoiseWithoutTools;
+                //}
 
                 return ToolChoiceString;
             }
@@ -197,7 +197,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
                 }
             }
         }
-        public bool ParallelToolCalls { get; set; } = true;
-        public string User { get; set; } = string.Empty;
+        public bool? ParallelToolCalls { get; set; } // HACK: = true;
+        public string? User { get; set; } // HACK: = string.Empty;
     }
 }
