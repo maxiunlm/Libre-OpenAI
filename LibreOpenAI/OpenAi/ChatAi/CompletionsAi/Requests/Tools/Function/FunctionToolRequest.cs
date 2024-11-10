@@ -6,7 +6,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Tools.Function
     public class FunctionToolRequest : IFunctionToolRequest
     {
         private const int maxNameLength = 64;
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; } // Hack: = string.Empty;
         public bool MustThrowNameRegexException { get; set; }
         private string name = string.Empty;
         public required string Name

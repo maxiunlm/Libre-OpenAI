@@ -22,12 +22,13 @@ namespace LibreOpenAIUnitTestProject
     [TestClass]
     public class OpenAiExceptionsUnitTest : OpenAiUnitTestBase
     {
-        /* 
+        //* 
 #if DEBUG
 
         [TestMethod]
         public async Task OpenAiExceptionsUnitTest_MaxTokensExceded()
         {
+            //IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
             IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
             IOpenAI sut = new OpenAI();
 

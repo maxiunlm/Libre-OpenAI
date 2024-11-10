@@ -1,7 +1,5 @@
 ﻿using LibreOpenAI.Exceptions;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.ResponseFormat.JsonSchema;
-using Newtonsoft.Json.Schema;
-using System.Data;
 
 namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.ResponseFormat
 {

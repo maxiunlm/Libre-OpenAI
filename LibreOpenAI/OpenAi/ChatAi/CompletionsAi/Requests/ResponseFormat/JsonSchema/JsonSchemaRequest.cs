@@ -3,8 +3,8 @@
     public class JsonSchemaRequest : IJsonSchemaRequest
     {
         public required string Name { get; set; }
-        public string Description { get; set; } = string.Empty;
-        public string Schema { get; set; } = string.Empty;
+        public string? Description { get; set; } // Hack: = string.Empty;
+        public string? Schema { get; set; } // Hack: = string.Empty;
         public bool? Strict { get; set; }
     }
 }
