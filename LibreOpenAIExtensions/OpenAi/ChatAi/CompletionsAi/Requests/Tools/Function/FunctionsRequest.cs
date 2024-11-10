@@ -4,7 +4,7 @@ namespace LibreOpenAIExtensions.OpenAi.ChatAi.CompletionsAi.Requests.Tools.Funct
 {
     public class FunctionsRequest: IFunctionsRequest
     {
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; } // Hack: = string.Empty;
         public bool MustThrowNameRegexException { get; set; }
         private string name = string.Empty;
         public required string Name

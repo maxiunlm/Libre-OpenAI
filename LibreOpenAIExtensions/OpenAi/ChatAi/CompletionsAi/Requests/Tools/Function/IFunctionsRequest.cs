@@ -8,7 +8,7 @@ namespace LibreOpenAIExtensions.OpenAi.ChatAi.CompletionsAi.Requests.Tools.Funct
         /// A description of what the function does, used by the model to choose when and how to call the function.
         /// </summary>
         [JsonProperty("description")]
-        string Description { get; set; }
+        string? Description { get; set; }
         /// <summary>
         /// The name of the function to be called. (Required)
         /// </summary>
