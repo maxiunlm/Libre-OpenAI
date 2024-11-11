@@ -76,7 +76,7 @@ namespace LibreOpenAI.DAL
             try
             {
                 StringContent content = new StringContent(requestJson, settings.Encoding, settings.MediaType);
-                //HttpResponseMessage response = await Client.PostAsync(settings.OpenAiUrl, content);
+                HttpResponseMessage response = await Client.PostAsync(settings.OpenAiUrl, content);
 
                 response.EnsureSuccessStatusCode();
                 responseBody = await response.Content.ReadAsStringAsync();
@@ -84,6 +84,7 @@ namespace LibreOpenAI.DAL
                 ChatCompletionResponse result = JsonConvert.DeserializeObject<ChatCompletionResponse>(responseBody) ?? new ChatCompletionResponse();
 
                 return result;
+                //return null;
             }
             // Specific OpenAI API exceptions
             catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.TooManyRequests)
