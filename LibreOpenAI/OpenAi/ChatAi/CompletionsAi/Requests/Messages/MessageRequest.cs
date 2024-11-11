@@ -30,10 +30,11 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
                     {
                         throw new LibreOpenAiRequiredToolCallIdException(Role);
                     }
-                    else
-                    {
-                        toolCallId = string.Empty;
-                    }
+                    // Hack: 
+                    //else
+                    //{
+                    //    toolCallId = string.Empty;
+                    //}
                 }
 
                 toolCallId = value;
@@ -105,12 +106,12 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
                 else if (value is string)
                 {
                     contentList = null;
-                    oneContent = value as string;
+                    oneContent = (string?)value;
                 }
                 else
                 {
                     oneContent = null;
-                    ContentList = value as List<string>;
+                    ContentList = (List<string>?)value;
                 }
             }
         }

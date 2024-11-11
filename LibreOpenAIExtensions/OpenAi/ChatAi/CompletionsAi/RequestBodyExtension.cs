@@ -55,7 +55,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
             {
                 if (value is string)
                 {
-                    FunctionCallString = (string)(value ?? string.Empty);
+                    FunctionCallString = (string?)value;  // Hack: ?? string.Empty);
                 }
                 else
                 {

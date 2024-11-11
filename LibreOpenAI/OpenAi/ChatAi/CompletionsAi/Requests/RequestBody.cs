@@ -4,7 +4,6 @@ using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.ResponseFormat;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.StreamOptions;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Tools;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Tools.Choise;
-using Newtonsoft.Json;
 
 namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
 {
