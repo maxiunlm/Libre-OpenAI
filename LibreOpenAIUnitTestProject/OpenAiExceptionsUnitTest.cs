@@ -22,7 +22,7 @@ namespace LibreOpenAIUnitTestProject
     [TestClass]
     public class OpenAiExceptionsUnitTest : OpenAiUnitTestBase
     {
-        //* 
+        /* 
 #if DEBUG
 
         [TestMethod]
@@ -410,17 +410,22 @@ namespace LibreOpenAIUnitTestProject
         [TestMethod]
         public void OpenAiExceptionsUnitTest_WithNoContent_ThrowsLibreOpenAiRequiredContentException()
         {
-            IRequestBodyExtension sut = GetExtensionRequest(ResponseFakes.whatIsTheCapitalOfFrance);
 
             try
             {
-                sut.Messages = new List<MessageRequest>();
-                sut.Messages.Add(new MessageRequest
+                IRequestBodyExtension sut = new RequestBodyExtension
                 {
-                    Role = MessageRequest.userRole,
-                    MustThrowRequiredContentException = true,
-                    Content = null
-                });
+                    Model = defaultModel,
+                    MaxTokens = defaultMaxCompletionTokens, // NOTE: This field is deprecated, see: MaxCompletionTokens
+                    FunctionCallString = RequestBodyExtension.autoFunctionCall, // NOTE: This field is deprecated, see: ToolChoice
+                    Messages = new List<MessageRequest> {
+                        new MessageRequest {
+                            Role = MessageRequest.userRole,
+                            MustThrowRequiredContentException = true,
+                            Content = null
+                        }
+                    }
+                };
 
                 Assert.IsTrue(false, "An LibreOpenAiRequiredContentException was expected.");
             }

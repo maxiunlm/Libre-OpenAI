@@ -216,7 +216,7 @@
 }";
         public const string testFunctionCallFinishReasonSystem = "You are an assistant.";
         public const string testFunctionCallFinishReasonUser = "Please provide a response with logprobs and text offsets.";
-        public const string functionCallFinishReason = "This response triggered a function call.";
+        public const string functionCallFinishReason = "Sure, please provide the text for which you would like me to generate a response with logprobs and text offsets.";
         public const string functionCallFinishReasonJson = @"{
   ""id"": ""chatcmpl-789"",
   ""object"": ""chat.completion"",

@@ -1,3 +1,4 @@
+using LibreOpenAI.Exceptions.OpenAI;
 using LibreOpenAI.OpenAi;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response;
@@ -9,6 +10,24 @@ namespace LibreOpenAIUnitTestProject
     [TestClass]
     public class OpenAiUnitTest : OpenAiUnitTestBase
     {
+        //* 
+#if DEBUG
+
+        [TestMethod]
+        public async Task OpenAiExceptionsUnitTest_With2Messages_MaxTokensExceded()
+        {
+            IRequestBody request = GetRequestWithLogprobsAndOffset(ResponseFakes.testFunctionCallFinishReasonSystem, ResponseFakes.testFunctionCallFinishReasonUser);
+            IOpenAI sut = new OpenAI();
+
+            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Choices.Count);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(result.Choices.First().Message.Content));
+        }
+
+#endif
+        // */
         [TestMethod]
         public async Task OpenAiUnitTest_WhatIsTheCapitalofFrance()
         {
