@@ -15,6 +15,6 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Tools
         /// (Required)
         /// </summary>
         [JsonProperty("function")]
-        IFunctionToolRequest Function { get; set; }
+        FunctionToolRequest Function { get; set; }
     }
 }

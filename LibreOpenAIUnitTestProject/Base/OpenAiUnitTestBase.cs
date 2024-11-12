@@ -5,6 +5,8 @@ using LibreOpenAI.DAL;
 using LibreOpenAI.OpenAi;
 using Moq;
 using LibreOpenAIExtensions.OpenAi.ChatAi.CompletionsAi.Requests;
+using Newtonsoft.Json;
+using LibreOpenAIUnitTestProject.Fakes;
 
 namespace LibreOpenAIUnitTestProject.Base
 {
@@ -57,6 +59,11 @@ namespace LibreOpenAIUnitTestProject.Base
             };
         }
 
+        protected IRequestBody GetFunctionRequest()
+        {
+            RequestBody request = JsonConvert.DeserializeObject<RequestBody>(RequestFakes.functionsResquest);
+            return request;
+        }
         protected IRequestBody GetRequest(string contentMessage)
         {
             return new RequestBody

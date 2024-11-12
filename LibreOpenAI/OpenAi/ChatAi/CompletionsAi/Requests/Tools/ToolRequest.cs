@@ -7,6 +7,6 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Tools
     {
         public const string defaultType = "function";
         public required string Type { get; set; } = defaultType;
-        public required IFunctionToolRequest Function { get; set; }
+        public required FunctionToolRequest Function { get; set; }
     }
 }
