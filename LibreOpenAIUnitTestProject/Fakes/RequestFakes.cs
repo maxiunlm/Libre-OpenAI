@@ -36,5 +36,43 @@
     ],
     ""tool_choice"": ""auto""
 }";
+        public const string whatIsInThisImage = "What's in this image?";
+        public const string imageInputResquest = @"{
+    ""model"": ""gpt-3.5-turbo"",
+    ""messages"": [{
+            ""role"": ""user"",
+            ""content"": [{
+                    ""type"": ""text"",
+                    ""text"": """ + whatIsInThisImage + @""",
+                }, {
+                    ""type"": ""image_url"",
+                    ""image_url"": {
+                        ""url"": ""https://www.debian.org/Pics/openlogo-50.png"",
+                    },
+                }
+            ],
+        },
+    ],
+}";
+        public const string youAreAHelpfulAssistant = "You are a helpful assistant.";
+        public const string streamingResquest = @"{
+    ""model"": ""gpt-3.5-turbo"",
+    ""messages"": [
+      {""role"": ""system"", ""content"": """ + youAreAHelpfulAssistant + @"""},
+      {""role"": ""user"", ""content"": ""Hello!""}
+    ],
+    ""stream"": true,
+}";
+        public const string hello = "Hello!";
+        public const string logprobsResquest = @"{
+    ""messages"": [{
+            ""role"": ""user"",
+            ""content"": """ + hello + @"""
+        }
+    ],
+    ""model"": ""gpt-4o"",
+    ""logprobs"": true,
+    ""top_logprobs"": 2,
+}";
     }
 }

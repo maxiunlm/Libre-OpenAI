@@ -1,4 +1,5 @@
-﻿using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages.ToolCalls;
+﻿using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages.Conents;
+using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages.ToolCalls;
 using Newtonsoft.Json;
 
 namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
@@ -13,6 +14,14 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
         string? OneContent { get; set; }
         [JsonIgnore]
         List<string>? ContentList { get; set; }
+        [JsonIgnore]
+        List<IAudioContentPart>? ContentInputAudioList { get; set; }
+        [JsonIgnore]
+        List<IImageContentPart>? ContentImageUrlList { get; set; }
+        [JsonIgnore]
+        List<ITextContentPart>? ContentTextList { get; set; }
+        [JsonIgnore]
+        List<IRefusalContentPart>? ContentRefusalList { get; set; }
         /// <summary>
         /// 1 The contents of the system message. (Required)
         /// 2 The contents of the user message. (Required)

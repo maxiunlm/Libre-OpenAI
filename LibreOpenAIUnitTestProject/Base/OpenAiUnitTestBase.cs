@@ -59,11 +59,12 @@ namespace LibreOpenAIUnitTestProject.Base
             };
         }
 
-        protected IRequestBody GetFunctionRequest()
+        protected IRequestBody GetRequestFrom(string json)
         {
-            RequestBody request = JsonConvert.DeserializeObject<RequestBody>(RequestFakes.functionsResquest);
+            RequestBody request = JsonConvert.DeserializeObject<RequestBody>(json);
             return request;
         }
+
         protected IRequestBody GetRequest(string contentMessage)
         {
             return new RequestBody
