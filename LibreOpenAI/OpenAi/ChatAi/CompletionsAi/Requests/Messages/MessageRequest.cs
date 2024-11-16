@@ -10,8 +10,13 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
         public const string userRole = "user";
         public const string assistantRole = "assistant";
         public const string toolRole = "tool";
+        private static readonly List<string> textInputContentList = new List<string>() { userRole, assistantRole };
+        private static readonly List<string> imageInputContentList = new List<string>() { userRole };
+        private static readonly List<string> audioInputContentList = new List<string>() { userRole };
+        private static readonly List<string> refusalContentList = new List<string>() { assistantRole };
         private static readonly List<string> requiredContentList = new List<string>() { systemRole, userRole, toolRole };
         private static readonly List<string> requiredToolCallIdList = new List<string>() { toolRole };
+        private string? toolCallId;
         private string? oneContent;
         private ITextContentPart? oneContentText = null;
         private IRefusalContentPart? oneContentRefusal = null;
@@ -26,8 +31,6 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
         public virtual required string Role { get; set; } = systemRole;
         public virtual string? Name { get; set; } // HACK:= string.Empty;
         public string? Refusal { get; set; } // HACK:= string.Empty;
-        public bool MustThrowRequiredToolCallIdException { get; set; }
-        private string? toolCallId;
         public string? ToolCallId
         {
             get
@@ -52,7 +55,10 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
                 toolCallId = value;
             }
         }
+        public bool MustThrowRequiredToolCallIdException { get; set; }
         public bool MustThrowRequiredContentException { get; set; }
+        public bool MustVerifyWrongContentForRoleException { get; set; } // TODO: Unit tests
+        public bool MustThrowWrongContentForRoleException { get; set; } // TODO: Unit tests
         public List<IToolCallRequest>? ToolCalls { get; set; } // HACK: = [];
 
         public virtual object? Content
@@ -123,6 +129,13 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
             set
             {
                 CleanContents();
+
+                if (MustVerifyWrongContentForRoleException)
+                {
+                    VarifyWrongContentForRole(TextContentPart.textContentType);
+                    return;
+                }
+
                 oneContentText = value;
             }
         }
@@ -132,6 +145,13 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
             set
             {
                 CleanContents();
+
+                if (MustVerifyWrongContentForRoleException)
+                {
+                    VarifyWrongContentForRole(RefusalContentPart.refusalContentType);
+                    return;
+                }
+
                 oneContentRefusal = value;
             }
         }
@@ -141,6 +161,13 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
             set
             {
                 CleanContents();
+
+                if (MustVerifyWrongContentForRoleException)
+                {
+                    VarifyWrongContentForRole(ImageContentPart.imageUrlContentType);
+                    return;
+                }
+
                 oneContentImageUrl = value;
             }
         }
@@ -150,6 +177,13 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
             set
             {
                 CleanContents();
+
+                if (MustVerifyWrongContentForRoleException)
+                {
+                    VarifyWrongContentForRole(AudioContentPart.inputAudioContentType);
+                    return;
+                }
+
                 oneContentInputAudio = value;
             }
         }
@@ -163,7 +197,8 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
 
                 if (value == null)
                 {
-                    VerifyContent("List<string>");
+                    string contentType = "List<string>";
+                    VerifyContent(contentType);
                 }
                 else if (value.Count() == 1)
                 {
@@ -178,6 +213,13 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
             set
             {
                 CleanContents();
+
+                if (MustVerifyWrongContentForRoleException)
+                {
+                    VarifyWrongContentForRole(ImageContentPart.imageUrlContentType);
+                    return;
+                }
+
                 contentImageUrlList = value;
 
                 if (value == null)
@@ -197,6 +239,13 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
             set
             {
                 CleanContents();
+
+                if (MustVerifyWrongContentForRoleException)
+                {
+                    VarifyWrongContentForRole(AudioContentPart.inputAudioContentType);
+                    return;
+                }
+
                 contentInputAudioList = value;
 
                 if (value == null)
@@ -216,6 +265,13 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
             set
             {
                 CleanContents();
+
+                if (MustVerifyWrongContentForRoleException)
+                {
+                    VarifyWrongContentForRole(RefusalContentPart.refusalContentType);
+                    return;
+                }
+
                 contentRefusalList = value;
 
                 if (value == null)
@@ -235,6 +291,13 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
             set
             {
                 CleanContents();
+
+                if (MustVerifyWrongContentForRoleException)
+                {
+                    VarifyWrongContentForRole(TextContentPart.textContentType);
+                    return;
+                }
+
                 contentTextList = value;
 
                 if (value == null)
@@ -278,6 +341,27 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
                 //    return;
                 //}
             }
+        }
+
+        private void VarifyWrongContentForRole(string selectedContentType)
+        {
+            if (MustThrowWrongContentForRoleException)
+            {
+                bool isWrong = VarifyWrongContentForRole(false, selectedContentType, TextContentPart.textContentType, textInputContentList);
+                isWrong = VarifyWrongContentForRole(isWrong, selectedContentType, ImageContentPart.imageUrlContentType, imageInputContentList);
+                isWrong = VarifyWrongContentForRole(isWrong, selectedContentType, AudioContentPart.inputAudioContentType, audioInputContentList);
+                isWrong = VarifyWrongContentForRole(isWrong, selectedContentType, RefusalContentPart.refusalContentType, refusalContentList);
+
+                if (isWrong)
+                {
+                    throw new LibreOpenAiWrongContentForException(Role, selectedContentType);
+                }
+            }
+        }
+
+        private bool VarifyWrongContentForRole(bool isWrong, string selectedContentType, string contentType, List<string> contentList)
+        {
+            return isWrong || selectedContentType == contentType && !contentList.Any(o => o == Role);
         }
     }
 }

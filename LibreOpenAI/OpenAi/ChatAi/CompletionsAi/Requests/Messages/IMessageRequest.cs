@@ -11,6 +11,10 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
         [JsonIgnore]
         bool MustThrowRequiredToolCallIdException { get; set; }
         [JsonIgnore]
+        bool MustVerifyWrongContentForRoleException { get; set; }
+        [JsonIgnore]
+        bool MustThrowWrongContentForRoleException { get; set; }
+        [JsonIgnore]
         string? OneContent { get; set; }
         [JsonIgnore]
         List<string>? ContentList { get; set; }
