@@ -76,7 +76,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests
                     Role = MessageRequestExtension.functionRole,
                     Name = o.Name ?? string.Empty,
                     Content = o.Content,
-                }) as MessageRequest).ToList(); ;
+                }) as MessageRequest).ToList();
             }
         }
         public List<MessageRequestExtension>? MessagesExtension { get => messagesExtension; set => messagesExtension = value; }

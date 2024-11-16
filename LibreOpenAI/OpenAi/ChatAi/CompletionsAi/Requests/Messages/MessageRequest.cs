@@ -1,6 +1,7 @@
 ﻿using LibreOpenAI.Exceptions;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages.Conents;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages.ToolCalls;
+using System.Collections;
 
 namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
 {
@@ -10,23 +11,23 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
         public const string userRole = "user";
         public const string assistantRole = "assistant";
         public const string toolRole = "tool";
-        private static readonly List<string> textInputContentList = new List<string>() { userRole, assistantRole };
-        private static readonly List<string> imageInputContentList = new List<string>() { userRole };
-        private static readonly List<string> audioInputContentList = new List<string>() { userRole };
-        private static readonly List<string> refusalContentList = new List<string>() { assistantRole };
-        private static readonly List<string> requiredContentList = new List<string>() { systemRole, userRole, toolRole };
-        private static readonly List<string> requiredToolCallIdList = new List<string>() { toolRole };
+        public static readonly List<string> textInputContentRolesList = new List<string>() { userRole, assistantRole };
+        public static readonly List<string> imageInputContentRolesList = new List<string>() { userRole };
+        public static readonly List<string> audioInputContentRolesList = new List<string>() { userRole };
+        public static readonly List<string> refusalContentRolesList = new List<string>() { assistantRole };
+        public static readonly List<string> requiredContentRolesList = new List<string>() { systemRole, userRole, toolRole };
+        public static readonly List<string> requiredToolCallIdRolesList = new List<string>() { toolRole };
         private string? toolCallId;
         private string? oneContent;
-        private ITextContentPart? oneContentText = null;
-        private IRefusalContentPart? oneContentRefusal = null;
-        private IImageContentPart? oneContentImageUrl = null;
-        private IAudioContentPart? oneContentInputAudio = null;
+        private TextContentPart? oneContentText = null;
+        private RefusalContentPart? oneContentRefusal = null;
+        private ImageContentPart? oneContentImageUrl = null;
+        private AudioContentPart? oneContentInputAudio = null;
         private List<string>? contentList = null;
-        private List<IImageContentPart>? contentImageUrlList = null;
-        private List<IAudioContentPart>? contentInputAudioList = null;
-        private List<ITextContentPart>? contentTextList = null;
-        private List<IRefusalContentPart>? contentRefusalList = null;
+        private List<ImageContentPart>? contentImageUrlList = null;
+        private List<AudioContentPart>? contentInputAudioList = null;
+        private List<TextContentPart>? contentTextList = null;
+        private List<RefusalContentPart>? contentRefusalList = null;
 
         public virtual required string Role { get; set; } = systemRole;
         public virtual string? Name { get; set; } // HACK:= string.Empty;
@@ -39,7 +40,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
             }
             set
             {
-                if (value == null && requiredToolCallIdList.Any(r => r == Role))
+                if (value == null && requiredToolCallIdRolesList.Any(r => r == Role))
                 {
                     if (MustThrowRequiredToolCallIdException)
                     {
@@ -59,7 +60,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
         public bool MustThrowRequiredContentException { get; set; }
         public bool MustVerifyWrongContentForRoleException { get; set; } // TODO: Unit tests
         public bool MustThrowWrongContentForRoleException { get; set; } // TODO: Unit tests
-        public List<IToolCallRequest>? ToolCalls { get; set; } // HACK: = [];
+        public List<ToolCallRequest>? ToolCalls { get; set; } // HACK: = [];
 
         public virtual object? Content
         {
@@ -90,24 +91,43 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
                 {
                     ContentList = (List<string>)value;
                 }
-                else if (value is IList<IContentType>)
+                else if (value is IContentType)
                 {
-                    foreach (IContentType content in ((IList<IContentType>)value))
+                    IContentType content = (IContentType)value;
+                    switch (content.Type)
+                    {
+                        case ImageContentPart.imageUrlContentType:
+                            OneContentImageUrl = (ImageContentPart)value;
+                            break;
+                        case AudioContentPart.inputAudioContentType:
+                            OneContentInputAudio = (AudioContentPart)value;
+                            break;
+                        case TextContentPart.textContentType:
+                            OneContentText = (TextContentPart)value;
+                            break;
+                        case RefusalContentPart.refusalContentType:
+                            OneContentRefusal = (RefusalContentPart)value;
+                            break;
+                    }
+                }
+                else if (value is IList)
+                {
+                    foreach (var content in (IList)value)
                     {
                         // TODO: review Role, it's different for: system, user, assistant and tool, show warnings
-                        switch (content.Type)
+                        switch (((IContentType)content).Type)
                         {
                             case ImageContentPart.imageUrlContentType:
-                                ContentImageUrlList = (List<IImageContentPart>?)value;
+                                ContentImageUrlList = (List<ImageContentPart>)value;
                                 break;
                             case AudioContentPart.inputAudioContentType:
-                                ContentInputAudioList = (List<IAudioContentPart>?)value;
+                                ContentInputAudioList = (List<AudioContentPart>)value;
                                 break;
                             case TextContentPart.textContentType:
-                                ContentTextList = (List<ITextContentPart>?)value;
+                                ContentTextList = (List<TextContentPart>)value;
                                 break;
                             case RefusalContentPart.refusalContentType:
-                                ContentRefusalList = (List<IRefusalContentPart>?)value;
+                                ContentRefusalList = (List<RefusalContentPart>)value;
                                 break;
                         }
                     }
@@ -123,70 +143,43 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
                 oneContent = value;
             }
         }
-        public ITextContentPart? OneContentText
+        public TextContentPart? OneContentText
         {
             get => oneContentText;
             set
             {
                 CleanContents();
-
-                if (MustVerifyWrongContentForRoleException)
-                {
-                    VarifyWrongContentForRole(TextContentPart.textContentType);
-                    return;
-                }
-
-                oneContentText = value;
+                oneContentText = VarifyWrongContentForRole(TextContentPart.textContentType, value);
             }
         }
-        public IRefusalContentPart? OneContentRefusal
+        public RefusalContentPart? OneContentRefusal
         {
             get => oneContentRefusal;
             set
             {
                 CleanContents();
-
-                if (MustVerifyWrongContentForRoleException)
-                {
-                    VarifyWrongContentForRole(RefusalContentPart.refusalContentType);
-                    return;
-                }
-
-                oneContentRefusal = value;
+                oneContentRefusal = VarifyWrongContentForRole(RefusalContentPart.refusalContentType, value);
             }
         }
-        public IImageContentPart? OneContentImageUrl
+        public ImageContentPart? OneContentImageUrl
         {
             get => oneContentImageUrl;
             set
             {
                 CleanContents();
-
-                if (MustVerifyWrongContentForRoleException)
-                {
-                    VarifyWrongContentForRole(ImageContentPart.imageUrlContentType);
-                    return;
-                }
-
-                oneContentImageUrl = value;
+                oneContentImageUrl = VarifyWrongContentForRole(ImageContentPart.imageUrlContentType, value);
             }
         }
-        public IAudioContentPart? OneContentInputAudio
+        public AudioContentPart? OneContentInputAudio
         {
             get => oneContentInputAudio;
             set
             {
                 CleanContents();
-
-                if (MustVerifyWrongContentForRoleException)
-                {
-                    VarifyWrongContentForRole(AudioContentPart.inputAudioContentType);
-                    return;
-                }
-
-                oneContentInputAudio = value;
+                oneContentInputAudio = VarifyWrongContentForRole(AudioContentPart.inputAudioContentType, value);
             }
         }
+
         public List<string>? ContentList
         {
             get => contentList;
@@ -194,121 +187,48 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
             {
                 CleanContents();
                 contentList = value;
-
-                if (value == null)
-                {
-                    string contentType = "List<string>";
-                    VerifyContent(contentType);
-                }
-                else if (value.Count() == 1)
-                {
-                    oneContent = value.First();
-                    contentList = null;
-                }
+                string contentType = "List<string>";
+                oneContent = SetContentValue(contentType, ref contentList);
             }
         }
-        public List<IImageContentPart>? ContentImageUrlList
+        public List<ImageContentPart>? ContentImageUrlList
         {
             get => contentImageUrlList;
             set
             {
                 CleanContents();
-
-                if (MustVerifyWrongContentForRoleException)
-                {
-                    VarifyWrongContentForRole(ImageContentPart.imageUrlContentType);
-                    return;
-                }
-
-                contentImageUrlList = value;
-
-                if (value == null)
-                {
-                    VerifyContent(ImageContentPart.imageUrlContentType);
-                }
-                else if (value.Count() == 1)
-                {
-                    oneContentImageUrl = value.First();
-                    contentImageUrlList = null;
-                }
+                contentImageUrlList = VarifyWrongContentForRole(ImageContentPart.imageUrlContentType, value);
+                oneContentImageUrl = SetContentValue(ImageContentPart.imageUrlContentType, ref contentImageUrlList);
             }
         }
-        public List<IAudioContentPart>? ContentInputAudioList
+        public List<AudioContentPart>? ContentInputAudioList
         {
             get => contentInputAudioList;
             set
             {
                 CleanContents();
-
-                if (MustVerifyWrongContentForRoleException)
-                {
-                    VarifyWrongContentForRole(AudioContentPart.inputAudioContentType);
-                    return;
-                }
-
-                contentInputAudioList = value;
-
-                if (value == null)
-                {
-                    VerifyContent(AudioContentPart.inputAudioContentType);
-                }
-                else if (value.Count() == 1)
-                {
-                    oneContentInputAudio = value.First();
-                    contentInputAudioList = null;
-                }
+                contentInputAudioList = VarifyWrongContentForRole(AudioContentPart.inputAudioContentType, value);
+                oneContentInputAudio = SetContentValue(AudioContentPart.inputAudioContentType, ref contentInputAudioList);
             }
         }
-        public List<IRefusalContentPart>? ContentRefusalList
+        public List<RefusalContentPart>? ContentRefusalList
         {
             get => contentRefusalList;
             set
             {
                 CleanContents();
-
-                if (MustVerifyWrongContentForRoleException)
-                {
-                    VarifyWrongContentForRole(RefusalContentPart.refusalContentType);
-                    return;
-                }
-
-                contentRefusalList = value;
-
-                if (value == null)
-                {
-                    VerifyContent(RefusalContentPart.refusalContentType);
-                }
-                else if (value.Count() == 1)
-                {
-                    oneContentRefusal = value.First();
-                    contentRefusalList = null;
-                }
+                contentRefusalList = VarifyWrongContentForRole(RefusalContentPart.refusalContentType, value);
+                oneContentRefusal = SetContentValue(RefusalContentPart.refusalContentType, ref contentRefusalList);
             }
         }
-        public List<ITextContentPart>? ContentTextList
+        public List<TextContentPart>? ContentTextList
         {
             get => contentTextList;
             set
             {
                 CleanContents();
-
-                if (MustVerifyWrongContentForRoleException)
-                {
-                    VarifyWrongContentForRole(TextContentPart.textContentType);
-                    return;
-                }
-
-                contentTextList = value;
-
-                if (value == null)
-                {
-                    VerifyContent(TextContentPart.textContentType);
-                }
-                else if (value.Count() == 1)
-                {
-                    oneContentText = value.First();
-                    contentTextList = null;
-                }
+                contentTextList = VarifyWrongContentForRole(TextContentPart.textContentType, value);
+                oneContentText = SetContentValue(TextContentPart.textContentType, ref contentTextList);
             }
         }
 
@@ -328,7 +248,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
 
         private void VerifyContent(string contentType)
         {
-            if (requiredContentList.Any(r => r == Role))
+            if (requiredContentRolesList.Any(r => r == Role))
             {
                 if (MustThrowRequiredContentException)
                 {
@@ -343,25 +263,58 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
             }
         }
 
-        private void VarifyWrongContentForRole(string selectedContentType)
+        private T? SetContentValue<T>(string contentType, ref List<T>? contentPartList)
         {
-            if (MustThrowWrongContentForRoleException)
-            {
-                bool isWrong = VarifyWrongContentForRole(false, selectedContentType, TextContentPart.textContentType, textInputContentList);
-                isWrong = VarifyWrongContentForRole(isWrong, selectedContentType, ImageContentPart.imageUrlContentType, imageInputContentList);
-                isWrong = VarifyWrongContentForRole(isWrong, selectedContentType, AudioContentPart.inputAudioContentType, audioInputContentList);
-                isWrong = VarifyWrongContentForRole(isWrong, selectedContentType, RefusalContentPart.refusalContentType, refusalContentList);
+            T? result = default;
 
-                if (isWrong)
+            if (contentPartList == null)
+            {
+                VerifyContent(contentType);
+            }
+            else if (contentPartList.Count() == 1)
+            {
+                result = contentPartList.First();
+                contentPartList = null;
+            }
+
+            return result;
+        }
+
+        private T? VarifyWrongContentForRole<T>(string contentType, T? value)
+        {
+            if (MustVerifyWrongContentForRoleException)
+            {
+                IsThereAWrongContentForRole(contentType);
+                return default;
+            }
+
+            return value;
+        }
+
+        private void IsThereAWrongContentForRole(string selectedContentType)
+        {
+            bool isWrong = isWrongContentForRole(false, selectedContentType, TextContentPart.textContentType, textInputContentRolesList);
+            isWrong = isWrongContentForRole(isWrong, selectedContentType, ImageContentPart.imageUrlContentType, imageInputContentRolesList);
+            isWrong = isWrongContentForRole(isWrong, selectedContentType, AudioContentPart.inputAudioContentType, audioInputContentRolesList);
+            isWrong = isWrongContentForRole(isWrong, selectedContentType, RefusalContentPart.refusalContentType, refusalContentRolesList);
+
+            if (isWrong)
+            {
+                if (MustThrowWrongContentForRoleException)
                 {
                     throw new LibreOpenAiWrongContentForException(Role, selectedContentType);
+                }
+                else
+                {
+                    CleanContents();
+                    Console.WriteLine($"{DateTime.UtcNow.ToLongDateString()} WARN: The '{Role}' role is not valid for the '{selectedContentType}' type.");
                 }
             }
         }
 
-        private bool VarifyWrongContentForRole(bool isWrong, string selectedContentType, string contentType, List<string> contentList)
+        private bool isWrongContentForRole(bool isWrong, string selectedContentType, string contentType, List<string> contentRolesList)
         {
-            return isWrong || selectedContentType == contentType && !contentList.Any(o => o == Role);
+            return isWrong || selectedContentType == contentType && !contentRolesList.Any(o => o == Role);
         }
     }
 }

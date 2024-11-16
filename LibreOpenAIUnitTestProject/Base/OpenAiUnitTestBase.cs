@@ -59,6 +59,16 @@ namespace LibreOpenAIUnitTestProject.Base
             };
         }
 
+        protected IRequestBodyExtension GetRequestForMessage(MessageRequest message)
+        {
+            return new RequestBodyExtension
+            {
+                Model = defaultModel,
+                MaxCompletionTokens = defaultMaxCompletionTokens,
+                Messages = new List<MessageRequest> { message }
+            };
+        }
+
         protected IRequestBody GetRequestFrom(string json)
         {
             RequestBody request = JsonConvert.DeserializeObject<RequestBody>(json);

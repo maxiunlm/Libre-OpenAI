@@ -16,6 +16,7 @@ using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.StreamOptions;
 using Newtonsoft.Json.Schema;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.ResponseFormat;
+using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages.Conents;
 
 namespace LibreOpenAIUnitTestProject
 {
@@ -542,7 +543,8 @@ namespace LibreOpenAIUnitTestProject
 
             try
             {
-                sut.ResponseFormat = new ResponseFormatRequest {
+                sut.ResponseFormat = new ResponseFormatRequest
+                {
                     MustThrowRequiredJsonSchemaException = true,
                     Type = ResponseFormatRequest.jsonSchemaType,
                     JsonSchema = null,
@@ -559,5 +561,92 @@ namespace LibreOpenAIUnitTestProject
                 Assert.IsTrue(false, $"An LibreOpenAiRequiredJsonSchemaException was expected, but it was '{ex.GetType().ToString()}'.");
             }
         }
+
+        [TestMethod]
+        public async Task OpenAiExceptionsUnitTest_WithInvalidRoleAndMustThrowWrongContentForRoleExceptionAndMustVerifyWrongContentForRoleException_ThrowsLibreOpenAiWrongContentForException()
+        {
+            try
+            {
+                IRequestBody sut = new RequestBody
+                {
+                    Model = defaultModel,
+                    MaxCompletionTokens = defaultMaxCompletionTokens,
+                    Messages = new List<MessageRequest> 
+                    {
+                        new MessageRequest 
+                        {
+                            Role = MessageRequest.toolRole,
+                            MustVerifyWrongContentForRoleException = true,
+                            MustThrowWrongContentForRoleException = true,
+                            Content = new List<ImageContentPart> 
+                            {
+                                new ImageContentPart
+                                {
+                                    ImageUrl = new ImageUrlContent
+                                    {
+                                        Detail = "Detail",
+                                        Url = "URL"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+
+                Assert.IsTrue(false, "An LibreOpenAiWrongContentForException was expected.");
+            }
+            catch (LibreOpenAiWrongContentForException)
+            {
+                Assert.IsTrue(true);
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(false, $"An LibreOpenAiWrongContentForException was expected, but it was '{ex.GetType().ToString()}'.");
+            }
+        }
+
+        [TestMethod]
+        public async Task OpenAiExceptionsUnitTest_WithInvalidRoleAndMustNotThrowWrongContentForRoleExceptionAndMustVerifyWrongContentForRoleException_ThrowsLibreOpenAiWrongContentForException()
+        {
+            try
+            {
+                IRequestBody sut = new RequestBody
+                {
+                    Model = defaultModel,
+                    MaxCompletionTokens = defaultMaxCompletionTokens,
+                    Messages = new List<MessageRequest>
+                    {
+                        new MessageRequest
+                        {
+                            Role = MessageRequest.toolRole,
+                            MustVerifyWrongContentForRoleException = true,
+                            MustThrowWrongContentForRoleException = false,
+                            Content = new List<ImageContentPart>
+                            {
+                                new ImageContentPart
+                                {
+                                    ImageUrl = new ImageUrlContent
+                                    {
+                                        Detail = "Detail",
+                                        Url = "URL"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+
+                Assert.AreEqual(null, sut.Messages.First().Content);
+            }
+            catch (LibreOpenAiWrongContentForException)
+            {
+                Assert.IsTrue(false, "An LibreOpenAiWrongContentForException was not expected.");
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(false, $"An LibreOpenAiWrongContentForException was not expected, but there was the '{ex.GetType().ToString()}'.");
+            }
+        }
+
     }
 }
