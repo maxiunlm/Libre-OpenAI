@@ -58,8 +58,8 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
         }
         public bool MustThrowRequiredToolCallIdException { get; set; }
         public bool MustThrowRequiredContentException { get; set; }
-        public bool MustVerifyWrongContentForRoleException { get; set; } // TODO: Unit tests
-        public bool MustThrowWrongContentForRoleException { get; set; } // TODO: Unit tests
+        public bool MustVerifyWrongContentForRoleException { get; set; }
+        public bool MustThrowWrongContentForRoleException { get; set; }
         public List<ToolCallRequest>? ToolCalls { get; set; } // HACK: = [];
 
         public virtual object? Content
@@ -94,6 +94,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
                 else if (value is IContentType)
                 {
                     IContentType content = (IContentType)value;
+
                     switch (content.Type)
                     {
                         case ImageContentPart.imageUrlContentType:
@@ -114,7 +115,6 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
                 {
                     foreach (var content in (IList)value)
                     {
-                        // TODO: review Role, it's different for: system, user, assistant and tool, show warnings
                         switch (((IContentType)content).Type)
                         {
                             case ImageContentPart.imageUrlContentType:

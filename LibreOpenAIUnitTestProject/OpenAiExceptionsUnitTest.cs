@@ -563,7 +563,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_WithInvalidRoleAndMustThrowWrongContentForRoleExceptionAndMustVerifyWrongContentForRoleException_ThrowsLibreOpenAiWrongContentForException()
+        public void OpenAiExceptionsImageContentPart_WithInvalidRoleAndMustThrowWrongContentForRoleExceptionAndMustVerifyWrongContentForRoleException_ThrowsLibreOpenAiWrongContentForException()
         {
             try
             {
@@ -571,14 +571,14 @@ namespace LibreOpenAIUnitTestProject
                 {
                     Model = defaultModel,
                     MaxCompletionTokens = defaultMaxCompletionTokens,
-                    Messages = new List<MessageRequest> 
+                    Messages = new List<MessageRequest>
                     {
-                        new MessageRequest 
+                        new MessageRequest
                         {
                             Role = MessageRequest.toolRole,
                             MustVerifyWrongContentForRoleException = true,
                             MustThrowWrongContentForRoleException = true,
-                            Content = new List<ImageContentPart> 
+                            Content = new List<ImageContentPart>
                             {
                                 new ImageContentPart
                                 {
@@ -606,7 +606,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_WithInvalidRoleAndMustNotThrowWrongContentForRoleExceptionAndMustVerifyWrongContentForRoleException_ThrowsLibreOpenAiWrongContentForException()
+        public void OpenAiExceptionsImageContentPart_WithInvalidRoleAndMustNotThrowWrongContentForRoleExceptionAndMustVerifyWrongContentForRoleException_ThrowsLibreOpenAiWrongContentForException()
         {
             try
             {
@@ -648,5 +648,247 @@ namespace LibreOpenAIUnitTestProject
             }
         }
 
+        [TestMethod]
+        public void OpenAiExceptionsAudioContentPart_WithInvalidRoleAndMustThrowWrongContentForRoleExceptionAndMustVerifyWrongContentForRoleException_ThrowsLibreOpenAiWrongContentForException()
+        {
+            try
+            {
+                IRequestBody sut = new RequestBody
+                {
+                    Model = defaultModel,
+                    MaxCompletionTokens = defaultMaxCompletionTokens,
+                    Messages = new List<MessageRequest>
+                    {
+                        new MessageRequest
+                        {
+                            Role = MessageRequest.toolRole,
+                            MustVerifyWrongContentForRoleException = true,
+                            MustThrowWrongContentForRoleException = true,
+                            Content = new List<AudioContentPart>
+                            {
+                                new AudioContentPart
+                                {
+                                    InputAudio = new InputAudioContent
+                                    {
+                                        Data = "Data",
+                                        Format = "Format"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+
+                Assert.IsTrue(false, "An LibreOpenAiWrongContentForException was expected.");
+            }
+            catch (LibreOpenAiWrongContentForException)
+            {
+                Assert.IsTrue(true);
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(false, $"An LibreOpenAiWrongContentForException was expected, but it was '{ex.GetType().ToString()}'.");
+            }
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsAudioContentPart_WithInvalidRoleAndMustNotThrowWrongContentForRoleExceptionAndMustVerifyWrongContentForRoleException_ThrowsLibreOpenAiWrongContentForException()
+        {
+            try
+            {
+                IRequestBody sut = new RequestBody
+                {
+                    Model = defaultModel,
+                    MaxCompletionTokens = defaultMaxCompletionTokens,
+                    Messages = new List<MessageRequest>
+                    {
+                        new MessageRequest
+                        {
+                            Role = MessageRequest.toolRole,
+                            MustVerifyWrongContentForRoleException = true,
+                            MustThrowWrongContentForRoleException = false,
+                            Content = new List<AudioContentPart>
+                            {
+                                new AudioContentPart
+                                {
+                                    InputAudio = new InputAudioContent
+                                    {
+                                        Data = "Data",
+                                        Format = "Format"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                };
+
+                Assert.AreEqual(null, sut.Messages.First().Content);
+            }
+            catch (LibreOpenAiWrongContentForException)
+            {
+                Assert.IsTrue(false, "An LibreOpenAiWrongContentForException was not expected.");
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(false, $"An LibreOpenAiWrongContentForException was not expected, but there was the '{ex.GetType().ToString()}'.");
+            }
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsTextContentPart_WithInvalidRoleAndMustThrowWrongContentForRoleExceptionAndMustVerifyWrongContentForRoleException_ThrowsLibreOpenAiWrongContentForException()
+        {
+            try
+            {
+                IRequestBody sut = new RequestBody
+                {
+                    Model = defaultModel,
+                    MaxCompletionTokens = defaultMaxCompletionTokens,
+                    Messages = new List<MessageRequest>
+                    {
+                        new MessageRequest
+                        {
+                            Role = MessageRequest.toolRole,
+                            MustVerifyWrongContentForRoleException = true,
+                            MustThrowWrongContentForRoleException = true,
+                            Content = new List<TextContentPart>
+                            {
+                                new TextContentPart
+                                {
+                                    Text = "Textr"
+                                }
+                            }
+                        }
+                    }
+                };
+
+                Assert.IsTrue(false, "An LibreOpenAiWrongContentForException was expected.");
+            }
+            catch (LibreOpenAiWrongContentForException)
+            {
+                Assert.IsTrue(true);
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(false, $"An LibreOpenAiWrongContentForException was expected, but it was '{ex.GetType().ToString()}'.");
+            }
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsTextContentPart_WithInvalidRoleAndMustNotThrowWrongContentForRoleExceptionAndMustVerifyWrongContentForRoleException_ThrowsLibreOpenAiWrongContentForException()
+        {
+            try
+            {
+                IRequestBody sut = new RequestBody
+                {
+                    Model = defaultModel,
+                    MaxCompletionTokens = defaultMaxCompletionTokens,
+                    Messages = new List<MessageRequest>
+                    {
+                        new MessageRequest
+                        {
+                            Role = MessageRequest.toolRole,
+                            MustVerifyWrongContentForRoleException = true,
+                            MustThrowWrongContentForRoleException = false,
+                            Content = new List<TextContentPart>
+                            {
+                                new TextContentPart
+                                {
+                                    Text = "Textr"
+                                }
+                            }
+                        }
+                    }
+                };
+
+                Assert.AreEqual(null, sut.Messages.First().Content);
+            }
+            catch (LibreOpenAiWrongContentForException)
+            {
+                Assert.IsTrue(false, "An LibreOpenAiWrongContentForException was not expected.");
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(false, $"An LibreOpenAiWrongContentForException was not expected, but there was the '{ex.GetType().ToString()}'.");
+            }
+        }
+
+
+        [TestMethod]
+        public void OpenAiExceptionsRefusalContentPart_WithInvalidRoleAndMustThrowWrongContentForRoleExceptionAndMustVerifyWrongContentForRoleException_ThrowsLibreOpenAiWrongContentForException()
+        {
+            try
+            {
+                IRequestBody sut = new RequestBody
+                {
+                    Model = defaultModel,
+                    MaxCompletionTokens = defaultMaxCompletionTokens,
+                    Messages = new List<MessageRequest>
+                    {
+                        new MessageRequest
+                        {
+                            Role = MessageRequest.toolRole,
+                            MustVerifyWrongContentForRoleException = true,
+                            MustThrowWrongContentForRoleException = true,
+                            Content = new List<RefusalContentPart>
+                            {
+                                new RefusalContentPart
+                                {
+                                    Refusal = "Refusal"
+                                }
+                            }
+                        }
+                    }
+                };
+
+                Assert.IsTrue(false, "An LibreOpenAiWrongContentForException was expected.");
+            }
+            catch (LibreOpenAiWrongContentForException)
+            {
+                Assert.IsTrue(true);
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(false, $"An LibreOpenAiWrongContentForException was expected, but it was '{ex.GetType().ToString()}'.");
+            }
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsRefusalContentPart_WithInvalidRoleAndMustNotThrowWrongContentForRoleExceptionAndMustVerifyWrongContentForRoleException_ThrowsLibreOpenAiWrongContentForException()
+        {
+            try
+            {
+                IRequestBody sut = new RequestBody
+                {
+                    Model = defaultModel,
+                    MaxCompletionTokens = defaultMaxCompletionTokens,
+                    Messages = new List<MessageRequest>
+                    {
+                        new MessageRequest
+                        {
+                            Role = MessageRequest.toolRole,
+                            MustVerifyWrongContentForRoleException = true,
+                            MustThrowWrongContentForRoleException = false,
+                            Content = new List<RefusalContentPart>
+                            {
+                                new RefusalContentPart
+                                {
+                                    Refusal = "Refusal"
+                                }
+                            }
+                        }
+                    }
+                };
+
+                Assert.AreEqual(null, sut.Messages.First().Content);
+            }
+            catch (LibreOpenAiWrongContentForException)
+            {
+                Assert.IsTrue(false, "An LibreOpenAiWrongContentForException was not expected.");
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(false, $"An LibreOpenAiWrongContentForException was not expected, but there was the '{ex.GetType().ToString()}'.");
+            }
+        }
     }
 }
