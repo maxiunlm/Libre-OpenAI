@@ -8,13 +8,11 @@ using System.Net;
 using Newtonsoft.Json;
 using LibreOpenAI.Exceptions;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Tools;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Tools.Function;
 using LibreOpenAIExtensions.OpenAi.ChatAi.CompletionsAi.Requests;
 using LibreOpenAIExtensions.OpenAi.ChatAi.CompletionsAi.Requests.Tools.Function;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.StreamOptions;
-using Newtonsoft.Json.Schema;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.ResponseFormat;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages.Conents;
 
@@ -811,7 +809,6 @@ namespace LibreOpenAIUnitTestProject
                 Assert.IsTrue(false, $"An LibreOpenAiWrongContentForException was not expected, but there was the '{ex.GetType().ToString()}'.");
             }
         }
-
 
         [TestMethod]
         public void OpenAiExceptionsRefusalContentPart_WithInvalidRoleAndMustThrowWrongContentForRoleExceptionAndMustVerifyWrongContentForRoleException_ThrowsLibreOpenAiWrongContentForException()

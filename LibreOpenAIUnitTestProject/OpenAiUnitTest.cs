@@ -1,6 +1,9 @@
+using LibreOpenAI.Exceptions;
 using LibreOpenAI.Exceptions.OpenAI;
 using LibreOpenAI.OpenAi;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests;
+using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages.Conents;
+using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response;
 using LibreOpenAIUnitTestProject.Base;
 using LibreOpenAIUnitTestProject.Fakes;
@@ -234,6 +237,358 @@ namespace LibreOpenAIUnitTestProject
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result.Choices.Count);
             Assert.AreEqual(ResponseFakes.detailedTokenUsageResponse, result.Choices.First().Message.Content);
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsTextContentPart_WithListOfTextsX0_SetContentPropertyToNull()
+        {
+            List<TextContentPart> content = new List<TextContentPart>();
+            IRequestBody sut = new RequestBody
+            {
+                Model = defaultModel,
+                MaxCompletionTokens = defaultMaxCompletionTokens,
+                Messages = new List<MessageRequest>
+                {
+                    new MessageRequest
+                    {
+                        MustVerifyWrongContentForRoleException = true,
+                        Role = MessageRequest.assistantRole,
+                        Content =content
+                    }
+                }
+            };
+
+            Assert.AreEqual(null, sut.Messages.First().Content);
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsRefusalContentPart_WithListOfRefusalsX0_SetContentPropertyToNull()
+        {
+            List<RefusalContentPart> content = new List<RefusalContentPart>();
+            IRequestBody sut = new RequestBody
+            {
+                Model = defaultModel,
+                MaxCompletionTokens = defaultMaxCompletionTokens,
+                Messages = new List<MessageRequest>
+                {
+                    new MessageRequest
+                    {
+                        MustVerifyWrongContentForRoleException = true,
+                        Role = MessageRequest.assistantRole,
+                        Content =content
+                    }
+                }
+            };
+
+            Assert.AreEqual(null, sut.Messages.First().Content);
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsImageContentPart_WithListOfImageContentPartsX0_SetContentPropertyToNull()
+        {
+            List<ImageContentPart> content = new List<ImageContentPart>();
+            IRequestBody sut = new RequestBody
+            {
+                Model = defaultModel,
+                MaxCompletionTokens = defaultMaxCompletionTokens,
+                Messages = new List<MessageRequest>
+                {
+                    new MessageRequest
+                    {
+                        MustVerifyWrongContentForRoleException = true,
+                        Role = MessageRequest.userRole,
+                        Content =content
+                    }
+                }
+            };
+
+            Assert.AreEqual(null, sut.Messages.First().Content);
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsAudioContentPart_WithListOfAudioContentPartsX0_SetContentPropertyToNull()
+        {
+            List<AudioContentPart> content = new List<AudioContentPart>();
+            IRequestBody sut = new RequestBody
+            {
+                Model = defaultModel,
+                MaxCompletionTokens = defaultMaxCompletionTokens,
+                Messages = new List<MessageRequest>
+                {
+                    new MessageRequest
+                    {
+                        MustVerifyWrongContentForRoleException = true,
+                        Role = MessageRequest.userRole,
+                        Content =content
+                    }
+                }
+            };
+
+            Assert.AreEqual(null, sut.Messages.First().Content);
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsTextContentPart_WithListOfTextsX1_SetContentProperty()
+        {
+            List<TextContentPart> content = new List<TextContentPart>
+            {
+                new TextContentPart
+                {
+                    Text = "Text"
+                }
+            };
+            IRequestBody sut = new RequestBody
+            {
+                Model = defaultModel,
+                MaxCompletionTokens = defaultMaxCompletionTokens,
+                Messages = new List<MessageRequest>
+                {
+                    new MessageRequest
+                    {
+                        MustVerifyWrongContentForRoleException = true,
+                        Role = MessageRequest.assistantRole,
+                        Content =content
+                    }
+                }
+            };
+
+            Assert.AreSame(content.First(), sut.Messages.First().Content);
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsRefusalContentPart_WithListOfRefusalsX1_SetContentProperty()
+        {
+            List<RefusalContentPart> content = new List<RefusalContentPart>
+            {
+                new RefusalContentPart
+                {
+                    Refusal = "Refusal"
+                }
+            };
+            IRequestBody sut = new RequestBody
+            {
+                Model = defaultModel,
+                MaxCompletionTokens = defaultMaxCompletionTokens,
+                Messages = new List<MessageRequest>
+                {
+                    new MessageRequest
+                    {
+                        MustVerifyWrongContentForRoleException = true,
+                        Role = MessageRequest.assistantRole,
+                        Content =content
+                    }
+                }
+            };
+
+            Assert.AreSame(content.First(), sut.Messages.First().Content);
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsImageContentPart_WithListOfImageContentPartsX1_SetContentProperty()
+        {
+            List<ImageContentPart> content = new List<ImageContentPart>
+            {
+                new ImageContentPart
+                {
+                    ImageUrl = new ImageUrlContent
+                    {
+                        Url = "URL",
+                        Detail = "Detail"
+                    }
+                }
+            };
+            IRequestBody sut = new RequestBody
+            {
+                Model = defaultModel,
+                MaxCompletionTokens = defaultMaxCompletionTokens,
+                Messages = new List<MessageRequest>
+                {
+                    new MessageRequest
+                    {
+                        MustVerifyWrongContentForRoleException = true,
+                        Role = MessageRequest.userRole,
+                        Content =content
+                    }
+                }
+            };
+
+            Assert.AreSame(content.First(), sut.Messages.First().Content);
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsAudioContentPart_WithListOfAudioContentPartsX1_SetContentProperty()
+        {
+            List<AudioContentPart> content = new List<AudioContentPart>
+            {
+                new AudioContentPart
+                {
+                    InputAudio = new InputAudioContent
+                    {
+                        Data = "Data",
+                        Format = "Format"
+                    }
+                }
+            };
+            IRequestBody sut = new RequestBody
+            {
+                Model = defaultModel,
+                MaxCompletionTokens = defaultMaxCompletionTokens,
+                Messages = new List<MessageRequest>
+                {
+                    new MessageRequest
+                    {
+                        MustVerifyWrongContentForRoleException = true,
+                        Role = MessageRequest.userRole,
+                        Content =content
+                    }
+                }
+            };
+
+            Assert.AreSame(content.First(), sut.Messages.First().Content);
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsTextContentPart_WithListOfTextsX2_SetContentProperty()
+        {
+            List<TextContentPart> content = new List<TextContentPart>
+            {
+                new TextContentPart
+                {
+                    Text = "Text 1"
+                },
+                new TextContentPart
+                {
+                    Text = "Text 2"
+                }
+            };
+            IRequestBody sut = new RequestBody
+            {
+                Model = defaultModel,
+                MaxCompletionTokens = defaultMaxCompletionTokens,
+                Messages = new List<MessageRequest>
+                {
+                    new MessageRequest
+                    {
+                        MustVerifyWrongContentForRoleException = true,
+                        Role = MessageRequest.assistantRole,
+                        Content =content
+                    }
+                }
+            };
+
+            Assert.AreSame(content, sut.Messages.First().Content);
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsRefusalContentPart_WithListOfRefusalsX2_SetContentProperty()
+        {
+            List<RefusalContentPart> content = new List<RefusalContentPart>
+            {
+                new RefusalContentPart
+                {
+                    Refusal = "Refusal 1"
+                },
+                new RefusalContentPart
+                {
+                    Refusal = "Refusal 2"
+                }
+            };
+            IRequestBody sut = new RequestBody
+            {
+                Model = defaultModel,
+                MaxCompletionTokens = defaultMaxCompletionTokens,
+                Messages = new List<MessageRequest>
+                {
+                    new MessageRequest
+                    {
+                        MustVerifyWrongContentForRoleException = true,
+                        Role = MessageRequest.assistantRole,
+                        Content =content
+                    }
+                }
+            };
+
+            Assert.AreSame(content, sut.Messages.First().Content);
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsImageContentPart_WithListOfImageContentPartsX2_SetContentProperty()
+        {
+            List<ImageContentPart> content = new List<ImageContentPart>
+            {
+                new ImageContentPart
+                {
+                    ImageUrl = new ImageUrlContent
+                    {
+                        Url = "URL",
+                        Detail = "Detail 1"
+                    }
+                },
+                new ImageContentPart
+                {
+                    ImageUrl = new ImageUrlContent
+                    {
+                        Url = "URL",
+                        Detail = "Detail 2"
+                    }
+                }
+            };
+            IRequestBody sut = new RequestBody
+            {
+                Model = defaultModel,
+                MaxCompletionTokens = defaultMaxCompletionTokens,
+                Messages = new List<MessageRequest>
+                {
+                    new MessageRequest
+                    {
+                        MustVerifyWrongContentForRoleException = true,
+                        Role = MessageRequest.userRole,
+                        Content =content
+                    }
+                }
+            };
+
+            Assert.AreSame(content, sut.Messages.First().Content);
+        }
+
+        [TestMethod]
+        public void OpenAiExceptionsAudioContentPart_WithListOfAudioContentPartsX2_SetContentProperty()
+        {
+            List<AudioContentPart> content = new List<AudioContentPart>
+            {
+                new AudioContentPart
+                {
+                    InputAudio = new InputAudioContent
+                    {
+                        Data = "Data 1",
+                        Format = "Format 1"
+                    }
+                },
+                new AudioContentPart
+                {
+                    InputAudio = new InputAudioContent
+                    {
+                        Data = "Data 2",
+                        Format = "Format 2"
+                    }
+                }
+            };
+            IRequestBody sut = new RequestBody
+            {
+                Model = defaultModel,
+                MaxCompletionTokens = defaultMaxCompletionTokens,
+                Messages = new List<MessageRequest>
+                {
+                    new MessageRequest
+                    {
+                        MustVerifyWrongContentForRoleException = true,
+                        Role = MessageRequest.userRole,
+                        Content =content
+                    }
+                }
+            };
+
+            Assert.AreSame(content, sut.Messages.First().Content);
         }
     }
 }

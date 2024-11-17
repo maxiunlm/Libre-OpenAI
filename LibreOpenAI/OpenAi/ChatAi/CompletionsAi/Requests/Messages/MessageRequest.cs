@@ -67,6 +67,10 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
             get
             {
                 object? content = (object?)OneContent
+                    ?? (object?)OneContentText
+                    ?? (object?)OneContentRefusal
+                    ?? (object?)OneContentImageUrl
+                    ?? (object?)OneContentInputAudio
                     ?? (object?)ContentList
                     ?? (object?)ContentImageUrlList
                     ?? (object?)ContentInputAudioList
@@ -282,16 +286,15 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
 
         private T? VarifyWrongContentForRole<T>(string contentType, T? value)
         {
-            if (MustVerifyWrongContentForRoleException)
+            if (MustVerifyWrongContentForRoleException && IsThereAWrongContentForRole(contentType))
             {
-                IsThereAWrongContentForRole(contentType);
                 return default;
             }
 
             return value;
         }
 
-        private void IsThereAWrongContentForRole(string selectedContentType)
+        private bool IsThereAWrongContentForRole(string selectedContentType)
         {
             bool isWrong = isWrongContentForRole(false, selectedContentType, TextContentPart.textContentType, textInputContentRolesList);
             isWrong = isWrongContentForRole(isWrong, selectedContentType, ImageContentPart.imageUrlContentType, imageInputContentRolesList);
@@ -310,6 +313,8 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
                     Console.WriteLine($"{DateTime.UtcNow.ToLongDateString()} WARN: The '{Role}' role is not valid for the '{selectedContentType}' type.");
                 }
             }
+
+            return isWrong;
         }
 
         private bool isWrongContentForRole(bool isWrong, string selectedContentType, string contentType, List<string> contentRolesList)
