@@ -1,15 +1,13 @@
 ﻿namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages.Conents
 {
-    public class AudioContentPart : IContentType, IAudioContentPart
+    public class AudioContentPart : MessageContentType, IAudioContentPart
     {
-        public const string inputAudioContentType = "input_audio";
-        public string Type
+        public const string contentType = "input_audio";
+
+        public AudioContentPart() : base(contentType)
         {
-            get
-            {
-                return inputAudioContentType;
-            }
         }
+
         public required IInputAudioContent InputAudio { get; set; }
     }
 }

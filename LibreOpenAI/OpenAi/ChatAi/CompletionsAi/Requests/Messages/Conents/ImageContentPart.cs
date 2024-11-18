@@ -1,15 +1,13 @@
 ﻿namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages.Conents
 {
-    public class ImageContentPart : IContentType, IImageContentPart
+    public class ImageContentPart : MessageContentType, IImageContentPart
     {
-        public const string imageUrlContentType = "image_url";
-        public string Type
+        public const string contentType = "image_url";
+
+        public ImageContentPart() : base(contentType)
         {
-            get
-            {
-                return imageUrlContentType;
-            }
         }
+
         public required IImageUrlContent ImageUrl { get; set; }
     }
 }

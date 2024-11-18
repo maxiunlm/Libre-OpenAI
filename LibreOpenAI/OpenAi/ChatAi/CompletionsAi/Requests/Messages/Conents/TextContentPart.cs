@@ -1,15 +1,13 @@
 ﻿namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages.Conents
 {
-    public class TextContentPart : IContentType, ITextContentPart
+    public class TextContentPart : MessageContentType, ITextContentPart
     {
-        public const string textContentType = "text";
-        public string Type
+        public const string contentType = "text";
+
+        public TextContentPart() : base(contentType)
         {
-            get
-            {
-                return textContentType;
-            }
         }
+
         public required string Text { get; set; }
     }
 }

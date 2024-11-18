@@ -19,13 +19,9 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
         [JsonIgnore]
         List<string>? ContentList { get; set; }
         [JsonIgnore]
-        List<AudioContentPart>? ContentInputAudioList { get; set; }
+        MessageContentType? OneContentType { get; set; }
         [JsonIgnore]
-        List<ImageContentPart>? ContentImageUrlList { get; set; }
-        [JsonIgnore]
-        List<TextContentPart>? ContentTextList { get; set; }
-        [JsonIgnore]
-        List<RefusalContentPart>? ContentRefusalList { get; set; }
+        List<MessageContentType>? ContentTypeList { get; set; }
         /// <summary>
         /// 1 The contents of the system message. (Required)
         /// 2 The contents of the user message. (Required)

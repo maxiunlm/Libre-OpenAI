@@ -1,15 +1,13 @@
 ﻿namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages.Conents
 {
-    public class RefusalContentPart : IContentType, IRefusalContentPart
+    public class RefusalContentPart : MessageContentType, IRefusalContentPart
     {
-        public const string refusalContentType = "refusal";
-        public string Type
+        public const string contentType = "refusal";
+        
+        public RefusalContentPart(): base (contentType)
         {
-            get
-            {
-                return refusalContentType;
-            }
         }
+
         public required string Refusal { get; set; }
     }
 }

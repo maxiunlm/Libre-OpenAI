@@ -36,6 +36,26 @@
     ],
     ""tool_choice"": ""auto""
 }";
+        public const string youAreAHelpfulAssistant = "You are a helpful assistant."; // TODO: Unit tests
+        public const string streamingResquest = @"{
+    ""model"": ""gpt-3.5-turbo"",
+    ""messages"": [
+      {""role"": ""system"", ""content"": """ + youAreAHelpfulAssistant + @"""},
+      {""role"": ""user"", ""content"": ""Hello!""}
+    ],
+    ""stream"": true,
+}";
+        public const string hello = "Hello!"; // TODO: Unit tests
+        public const string logprobsResquest = @"{
+    ""messages"": [{
+            ""role"": ""user"",
+            ""content"": """ + hello + @"""
+        }
+    ],
+    ""model"": ""gpt-3.5-turbo"",
+    ""logprobs"": true,
+    ""top_logprobs"": 2,
+}";
         public const string whatIsInThisImage = "What's in this image?";
         public const string imageInputResquest = @"{
     ""model"": ""gpt-3.5-turbo"",
@@ -53,26 +73,6 @@
             ],
         },
     ],
-}";
-        public const string youAreAHelpfulAssistant = "You are a helpful assistant.";
-        public const string streamingResquest = @"{
-    ""model"": ""gpt-3.5-turbo"",
-    ""messages"": [
-      {""role"": ""system"", ""content"": """ + youAreAHelpfulAssistant + @"""},
-      {""role"": ""user"", ""content"": ""Hello!""}
-    ],
-    ""stream"": true,
-}";
-        public const string hello = "Hello!";
-        public const string logprobsResquest = @"{
-    ""messages"": [{
-            ""role"": ""user"",
-            ""content"": """ + hello + @"""
-        }
-    ],
-    ""model"": ""gpt-4o"",
-    ""logprobs"": true,
-    ""top_logprobs"": 2,
 }";
     }
 }

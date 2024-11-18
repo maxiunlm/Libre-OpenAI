@@ -17,7 +17,7 @@ namespace LibreOpenAIUnitTestProject
 #if DEBUG
 
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_WithFunctions_CallsOpenAiApi()
+        public async Task OpenAiTest_WithFunctions_CallsOpenAiApi()
         {
             IRequestBody request = GetRequestFrom(RequestFakes.functionsResquest);
             IOpenAI sut = new OpenAI();
@@ -30,7 +30,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_WithImageInputResquest_CallsOpenAiApi()
+        public async Task OpenAiUnitTest_WithImageInputResquest_CallsOpenAiApi()
         {
             IRequestBody request = GetRequestFrom(RequestFakes.imageInputResquest);
             IOpenAI sut = new OpenAI();
@@ -42,49 +42,10 @@ namespace LibreOpenAIUnitTestProject
             Assert.IsFalse(string.IsNullOrWhiteSpace(result.Choices.First().Message.Content));
         }
 
-        //[TestMethod]
-        //public async Task OpenAiExceptionsUnitTest_With2Messages_CallsOpenAiApi()
-        //{
-        //    IRequestBody request = GetRequestWithLogprobsAndOffset(ResponseFakes.testFunctionCallFinishReasonSystem, ResponseFakes.testFunctionCallFinishReasonUser);
-        //    IOpenAI sut = new OpenAI();
-
-        //    IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
-
-        //    Assert.IsNotNull(result);
-        //    Assert.AreEqual(1, result.Choices.Count);
-        //    Assert.IsFalse(string.IsNullOrWhiteSpace(result.Choices.First().Message.Content));
-        //}
-
-        //[TestMethod]
-        //public async Task OpenAiExceptionsUnitTest_With2Messages_CallsOpenAiApi()
-        //{
-        //    IRequestBody request = GetRequestWithLogprobsAndOffset(ResponseFakes.testFunctionCallFinishReasonSystem, ResponseFakes.testFunctionCallFinishReasonUser);
-        //    IOpenAI sut = new OpenAI();
-
-        //    IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
-
-        //    Assert.IsNotNull(result);
-        //    Assert.AreEqual(1, result.Choices.Count);
-        //    Assert.IsFalse(string.IsNullOrWhiteSpace(result.Choices.First().Message.Content));
-        //}
-
-        //[TestMethod]
-        //public async Task OpenAiExceptionsUnitTest_With2Messages_CallsOpenAiApi()
-        //{
-        //    IRequestBody request = GetRequestWithLogprobsAndOffset(ResponseFakes.testFunctionCallFinishReasonSystem, ResponseFakes.testFunctionCallFinishReasonUser);
-        //    IOpenAI sut = new OpenAI();
-
-        //    IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
-
-        //    Assert.IsNotNull(result);
-        //    Assert.AreEqual(1, result.Choices.Count);
-        //    Assert.IsFalse(string.IsNullOrWhiteSpace(result.Choices.First().Message.Content));
-        //}
-
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_With2Messages_CallsOpenAiApi()
+        public async Task OpenAiUnitTest_WithLogprobsEqualsTrue_CallsOpenAiApi()
         {
-            IRequestBody request = GetRequestWithLogprobsAndOffset(ResponseFakes.testFunctionCallFinishReasonSystem, ResponseFakes.testFunctionCallFinishReasonUser);
+            IRequestBody request = GetRequestFrom(RequestFakes.logprobsResquest);
             IOpenAI sut = new OpenAI();
 
             IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
@@ -93,6 +54,32 @@ namespace LibreOpenAIUnitTestProject
             Assert.AreEqual(1, result.Choices.Count);
             Assert.IsFalse(string.IsNullOrWhiteSpace(result.Choices.First().Message.Content));
         }
+
+        //[TestMethod]
+        //public async Task OpenAiUnitTest_WithLogprobsEqualsTrue_CallsOpenAiApi()
+        //{
+        //    IRequestBody request = GetRequestFrom(RequestFakes.logprobsResquest);
+        //    IOpenAI sut = new OpenAI();
+
+        //    IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+
+        //    Assert.IsNotNull(result);
+        //    Assert.AreEqual(1, result.Choices.Count);
+        //    Assert.IsFalse(string.IsNullOrWhiteSpace(result.Choices.First().Message.Content));
+        //}
+
+        //[TestMethod]
+        //public async Task OpenAiUnitTest_With2Messages_CallsOpenAiApi()
+        //{
+        //    IRequestBody request = GetRequestWithLogprobsAndOffset(ResponseFakes.testFunctionCallFinishReasonSystem, ResponseFakes.testFunctionCallFinishReasonUser);
+        //    IOpenAI sut = new OpenAI();
+
+        //    IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+
+        //    Assert.IsNotNull(result);
+        //    Assert.AreEqual(1, result.Choices.Count);
+        //    Assert.IsFalse(string.IsNullOrWhiteSpace(result.Choices.First().Message.Content));
+        //}
 
 #endif
         // */
