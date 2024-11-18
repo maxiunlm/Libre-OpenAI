@@ -576,10 +576,11 @@ namespace LibreOpenAIUnitTestProject
                             Role = MessageRequest.toolRole,
                             MustVerifyWrongContentForRoleException = true,
                             MustThrowWrongContentForRoleException = true,
-                            Content = new List<ImageContentPart>
+                            Content = new List<MessageContentType>
                             {
-                                new ImageContentPart
+                                new MessageContentType
                                 {
+                                    Type = MessageContentType.imageUrlContentType,
                                     ImageUrl = new ImageUrlContent
                                     {
                                         Detail = "Detail",
@@ -619,10 +620,11 @@ namespace LibreOpenAIUnitTestProject
                             Role = MessageRequest.toolRole,
                             MustVerifyWrongContentForRoleException = true,
                             MustThrowWrongContentForRoleException = false,
-                            Content = new List<ImageContentPart>
+                            Content = new List<MessageContentType>
                             {
-                                new ImageContentPart
+                                new MessageContentType
                                 {
+                                    Type = MessageContentType.imageUrlContentType,
                                     ImageUrl = new ImageUrlContent
                                     {
                                         Detail = "Detail",
@@ -662,10 +664,11 @@ namespace LibreOpenAIUnitTestProject
                             Role = MessageRequest.toolRole,
                             MustVerifyWrongContentForRoleException = true,
                             MustThrowWrongContentForRoleException = true,
-                            Content = new List<AudioContentPart>
+                            Content = new List<MessageContentType>
                             {
-                                new AudioContentPart
+                                new MessageContentType
                                 {
+                                    Type = MessageContentType.inputAudioContentType,
                                     InputAudio = new InputAudioContent
                                     {
                                         Data = "Data",
@@ -705,10 +708,11 @@ namespace LibreOpenAIUnitTestProject
                             Role = MessageRequest.toolRole,
                             MustVerifyWrongContentForRoleException = true,
                             MustThrowWrongContentForRoleException = false,
-                            Content = new List<AudioContentPart>
+                            Content = new List<MessageContentType>
                             {
-                                new AudioContentPart
+                                new MessageContentType
                                 {
+                                    Type = MessageContentType.inputAudioContentType,
                                     InputAudio = new InputAudioContent
                                     {
                                         Data = "Data",
@@ -748,11 +752,12 @@ namespace LibreOpenAIUnitTestProject
                             Role = MessageRequest.toolRole,
                             MustVerifyWrongContentForRoleException = true,
                             MustThrowWrongContentForRoleException = true,
-                            Content = new List<TextContentPart>
+                            Content = new List<MessageContentType>
                             {
-                                new TextContentPart
+                                new MessageContentType
                                 {
-                                    Text = "Textr"
+                                    Type = MessageContentType.textContentType,
+                                    Text = "Text"
                                 }
                             }
                         }
@@ -787,10 +792,11 @@ namespace LibreOpenAIUnitTestProject
                             Role = MessageRequest.toolRole,
                             MustVerifyWrongContentForRoleException = true,
                             MustThrowWrongContentForRoleException = false,
-                            Content = new List<TextContentPart>
+                            Content = new List<MessageContentType>
                             {
-                                new TextContentPart
+                                new MessageContentType
                                 {
+                                    Type = MessageContentType.textContentType,
                                     Text = "Textr"
                                 }
                             }
@@ -826,10 +832,11 @@ namespace LibreOpenAIUnitTestProject
                             Role = MessageRequest.toolRole,
                             MustVerifyWrongContentForRoleException = true,
                             MustThrowWrongContentForRoleException = true,
-                            Content = new List<RefusalContentPart>
+                            Content = new List<MessageContentType>
                             {
-                                new RefusalContentPart
+                                new MessageContentType
                                 {
+                                    Type = MessageContentType.refusalContentType,
                                     Refusal = "Refusal"
                                 }
                             }
@@ -865,10 +872,11 @@ namespace LibreOpenAIUnitTestProject
                             Role = MessageRequest.toolRole,
                             MustVerifyWrongContentForRoleException = true,
                             MustThrowWrongContentForRoleException = false,
-                            Content = new List<RefusalContentPart>
+                            Content = new List<MessageContentType>
                             {
-                                new RefusalContentPart
+                                new MessageContentType
                                 {
+                                    Type = MessageContentType.refusalContentType,
                                     Refusal = "Refusal"
                                 }
                             }

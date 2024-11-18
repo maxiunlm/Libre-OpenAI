@@ -229,7 +229,7 @@ namespace LibreOpenAIUnitTestProject
         [TestMethod]
         public void OpenAiExceptionsTextContentPart_WithListOfTextsX0_SetContentPropertyToNull()
         {
-            List<TextContentPart> content = new List<TextContentPart>();
+            List<MessageContentType> content = new List<MessageContentType>();
             IRequestBody sut = new RequestBody
             {
                 Model = defaultModel,
@@ -251,7 +251,7 @@ namespace LibreOpenAIUnitTestProject
         [TestMethod]
         public void OpenAiExceptionsRefusalContentPart_WithListOfRefusalsX0_SetContentPropertyToNull()
         {
-            List<RefusalContentPart> content = new List<RefusalContentPart>();
+            List<MessageContentType> content = new List<MessageContentType>();
             IRequestBody sut = new RequestBody
             {
                 Model = defaultModel,
@@ -273,7 +273,7 @@ namespace LibreOpenAIUnitTestProject
         [TestMethod]
         public void OpenAiExceptionsImageContentPart_WithListOfImageContentPartsX0_SetContentPropertyToNull()
         {
-            List<ImageContentPart> content = new List<ImageContentPart>();
+            List<MessageContentType> content = new List<MessageContentType>();
             IRequestBody sut = new RequestBody
             {
                 Model = defaultModel,
@@ -295,7 +295,7 @@ namespace LibreOpenAIUnitTestProject
         [TestMethod]
         public void OpenAiExceptionsAudioContentPart_WithListOfAudioContentPartsX0_SetContentPropertyToNull()
         {
-            List<AudioContentPart> content = new List<AudioContentPart>();
+            List<MessageContentType> content = new List<MessageContentType>();
             IRequestBody sut = new RequestBody
             {
                 Model = defaultModel,
@@ -317,10 +317,11 @@ namespace LibreOpenAIUnitTestProject
         [TestMethod]
         public void OpenAiExceptionsTextContentPart_WithListOfTextsX1_SetContentProperty()
         {
-            List<TextContentPart> content = new List<TextContentPart>
+            List<MessageContentType> content = new List<MessageContentType>
             {
-                new TextContentPart
+                new MessageContentType
                 {
+                    Type = MessageContentType.textContentType,
                     Text = "Text"
                 }
             };
@@ -345,10 +346,11 @@ namespace LibreOpenAIUnitTestProject
         [TestMethod]
         public void OpenAiExceptionsRefusalContentPart_WithListOfRefusalsX1_SetContentProperty()
         {
-            List<RefusalContentPart> content = new List<RefusalContentPart>
+            List<MessageContentType> content = new List<MessageContentType>
             {
-                new RefusalContentPart
+                new MessageContentType
                 {
+                    Type = MessageContentType.refusalContentType,
                     Refusal = "Refusal"
                 }
             };
@@ -373,10 +375,11 @@ namespace LibreOpenAIUnitTestProject
         [TestMethod]
         public void OpenAiExceptionsImageContentPart_WithListOfImageContentPartsX1_SetContentProperty()
         {
-            List<ImageContentPart> content = new List<ImageContentPart>
+            List<MessageContentType> content = new List<MessageContentType>
             {
-                new ImageContentPart
+                new MessageContentType
                 {
+                    Type = MessageContentType.imageUrlContentType,
                     ImageUrl = new ImageUrlContent
                     {
                         Url = "URL",
@@ -405,10 +408,11 @@ namespace LibreOpenAIUnitTestProject
         [TestMethod]
         public void OpenAiExceptionsAudioContentPart_WithListOfAudioContentPartsX1_SetContentProperty()
         {
-            List<AudioContentPart> content = new List<AudioContentPart>
+            List<MessageContentType> content = new List<MessageContentType>
             {
-                new AudioContentPart
+                new MessageContentType
                 {
+                    Type = MessageContentType.inputAudioContentType,
                     InputAudio = new InputAudioContent
                     {
                         Data = "Data",
@@ -437,14 +441,16 @@ namespace LibreOpenAIUnitTestProject
         [TestMethod]
         public void OpenAiExceptionsTextContentPart_WithListOfTextsX2_SetContentProperty()
         {
-            List<TextContentPart> content = new List<TextContentPart>
+            List<MessageContentType> content = new List<MessageContentType>
             {
-                new TextContentPart
+                new MessageContentType
                 {
+                    Type = MessageContentType.textContentType,
                     Text = "Text 1"
                 },
-                new TextContentPart
+                new MessageContentType
                 {
+                    Type = MessageContentType.textContentType,
                     Text = "Text 2"
                 }
             };
@@ -469,14 +475,16 @@ namespace LibreOpenAIUnitTestProject
         [TestMethod]
         public void OpenAiExceptionsRefusalContentPart_WithListOfRefusalsX2_SetContentProperty()
         {
-            List<RefusalContentPart> content = new List<RefusalContentPart>
+            List<MessageContentType> content = new List<MessageContentType>
             {
-                new RefusalContentPart
+                new MessageContentType
                 {
+                    Type = MessageContentType.refusalContentType,
                     Refusal = "Refusal 1"
                 },
-                new RefusalContentPart
+                new MessageContentType
                 {
+                    Type = MessageContentType.refusalContentType,
                     Refusal = "Refusal 2"
                 }
             };
@@ -501,18 +509,20 @@ namespace LibreOpenAIUnitTestProject
         [TestMethod]
         public void OpenAiExceptionsImageContentPart_WithListOfImageContentPartsX2_SetContentProperty()
         {
-            List<ImageContentPart> content = new List<ImageContentPart>
+            List<MessageContentType> content = new List<MessageContentType>
             {
-                new ImageContentPart
+                new MessageContentType
                 {
+                    Type = MessageContentType.imageUrlContentType,
                     ImageUrl = new ImageUrlContent
                     {
                         Url = "URL",
                         Detail = "Detail 1"
                     }
                 },
-                new ImageContentPart
+                new MessageContentType
                 {
+                    Type = MessageContentType.imageUrlContentType,
                     ImageUrl = new ImageUrlContent
                     {
                         Url = "URL",
@@ -541,18 +551,20 @@ namespace LibreOpenAIUnitTestProject
         [TestMethod]
         public void OpenAiExceptionsAudioContentPart_WithListOfAudioContentPartsX2_SetContentProperty()
         {
-            List<AudioContentPart> content = new List<AudioContentPart>
+            List<MessageContentType> content = new List<MessageContentType>
             {
-                new AudioContentPart
+                new MessageContentType
                 {
+                    Type = MessageContentType.inputAudioContentType,
                     InputAudio = new InputAudioContent
                     {
                         Data = "Data 1",
                         Format = "Format 1"
                     }
                 },
-                new AudioContentPart
+                new MessageContentType
                 {
+                    Type = MessageContentType.inputAudioContentType,
                     InputAudio = new InputAudioContent
                     {
                         Data = "Data 2",

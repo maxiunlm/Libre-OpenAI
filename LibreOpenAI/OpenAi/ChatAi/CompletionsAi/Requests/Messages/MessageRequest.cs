@@ -82,32 +82,13 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
                 {
                     ContentList = (List<string>)value;
                 }
-                else if (value is IContentType)
+                else if (value is IMessageContentType)
                 {
                     OneContentType = (MessageContentType)value;
                 }
                 else if (value != null && value is List<MessageContentType>)
                 {
-                    foreach (MessageContentType content in (List<MessageContentType>)value)
-                    {
-                        contentTypeList = new List<MessageContentType>();
-
-                        switch (content.Type)
-                        {
-                            case ImageContentPart.contentType:
-                                contentTypeList.Add((ImageContentPart)value);
-                                break;
-                            case AudioContentPart.contentType:
-                                contentTypeList.Add((AudioContentPart)value);
-                                break;
-                            case TextContentPart.contentType:
-                                contentTypeList.Add((TextContentPart)value);
-                                break;
-                            case RefusalContentPart.contentType:
-                                contentTypeList.Add((RefusalContentPart)value);
-                                break;
-                        }
-                    }
+                    ContentTypeList = (List<MessageContentType>)value;
                 }
             }
         }
@@ -214,10 +195,10 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
 
         private bool IsThereAWrongContentForRole(string selectedContentType)
         {
-            bool isWrong = isWrongContentForRole(false, selectedContentType, TextContentPart.contentType, textInputContentRolesList);
-            isWrong = isWrongContentForRole(isWrong, selectedContentType, ImageContentPart.contentType, imageInputContentRolesList);
-            isWrong = isWrongContentForRole(isWrong, selectedContentType, AudioContentPart.contentType, audioInputContentRolesList);
-            isWrong = isWrongContentForRole(isWrong, selectedContentType, RefusalContentPart.contentType, refusalContentRolesList);
+            bool isWrong = isWrongContentForRole(false, selectedContentType, MessageContentType.textContentType, textInputContentRolesList);
+            isWrong = isWrongContentForRole(isWrong, selectedContentType, MessageContentType.imageUrlContentType, imageInputContentRolesList);
+            isWrong = isWrongContentForRole(isWrong, selectedContentType, MessageContentType.inputAudioContentType, audioInputContentRolesList);
+            isWrong = isWrongContentForRole(isWrong, selectedContentType, MessageContentType.refusalContentType, refusalContentRolesList);
 
             if (isWrong)
             {
