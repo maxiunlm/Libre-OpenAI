@@ -1,4 +1,6 @@
-﻿namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages.Conents
+﻿using System.Text.Json.Serialization;
+
+namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages.Conents
 {
     public class MessageContentType : IMessageContentType
     {
@@ -20,7 +22,7 @@
 
         public bool MustThrowArgumentException { get; set; }// TODO: Unit test
 
-        public required string Type { 
+        public string Type { 
             get => type; 
             set
             {

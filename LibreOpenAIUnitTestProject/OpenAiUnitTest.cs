@@ -53,6 +53,7 @@ namespace LibreOpenAIUnitTestProject
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result.Choices.Count);
             Assert.IsFalse(string.IsNullOrWhiteSpace(result.Choices.First().Message.Content));
+            Assert.IsTrue(result.Choices.First().Logprobs.Content.Any());
         }
 
         //[TestMethod]

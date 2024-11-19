@@ -58,7 +58,7 @@
 }";
         public const string whatIsInThisImage = "What's in this image?";
         public const string imageInputResquest = @"{
-    ""model"": ""gpt-3.5-turbo"",
+    ""model"": ""gpt-4o"",
     ""messages"": [{
             ""role"": ""user"",
             ""content"": [{

@@ -1,6 +1,7 @@
 ﻿using LibreOpenAI.Exceptions;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages.Conents;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages.ToolCalls;
+using Newtonsoft.Json.Linq;
 
 namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
 {
@@ -17,6 +18,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
         public static readonly List<string> requiredContentRolesList = new List<string>() { systemRole, userRole, toolRole };
         public static readonly List<string> requiredToolCallIdRolesList = new List<string>() { toolRole };
         private string? toolCallId;
+        private object? contentObject;
         private string? oneContent;
         private MessageContentType? oneContentType = null;
         private List<string>? contentList = null;
@@ -62,7 +64,8 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
                 object? content = (object?)OneContent
                     ?? (object?)OneContentType
                     ?? (object?)ContentList
-                    ?? (object?)ContentTypeList;
+                    ?? (object?)ContentTypeList
+                    ?? contentObject;
 
                 return content;
             }
@@ -89,6 +92,10 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages
                 else if (value != null && value is List<MessageContentType>)
                 {
                     ContentTypeList = (List<MessageContentType>)value;
+                }
+                else if (value != null && (value is JObject || value is JArray))
+                {
+                    contentObject = value;
                 }
             }
         }
