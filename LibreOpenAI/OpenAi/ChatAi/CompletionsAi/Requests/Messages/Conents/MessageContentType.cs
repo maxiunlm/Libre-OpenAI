@@ -52,14 +52,21 @@
             set => inputAudio = VerifyRequiredContent(value, inputAudioContentType, "InputAudio");
         }
 
-        private T VerifyRequiredContent<T>(T? value, string contentType, string contentName)
+        private T? VerifyRequiredContent<T>(T? value, string contentType, string contentName)
         {
-            if (Type == contentType && value == null)
+            if (Type == contentType)
             {
-                throw new ArgumentException($"{contentName} ismandatoru when Type is equal to '{contentType}'.");
+                if (MustThrowArgumentException && value == null)
+                {
+                    throw new ArgumentException($"{contentName} ismandatoru when Type is equal to '{contentType}'.");
+                }
+                else
+                {
+                    return value;
+                }
             }
 
-            return value;
+            return default;
         }
     }
 }
