@@ -4,6 +4,8 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages.Conents
 {
     public interface IMessageContentType
     {
+        [JsonIgnore]
+        bool MustThrowArgumentException { get; set; }
         /// <summary>
         /// The type of the content part.
         /// </summary>
