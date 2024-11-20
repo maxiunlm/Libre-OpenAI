@@ -6,6 +6,7 @@ using LibreOpenAI.OpenAi.Settings;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
 
 namespace LibreOpenAI.DAL
 {
@@ -70,6 +71,7 @@ namespace LibreOpenAI.DAL
 
         public async Task<IChatCompletionResponse> GetChatGptResponse(IRequestBody request)
         {
+            ChatCompletionResponse result;
             string responseBody = string.Empty;
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
 
@@ -80,8 +82,7 @@ namespace LibreOpenAI.DAL
 
                 response.EnsureSuccessStatusCode();
                 responseBody = await response.Content.ReadAsStringAsync();
-
-                ChatCompletionResponse result = JsonConvert.DeserializeObject<ChatCompletionResponse>(responseBody) ?? new ChatCompletionResponse();
+                result = JsonConvert.DeserializeObject<ChatCompletionResponse>(responseBody) ?? new ChatCompletionResponse();
 
                 return result;
                 //return null;
@@ -95,7 +96,7 @@ namespace LibreOpenAI.DAL
             {
                 throw new LibreOpenAiAuthenticationException(e);
             }
-            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.InternalServerError )
+            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.InternalServerError)
             {
                 throw new LibreOpenAiInternalServerErrorException(e);
             }
@@ -140,6 +141,118 @@ namespace LibreOpenAI.DAL
                 throw new LibreOpenAiUnexpectedException(e);
             }
         }
+
+        public async Task<List<IChatCompletionChunk>> GetChatGptStreamingResponse(IRequestBody request)
+        {
+            List<IChatCompletionChunk> result;
+            string responseBody = string.Empty;
+            string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
+
+            try
+            {
+                StringContent content = new StringContent(requestJson, settings.Encoding, settings.MediaType);
+                HttpResponseMessage response = await Client.PostAsync(settings.OpenAiUrl, content);
+
+                response.EnsureSuccessStatusCode();
+                responseBody = await response.Content.ReadAsStringAsync();
+                result = DeserializeJsonData(responseBody);
+
+                return result;
+                //return null;
+            }
+            // Specific OpenAI API exceptions
+            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.TooManyRequests)
+            {
+                throw new LibreOpenAITooManyRequestsException(e);
+            }
+            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new LibreOpenAiAuthenticationException(e);
+            }
+            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                throw new LibreOpenAiInternalServerErrorException(e);
+            }
+            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.BadGateway)
+            {
+                throw new LibreOpenAiBadGatewayException(e);
+            }
+            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.ServiceUnavailable)
+            {
+                throw new LibreOpenAiServiceUnavailableException(e);
+            }
+            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.GatewayTimeout)
+            {
+                throw new LibreOpenAiGatewayTimeoutException(e);
+            }
+            // Deserialization errors
+            catch (JsonSerializationException e)
+            {
+                throw new LibreOpenAiJsonSerializationException(e);
+            }
+            catch (JsonReaderException e)
+            {
+                throw new LibreOpenAiJsonReaderException(e);
+            }
+            // Invalid argument exceptions
+            catch (ArgumentException e)
+            {
+                throw new LibreOpenAiArgumentException(e);
+            }
+            // Timeout or cancellation errors
+            catch (TaskCanceledException e)
+            {
+                throw new LibreOpenAiTaskCanceledException(e);
+            }
+            catch (OperationCanceledException e)
+            {
+                throw new LibreOpenAiOperationCanceledException(e);
+            }
+            // Catch any other unexpected exception
+            catch (Exception e)
+            {
+                throw new LibreOpenAiUnexpectedException(e);
+            }
+        }
+
+        /// <summary>
+        /// Deserializes a JSON string containing multiple 'data:' prefixed objects into a list of ChatCompletionChunk objects.
+        /// </summary>
+        /// <param name="rawData">The raw JSON string.</param>
+        /// <returns>A list of deserialized ChatCompletionResponse objects.</returns>
+        private List<IChatCompletionChunk> DeserializeJsonData(string rawData)
+        {
+            // Regular expression to match each JSON block prefixed by "data:"
+            var regex = new Regex(@"data:\s*(\{.*?\})(?=\s*data:|\s*\[DONE\])", RegexOptions.Singleline);
+
+            // Find matches in the raw data
+            var matches = regex.Matches(rawData);
+
+            // List to store deserialized objects
+            var result = new List<IChatCompletionChunk>();
+
+            // Iterate over each match and deserialize it
+            foreach (Match match in matches)
+            {
+                string jsonObject = match.Groups[1].Value; // Extract the JSON part
+                try
+                {
+                    // Deserialize the JSON string into a IChatCompletionChunk object
+                    var chunk = JsonConvert.DeserializeObject<ChatCompletionChunk>(jsonObject);
+                    if (chunk != null)
+                    {
+                        result.Add(chunk); // Add to the result list
+                    }
+                }
+                catch (JsonException ex)
+                {
+                    Console.WriteLine($"Error deserializing JSON object: {ex.Message}");
+                }
+            }
+
+            return result;
+        }
+
 
         private void SetAuthorization()
         {

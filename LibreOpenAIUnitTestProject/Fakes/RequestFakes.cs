@@ -74,5 +74,9 @@
         },
     ],
 }";
+        public const string defaultResquest = @"{
+    ""messages"": [{ role: ""system"", content: ""You are a helpful assistant."" }],
+    ""model"": ""gpt-3.5-turbo"",
+}";
     }
 }

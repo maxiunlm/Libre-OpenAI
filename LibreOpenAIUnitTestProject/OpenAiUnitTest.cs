@@ -13,7 +13,7 @@ namespace LibreOpenAIUnitTestProject
     [TestClass]
     public class OpenAiUnitTest : OpenAiUnitTestBase
     {
-        /* 
+        //* 
 #if DEBUG
 
         [TestMethod]
@@ -56,31 +56,31 @@ namespace LibreOpenAIUnitTestProject
             Assert.IsTrue(result.Choices.First().Logprobs.Content.Any());
         }
 
-        //[TestMethod]
-        //public async Task OpenAiUnitTest_WithLogprobsEqualsTrue_CallsOpenAiApi()
-        //{
-        //    IRequestBody request = GetRequestFrom(RequestFakes.logprobsResquest);
-        //    IOpenAI sut = new OpenAI();
+        [TestMethod]
+        public async Task OpenAiUnitTest_WithStreamingEqualsTrue_CallsOpenAiApi()
+        {
+            IRequestBody request = GetRequestFrom(RequestFakes.streamingResquest);
+            IOpenAI sut = new OpenAI();
 
-        //    IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+            List<IChatCompletionChunk> result = await sut.Chat.Completions.CreateStream(request);
 
-        //    Assert.IsNotNull(result);
-        //    Assert.AreEqual(1, result.Choices.Count);
-        //    Assert.IsFalse(string.IsNullOrWhiteSpace(result.Choices.First().Message.Content));
-        //}
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Any());
+            Assert.IsFalse(string.IsNullOrWhiteSpace(result.First().Choices.First().Delta.Content));
+        }
 
-        //[TestMethod]
-        //public async Task OpenAiUnitTest_With2Messages_CallsOpenAiApi()
-        //{
-        //    IRequestBody request = GetRequestWithLogprobsAndOffset(ResponseFakes.testFunctionCallFinishReasonSystem, ResponseFakes.testFunctionCallFinishReasonUser);
-        //    IOpenAI sut = new OpenAI();
+        [TestMethod]
+        public async Task OpenAiUnitTest_WithDefaultRequest_CallsOpenAiApi()
+        {
+            IRequestBody request = GetRequestFrom(RequestFakes.defaultResquest);
+            IOpenAI sut = new OpenAI();
 
-        //    IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
 
-        //    Assert.IsNotNull(result);
-        //    Assert.AreEqual(1, result.Choices.Count);
-        //    Assert.IsFalse(string.IsNullOrWhiteSpace(result.Choices.First().Message.Content));
-        //}
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Choices.Count);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(result.Choices.First().Message.Content));
+        }
 
 #endif
         // */
