@@ -8,32 +8,32 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response
         /// <summary>
         /// A list of chat completion choices. Can contain more than one elements if n is greater than 1. Can also be empty for the last chunk if you set stream_options: {"include_usage": true}.
         /// </summary>
-        [JsonProperty("")]
+        [JsonProperty("choices")]
         List<ChoiceChunk> Choices { get; set; }
         /// <summary>
         /// The Unix timestamp (in seconds) of when the chat completion was created. Each chunk has the same timestamp.
         /// </summary>
-        [JsonProperty("")]
+        [JsonProperty("created")]
         long Created { get; set; }
         /// <summary>
         /// A unique identifier for the chat completion. Each chunk has the same ID.
         /// </summary>
-        [JsonProperty("")]
+        [JsonProperty("id")]
         string Id { get; set; }
         /// <summary>
         /// The model to generate the completion.
         /// </summary>
-        [JsonProperty("")]
+        [JsonProperty("model")]
         string Model { get; set; }
         /// <summary>
         /// The object type, which is always chat.completion.chunk.
         /// </summary>
-        [JsonProperty("")]
+        [JsonProperty("object")]
         string Object { get; set; }
         /// <summary>
         /// This fingerprint represents the backend configuration that the model runs with. Can be used in conjunction with the seed request parameter to understand when backend changes have been made that might impact determinism.
         /// </summary>
-        [JsonProperty("")]
+        [JsonProperty("system_fingerprint")]
         string SystemFingerprint { get; set; }
 
         // TODO : https://platform.openai.com/docs/api-reference/chat/streaming 
