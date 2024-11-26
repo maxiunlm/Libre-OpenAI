@@ -66,7 +66,7 @@ namespace LibreOpenAIUnitTestProject
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Any());
-            Assert.IsFalse(string.IsNullOrWhiteSpace(result.First().Choices.First().Delta.Content));
+            Assert.IsTrue(result.SelectMany(o=>o.Choices.Select(o => o.Delta.Content)).Any(content => !string.IsNullOrWhiteSpace(content)));
         }
 
         [TestMethod]
