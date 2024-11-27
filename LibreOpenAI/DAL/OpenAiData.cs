@@ -71,12 +71,24 @@ namespace LibreOpenAI.DAL
 
         public async Task<IChatCompletionResponse> GetChatGptResponse(IRequestBody request)
         {
-            ChatCompletionResponse result;
-            string responseBody = string.Empty;
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
+            IChatCompletionResponse result = await GetChatGptResponse(requestJson);
+            return result;
+        }
 
+        public async Task<IChatCompletionResponse> GetChatGptResponse(dynamic request) // TODO: Unit tests
+        {
+            string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
+            IChatCompletionResponse result = await GetChatGptResponse(requestJson);
+            return result;
+        }
+
+        public async Task<IChatCompletionResponse> GetChatGptResponse(string requestJson) // TODO: Unit tests
+        {
             try
             {
+                ChatCompletionResponse result;
+                string responseBody = string.Empty;
                 StringContent content = new StringContent(requestJson, settings.Encoding, settings.MediaType);
                 HttpResponseMessage response = await Client.PostAsync(settings.OpenAiUrl, content);
 
@@ -144,9 +156,22 @@ namespace LibreOpenAI.DAL
 
         public async Task<List<IChatCompletionChunk>> GetChatGptStreamingResponse(IRequestBody request)
         {
-            List<IChatCompletionChunk> result;
-            string responseBody = string.Empty;
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
+            List<IChatCompletionChunk> result = await GetChatGptStreamingResponse(requestJson);
+            return result;
+        }
+
+        public async Task<List<IChatCompletionChunk>> GetChatGptStreamingResponse(dynamic request) // TODO: Unit tests
+        {
+            string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
+            List<IChatCompletionChunk> result = await GetChatGptStreamingResponse(requestJson);
+            return result;
+        }
+
+        public async Task<List<IChatCompletionChunk>> GetChatGptStreamingResponse(string requestJson) // TODO: Unit tests
+        {
+            string responseBody = string.Empty;
+            List<IChatCompletionChunk> result;
 
             try
             {

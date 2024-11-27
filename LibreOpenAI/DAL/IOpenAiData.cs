@@ -9,6 +9,10 @@ namespace LibreOpenAI.DAL
         IHttpClientAi Client { get; set; }
 
         Task<IChatCompletionResponse> GetChatGptResponse(IRequestBody request);
+        Task<IChatCompletionResponse> GetChatGptResponse(dynamic request);
+        Task<IChatCompletionResponse> GetChatGptResponse(string request);
         Task<List<IChatCompletionChunk>> GetChatGptStreamingResponse(IRequestBody request);
+        Task<List<IChatCompletionChunk>> GetChatGptStreamingResponse(dynamic request);
+        Task<List<IChatCompletionChunk>> GetChatGptStreamingResponse(string request);
     }
 }

@@ -33,13 +33,25 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
 
         public async Task<IChatCompletionResponse> Create(IRequestBody request)
         {
-            if(request.Stream != null && request.Stream.Value == true)
+            if (request.Stream != null && request.Stream.Value == true)
             {
                 throw new ArgumentException($"If you want to create a streaming completion, you must use '{nameof(Completions)}.{nameof(CreateStream)}' instead of '{nameof(Completions)}.{nameof(Create)}'.");
             }
 
             IChatCompletionResponse response = await OpenAiData.GetChatGptResponse(request);
+            return response;
+        }
 
+        public async Task<IChatCompletionResponse> Create(dynamic request) // TODO: Unit tests
+        {
+            VerifyNonStreamDynamicValue(request);
+            IChatCompletionResponse response = await OpenAiData.GetChatGptResponse(request);
+            return response;
+        }
+
+        public async Task<IChatCompletionResponse> Create(string requestJson) // TODO: Unit tests
+        {
+            IChatCompletionResponse response = await OpenAiData.GetChatGptResponse(requestJson);
             return response;
         }
 
@@ -47,8 +59,58 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
         {
             request.Stream = true;
             List<IChatCompletionChunk> response = await OpenAiData.GetChatGptStreamingResponse(request);
-
             return response;
+        }
+
+        public async Task<List<IChatCompletionChunk>> CreateStream(dynamic request) // TODO: Unit tests
+        {
+            VerifyStreamDynamicValue(request);
+            List<IChatCompletionChunk> response = await OpenAiData.GetChatGptStreamingResponse(request);
+            return response;
+        }
+
+        public async Task<List<IChatCompletionChunk>> CreateStream(string requestJson) // TODO: Unit tests
+        {
+            List<IChatCompletionChunk> response = await OpenAiData.GetChatGptStreamingResponse(requestJson);
+            return response;
+        }
+
+        private void VerifyNonStreamDynamicValue(dynamic request) // TODO: Unit tests
+        {
+            var objType = request.GetType();
+            var property = objType.GetProperty("stream")
+                || objType.GetField("stream")
+                || objType.GetProperty("Stream")
+                || objType.GetField("Stream");
+
+            if (property != null)
+            {
+                var value = property.GetValue(request);
+
+                if (value is bool boolValue && boolValue)
+                {
+                    throw new ArgumentException($"If you want to create a streaming completion, you must use '{nameof(Completions)}.{nameof(CreateStream)}' instead of '{nameof(Completions)}.{nameof(Create)}'.");
+                }
+            }
+        }
+
+        private void VerifyStreamDynamicValue(dynamic request) // TODO: Unit tests
+        {
+            var objType = request.GetType();
+            var property = objType.GetProperty("stream")
+                || objType.GetField("stream")
+                || objType.GetProperty("Stream")
+                || objType.GetField("Stream");
+
+            if (property != null)
+            {
+                var value = property.GetValue(request);
+
+                if (value is bool boolValue && !boolValue)
+                {
+                    throw new ArgumentException($"If you want to create a streaming completion, you must use set 'stream' attrinute to 'true'.");
+                }
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ namespace LibreOpenAIUnitTestProject
     [TestClass]
     public class OpenAiUnitTest : OpenAiUnitTestBase
     {
-        //* 
+        /* 
 #if DEBUG
 
         [TestMethod]
