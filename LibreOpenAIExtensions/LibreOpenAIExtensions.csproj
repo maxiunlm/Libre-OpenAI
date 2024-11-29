@@ -22,4 +22,16 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="OpenAi\BetaAi\AssistantsAi\FilesAi\" />
+    <Folder Include="OpenAi\BetaAi\ThreadsAi\MessagesAi\" />
+    <Folder Include="OpenAi\BetaAi\ThreadsAi\RunsAi\StepsAi\" />
+    <Folder Include="OpenAi\BetaAi\VectorStoresAi\FileBatchesAi\" />
+    <Folder Include="OpenAi\BetaAi\VectorStoresAi\FilesAi\" />
+    <Folder Include="OpenAi\Legacy\V1\AssistantsAi\FilesAi\" />
+    <Folder Include="OpenAi\Legacy\V1\CompletionsAi\" />
+    <Folder Include="OpenAi\Legacy\V1\ThreadsAi\MessagesAi\FilesAi\" />
+    <Folder Include="OpenAi\Legacy\V1\ThreadsAi\RunsAi\StepsAi\" />
+  </ItemGroup>
+
 </Project>

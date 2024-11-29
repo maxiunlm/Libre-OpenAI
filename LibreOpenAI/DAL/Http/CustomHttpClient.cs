@@ -2,15 +2,9 @@
 
 namespace LibreOpenAI.DAL.Http
 {
-    public interface IHttpClient
-    {
-        HttpRequestHeaders DefaultRequestHeaders { get; }
-        Task<HttpResponseMessage> PostAsync(Uri? requestUri, HttpContent? content);
-    }
-
     public class CustomHttpClient : IHttpClient
     {
-        private readonly HttpClient client;
+        protected readonly HttpClient client;
 
         public CustomHttpClient(HttpClient client)
         {
@@ -24,5 +18,4 @@ namespace LibreOpenAI.DAL.Http
             return await client.PostAsync(requestUri, content);
         }
     }
-
 }
