@@ -15,10 +15,11 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
             this.settings = settings;
         }
 
-        public IOpenAiData OpenAiData { 
+        public IOpenAiData OpenAiData
+        {
             get
             {
-                if(openAiData == null)
+                if (openAiData == null)
                 {
                     openAiData = new OpenAiData(settings);
                 }
@@ -26,7 +27,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
                 return openAiData;
             }
             set
-            { 
+            {
                 openAiData = value;
             }
         }
@@ -42,14 +43,14 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
             return response;
         }
 
-        public async Task<IChatCompletionResponse> Create(dynamic request) // TODO: Unit tests
+        public async Task<IChatCompletionResponse> Create(dynamic request) 
         {
             VerifyNonStreamDynamicValue(request);
             IChatCompletionResponse response = await OpenAiData.GetChatGptResponse(request);
             return response;
         }
 
-        public async Task<IChatCompletionResponse> Create(string requestJson) // TODO: Unit tests
+        public async Task<IChatCompletionResponse> Create(string requestJson)
         {
             IChatCompletionResponse response = await OpenAiData.GetChatGptResponse(requestJson);
             return response;
@@ -62,26 +63,26 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
             return response;
         }
 
-        public async Task<List<IChatCompletionChunk>> CreateStream(dynamic request) // TODO: Unit tests
+        public async Task<List<IChatCompletionChunk>> CreateStream(dynamic request)
         {
             VerifyStreamDynamicValue(request);
             List<IChatCompletionChunk> response = await OpenAiData.GetChatGptStreamingResponse(request);
             return response;
         }
 
-        public async Task<List<IChatCompletionChunk>> CreateStream(string requestJson) // TODO: Unit tests
+        public async Task<List<IChatCompletionChunk>> CreateStream(string requestJson)
         {
             List<IChatCompletionChunk> response = await OpenAiData.GetChatGptStreamingResponse(requestJson);
             return response;
         }
 
-        private void VerifyNonStreamDynamicValue(dynamic request) // TODO: Unit tests
+        private void VerifyNonStreamDynamicValue(dynamic request)
         {
             var objType = request.GetType();
             var property = objType.GetProperty("stream")
-                || objType.GetField("stream")
-                || objType.GetProperty("Stream")
-                || objType.GetField("Stream");
+                ?? objType.GetField("stream")
+                ?? objType.GetProperty("Stream")
+                ?? objType.GetField("Stream");
 
             if (property != null)
             {
@@ -94,13 +95,13 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
             }
         }
 
-        private void VerifyStreamDynamicValue(dynamic request) // TODO: Unit tests
+        private void VerifyStreamDynamicValue(dynamic request)
         {
             var objType = request.GetType();
             var property = objType.GetProperty("stream")
-                || objType.GetField("stream")
-                || objType.GetProperty("Stream")
-                || objType.GetField("Stream");
+                ?? objType.GetField("stream")
+                ?? objType.GetProperty("Stream")
+                ?? objType.GetField("Stream");
 
             if (property != null)
             {

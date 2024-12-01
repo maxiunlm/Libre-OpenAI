@@ -12,7 +12,7 @@ namespace LibreOpenAI.DAL
 {
     public class OpenAiData : IOpenAiData
     {
-        private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
+        public static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
         {
             NullValueHandling = NullValueHandling.Ignore,
             // DefaultValueHandling = DefaultValueHandling.Ignore
@@ -76,14 +76,14 @@ namespace LibreOpenAI.DAL
             return result;
         }
 
-        public async Task<IChatCompletionResponse> GetChatGptResponse(dynamic request) // TODO: Unit tests
+        public async Task<IChatCompletionResponse> GetChatGptResponse(dynamic request)
         {
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
             IChatCompletionResponse result = await GetChatGptResponse(requestJson);
             return result;
         }
 
-        public async Task<IChatCompletionResponse> GetChatGptResponse(string requestJson) // TODO: Unit tests
+        public async Task<IChatCompletionResponse> GetChatGptResponse(string requestJson)
         {
             try
             {
@@ -161,14 +161,14 @@ namespace LibreOpenAI.DAL
             return result;
         }
 
-        public async Task<List<IChatCompletionChunk>> GetChatGptStreamingResponse(dynamic request) // TODO: Unit tests
+        public async Task<List<IChatCompletionChunk>> GetChatGptStreamingResponse(dynamic request)
         {
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
             List<IChatCompletionChunk> result = await GetChatGptStreamingResponse(requestJson);
             return result;
         }
 
-        public async Task<List<IChatCompletionChunk>> GetChatGptStreamingResponse(string requestJson) // TODO: Unit tests
+        public async Task<List<IChatCompletionChunk>> GetChatGptStreamingResponse(string requestJson)
         {
             string responseBody = string.Empty;
             List<IChatCompletionChunk> result;

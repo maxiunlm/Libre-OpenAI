@@ -21,35 +21,6 @@ namespace LibreOpenAIUnitTestProject
     [TestClass]
     public class OpenAiExceptionsUnitTest : OpenAiUnitTestBase
     {
-        /* 
-#if DEBUG
-
-        [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_MaxTokensExceded()
-        {
-            //IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
-            IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
-            IOpenAI sut = new OpenAI();
-
-            try
-            {
-                IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
-
-                Assert.IsTrue(false, "An Exception was expected.");
-            }
-            catch (LibreOpenAITooManyRequestsException ex)
-            {
-                Assert.IsTrue(true);
-            }     
-            catch (Exception ex)
-            {
-                Assert.IsTrue(false, $"An LibreOpenAITooManyRequestsException was expected, but it was '{ex.GetType().ToString()}'.");
-            }
-        }
-
-#endif
-        // */
-
         [TestMethod]
         public async Task OpenAiExceptionsUnitTest_MaxTokensExceded_ThrowsLibreOpenAITooManyRequestsException()
         {

@@ -38,12 +38,12 @@
 }";
         public const string youAreAHelpfulAssistant = "You are a helpful assistant."; // TODO: Unit tests
         public const string streamingResquest = @"{
-    ""model"": ""gpt-3.5-turbo"",
+    ""model"": ""gpt-4o"",
     ""messages"": [
       {""role"": ""system"", ""content"": """ + youAreAHelpfulAssistant + @"""},
       {""role"": ""user"", ""content"": ""Hello!""}
     ],
-    ""stream"": true,
+    ""stream"": true
 }";
         public const string hello = "Hello!"; // TODO: Unit tests
         public const string logprobsResquest = @"{
