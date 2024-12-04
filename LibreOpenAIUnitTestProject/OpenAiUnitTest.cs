@@ -519,5 +519,19 @@ namespace LibreOpenAIUnitTestProject
 
             Assert.AreSame(content, sut.Messages.First().Content);
         }
+
+        [TestMethod]
+        public async Task OpenAiUnitTest_WithStreamTrue_ReturnsChunksWithUsage()
+        {
+            IRequestBody request = GetRequestFrom(ChunkFakes.chuckRequest);
+            IOpenAI sut = GetSut(ChunkFakes.chuckResponse);
+
+            List<IChatCompletionChunk> result = await sut.Chat.Completions.CreateStream(request);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Any());
+            Assert.AreEqual(12, result.First().Usage.TotalTokens);
+        }
+
     }
 }

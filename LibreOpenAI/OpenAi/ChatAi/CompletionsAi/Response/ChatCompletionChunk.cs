@@ -1,4 +1,5 @@
 ﻿using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response.Choices;
+using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response.Usage;
 
 namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response
 {
@@ -10,7 +11,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response
         public string Model { get; set; }
         public string SystemFingerprint { get; set; }
         public List<ChoiceChunk> Choices { get; set; }
-        public object? Usage { get; set; }
+        public UsageChunk? Usage { get; set; }
         public string? ServiceTier { get; set; }
     }
 }

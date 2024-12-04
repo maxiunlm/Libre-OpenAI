@@ -1,4 +1,5 @@
 ﻿using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response.Choices;
+using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response.Usage;
 using Newtonsoft.Json;
 
 namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response
@@ -36,26 +37,13 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response
         [JsonProperty("system_fingerprint")]
         string SystemFingerprint { get; set; }
 
-        // TODO : https://platform.openai.com/docs/api-reference/chat/streaming 
-        // usage
-        //object or null
-        //An optional field that will only be present when you set stream_options: {"include_usage": true} in your request.When present, it contains a null value except for the last chunk which contains the token usage statistics for the entire request.
-        //    Hide properties
-        //completion_tokens
-        //    integer
-        //Number of tokens in the generated completion.
-        //    prompt_tokens
-        //    integer
-        //Number of tokens in the prompt.
-        //total_tokens
-        //    integer
-        //Total number of tokens used in the request (prompt + completion).
-
         /// <summary>
-        /// 
+        /// An optional field that will only be present when you set stream_options: {"include_usage": true} in your request.
+        /// When present, it contains a null value except for the last chunk which contains the token usage statistics for the entire request.
         /// </summary>
+        /// <remarks>usage - object or null</remarks>
         [JsonProperty("usage")]
-        object? Usage { get; set; } // TODO: create Usage Objects if it is necessary
+        UsageChunk? Usage { get; set; }
 
         /// <summary>
         /// The service tier used for processing the request. This field is only included if the service_tier parameter is specified in the request.
