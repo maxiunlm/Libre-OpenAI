@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages.Conents
+﻿namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages.Conents
 {
     public class MessageContentType : IMessageContentType
     {
@@ -20,7 +18,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages.Conents
         private IImageUrlContent? imageUrl;
         private IInputAudioContent? inputAudio;
 
-        public bool MustThrowArgumentException { get; set; }// TODO: Unit test
+        public bool MustThrowArgumentException { get; set; }
 
         public string Type { 
             get => type; 

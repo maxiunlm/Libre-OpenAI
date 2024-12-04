@@ -1,25 +1,11 @@
-﻿using LibreOpenAI.DAL;
-using LibreOpenAI.Exceptions.OpenAI;
-using LibreOpenAI.OpenAi;
-using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests;
-using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests.Messages;
-using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response;
-using LibreOpenAIUnitTestProject.Base;
-using LibreOpenAIUnitTestProject.Fakes;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using System.Data;
-using System.IO;
-using System.Reflection;
-using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
+﻿using LibreOpenAIUnitTestProject.Base;
 
 namespace LibreOpenAIUnitTestProject
 {
     [TestClass]
     public class OpenAiPaidUnitTest : OpenAiUnitTestBase
     {
-        //* 
+        /* 
 #if DEBUG
 
         [TestMethod]

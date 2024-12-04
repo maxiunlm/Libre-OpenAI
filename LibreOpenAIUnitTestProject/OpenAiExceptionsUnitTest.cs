@@ -866,5 +866,44 @@ namespace LibreOpenAIUnitTestProject
                 Assert.IsTrue(false, $"An LibreOpenAiWrongContentForException was not expected, but there was the '{ex.GetType().ToString()}'.");
             }
         }
+
+        [TestMethod]
+        public void OpenAiExceptionsMessageContentType_WithInvalidTypeAndMustThrowArgumentException_ThrowsArgumentException()
+        {
+            try
+            {
+                IRequestBody sut = new RequestBody
+                {
+                    Model = defaultModel,
+                    MaxCompletionTokens = defaultMaxCompletionTokens,
+                    Messages = new List<MessageRequest>
+                    {
+                        new MessageRequest
+                        {
+                            Role = MessageRequest.toolRole,
+                            Content = new List<MessageContentType>
+                            {
+                                new MessageContentType
+                                {
+                                    MustThrowArgumentException = true,
+                                    Type = "WRONG TYPE",
+                                    Refusal = "Refusal"
+                                }
+                            }
+                        }
+                    }
+                };
+
+                Assert.IsTrue(false, "An ArgumentException was expected.");
+            }
+            catch (ArgumentException)
+            {
+                Assert.IsTrue(true);
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(false, $"An ArgumentException was expected, but it was '{ex.GetType().ToString()}'.");
+            }
+        }
     }
 }

@@ -36,7 +36,7 @@
     ],
     ""tool_choice"": ""auto""
 }";
-        public const string youAreAHelpfulAssistant = "You are a helpful assistant."; // TODO: Unit tests
+        public const string youAreAHelpfulAssistant = "You are a helpful assistant.";
         public const string streamingResquest = @"{
     ""model"": ""gpt-4o"",
     ""messages"": [
@@ -45,7 +45,7 @@
     ],
     ""stream"": true
 }";
-        public const string hello = "Hello!"; // TODO: Unit tests
+        public const string hello = "Hello!";
         public const string logprobsResquest = @"{
     ""messages"": [{
             ""role"": ""user"",
