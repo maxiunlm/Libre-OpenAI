@@ -40,6 +40,12 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
         /// <seealso cref="https://platform.openai.com/docs/api-reference/chat/object"/>
         /// <seealso cref="https://platform.openai.com/docs/api-reference/chat/streaming"/>
         Task<IChatCompletionResponse> Create(string requestJson);
+        Task<dynamic> CreateDynamic(IRequestBody request);
+        Task<dynamic> CreateDynamic(dynamic request);
+        Task<dynamic> CreateDynamic(string requestJson);
+        Task<string> CreateJson(IRequestBody request);
+        Task<string> CreateJson(dynamic request);
+        Task<string> CreateJson(string requestJson);
 
         /// <summary>
         /// Creates a model response for the given chat conversation.
@@ -74,5 +80,11 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
         /// <seealso cref="https://platform.openai.com/docs/api-reference/chat/object"/>
         /// <seealso cref="https://platform.openai.com/docs/api-reference/chat/streaming"/>
         Task<List<IChatCompletionChunk>> CreateStream(string requestJson);
+        Task<dynamic> CreateStreamDynamic(IRequestBody request);
+        Task<dynamic> CreateStreamDynamic(dynamic request);
+        Task<dynamic> CreateStreamDynamic(string requestJson);
+        Task<string> CreateStreamJson(IRequestBody request);
+        Task<string> CreateStreamJson(dynamic request);
+        Task<string> CreateStreamJson(string requestJson);
     }
 }

@@ -43,7 +43,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
             return response;
         }
 
-        public async Task<IChatCompletionResponse> Create(dynamic request) 
+        public async Task<IChatCompletionResponse> Create(dynamic request)
         {
             VerifyNonStreamDynamicValue(request);
             IChatCompletionResponse response = await OpenAiData.GetChatGptResponse(request);
@@ -53,6 +53,54 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
         public async Task<IChatCompletionResponse> Create(string requestJson)
         {
             IChatCompletionResponse response = await OpenAiData.GetChatGptResponse(requestJson);
+            return response;
+        }
+
+        public async Task<dynamic> CreateDynamic(IRequestBody request)
+        {
+            if (request.Stream != null && request.Stream.Value == true)
+            {
+                throw new ArgumentException($"If you want to create a streaming completion, you must use '{nameof(Completions)}.{nameof(CreateStream)}' instead of '{nameof(Completions)}.{nameof(Create)}'.");
+            }
+
+            dynamic response = await OpenAiData.GetChatGptResponseDynamic(request);
+            return response;
+        }
+
+        public async Task<dynamic> CreateDynamic(dynamic request)
+        {
+            VerifyNonStreamDynamicValue(request);
+            dynamic response = await OpenAiData.GetChatGptResponseDynamic(request);
+            return response;
+        }
+
+        public async Task<dynamic> CreateDynamic(string requestJson)
+        {
+            dynamic response = await OpenAiData.GetChatGptResponseDynamic(requestJson);
+            return response;
+        }
+
+        public async Task<string> CreateJson(IRequestBody request)
+        {
+            if (request.Stream != null && request.Stream.Value == true)
+            {
+                throw new ArgumentException($"If you want to create a streaming completion, you must use '{nameof(Completions)}.{nameof(CreateStream)}' instead of '{nameof(Completions)}.{nameof(Create)}'.");
+            }
+
+            string response = await OpenAiData.GetChatGptResponseJson(request);
+            return response;
+        }
+
+        public async Task<string> CreateJson(dynamic request)
+        {
+            VerifyNonStreamDynamicValue(request);
+            string response = await OpenAiData.GetChatGptResponseJson(request);
+            return response;
+        }
+
+        public async Task<string> CreateJson(string requestJson)
+        {
+            string response = await OpenAiData.GetChatGptResponseJson(requestJson);
             return response;
         }
 
@@ -73,6 +121,46 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
         public async Task<List<IChatCompletionChunk>> CreateStream(string requestJson)
         {
             List<IChatCompletionChunk> response = await OpenAiData.GetChatGptStreamingResponse(requestJson);
+            return response;
+        }
+
+        public async Task<dynamic> CreateStreamDynamic(IRequestBody request)
+        {
+            request.Stream = true;
+            dynamic response = await OpenAiData.GetChatGptStreamingResponseDynamic(request);
+            return response;
+        }
+
+        public async Task<dynamic> CreateStreamDynamic(dynamic request)
+        {
+            VerifyStreamDynamicValue(request);
+            dynamic response = await OpenAiData.GetChatGptStreamingResponseDynamic(request);
+            return response;
+        }
+
+        public async Task<dynamic> CreateStreamDynamic(string requestJson)
+        {
+            dynamic response = await OpenAiData.GetChatGptStreamingResponseDynamic(requestJson);
+            return response;
+        }
+
+        public async Task<string> CreateStreamJson(IRequestBody request)
+        {
+            request.Stream = true;
+            string response = await OpenAiData.GetChatGptStreamingResponseJson(request);
+            return response;
+        }
+
+        public async Task<string> CreateStreamJson(dynamic request)
+        {
+            VerifyStreamDynamicValue(request);
+            string response = await OpenAiData.GetChatGptStreamingResponseJson(request);
+            return response;
+        }
+
+        public async Task<string> CreateStreamJson(string requestJson)
+        {
+            string response = await OpenAiData.GetChatGptStreamingResponseJson(requestJson);
             return response;
         }
 
