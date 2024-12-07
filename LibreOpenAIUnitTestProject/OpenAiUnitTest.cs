@@ -8,12 +8,35 @@ using LibreOpenAIUnitTestProject.Fakes;
 using Newtonsoft.Json;
 using LibreOpenAI.DAL;
 using Newtonsoft.Json.Linq;
+using LibreOpenAI.Exceptions.OpenAI;
 
 namespace LibreOpenAIUnitTestProject
 {
     [TestClass]
     public class OpenAiUnitTest : OpenAiUnitTestBase
     {
+        [TestMethod]
+        public async Task OpenAiExceptionsUnitTest_WithFakeApiKey_ThrowsLibreOpenAiAuthenticationException()
+        {
+            IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
+            IOpenAI sut = new OpenAI("LALALALALALA");
+
+            try
+            {
+                IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+
+                Assert.IsTrue(false, "A LibreOpenAiAuthenticationException was expected.");
+            }
+            catch (LibreOpenAiAuthenticationException ex)
+            {
+                Assert.IsTrue(true);
+            }
+            catch (Exception ex)
+            {
+                Assert.IsTrue(false, $"An LibreOpenAiAuthenticationException was expected, but it was '{ex.GetType().ToString()}'.");
+            }
+        }
+
         [TestMethod]
         public async Task OpenAiUnitTest_WhatIsTheCapitalofFrance()
         {

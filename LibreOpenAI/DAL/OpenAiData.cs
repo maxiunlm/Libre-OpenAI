@@ -20,18 +20,15 @@ namespace LibreOpenAI.DAL
         };
         private IHttpClientAi? client;
         private AuthenticationHeaderValue? authorization;
-        private readonly string apiKey;
         private readonly IOpenAiSettings settings;
 
         public OpenAiData()
         {
-            apiKey = Environment.GetEnvironmentVariable("LIBRE_OPEN_AI_API_KEY") ?? string.Empty;
             settings = new OpenAiSettings();
         }
 
         public OpenAiData(IOpenAiSettings settings)
         {
-            apiKey = Environment.GetEnvironmentVariable("LIBRE_OPEN_AI_API_KEY") ?? string.Empty;
             this.settings = settings ?? new OpenAiSettings();
         }
 
@@ -59,7 +56,7 @@ namespace LibreOpenAI.DAL
             {
                 if (authorization == null)
                 {
-                    authorization = new AuthenticationHeaderValue("Bearer", apiKey);
+                    authorization = new AuthenticationHeaderValue("Bearer", settings.OpenAiApiKey);
                 }
 
                 return authorization;
