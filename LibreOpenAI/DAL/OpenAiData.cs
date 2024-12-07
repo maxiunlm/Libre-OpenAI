@@ -5,6 +5,7 @@ using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response;
 using LibreOpenAI.OpenAi.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
@@ -219,15 +220,17 @@ namespace LibreOpenAI.DAL
         public async Task<List<IChatCompletionChunk>> GetChatGptStreamingResponse(string requestJson)
         {
             string responseBody = await GetChatGptStreamingResponseJson(requestJson);
-            List<IChatCompletionChunk> result = DeserializeJsonData(responseBody);
+            //List<IChatCompletionChunk> result = DeserializeJsonData(responseBody);
+            List<ChatCompletionChunk> result = JsonConvert.DeserializeObject<List<ChatCompletionChunk>>(responseBody) ?? new List<ChatCompletionChunk>();
 
-            return result;
+            return result.Select(o=>(IChatCompletionChunk)o).ToList();
         }
 
         public async Task<dynamic> GetChatGptStreamingResponseDynamic(IRequestBody request)
         {
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
             string responseBody = await GetChatGptStreamingResponseJson(requestJson);
+
             dynamic result = JsonConvert.DeserializeObject(responseBody);
 
             return result;
@@ -278,7 +281,15 @@ namespace LibreOpenAI.DAL
                 response.EnsureSuccessStatusCode();
                 responseBody = await response.Content.ReadAsStringAsync();
 
-                return responseBody;
+                string json = responseBody
+                    .Replace("\n", string.Empty)
+                    .Replace("\r", string.Empty)
+                    .Replace("data:[DONE]", "]")
+                    .Replace("data: [DONE]", "]")
+                    .Replace("}data:", "},")
+                    .Replace("data:", "[");
+
+                return json;
                 //return null;
             }
             // Specific OpenAI API exceptions
@@ -341,39 +352,38 @@ namespace LibreOpenAI.DAL
         /// </summary>
         /// <param name="rawData">The raw JSON string.</param>
         /// <returns>A list of deserialized ChatCompletionResponse objects.</returns>
-        private List<IChatCompletionChunk> DeserializeJsonData(string rawData)
-        {
-            // Regular expression to match each JSON block prefixed by "data:"
-            var regex = new Regex(@"data:\s*(\{.*?\})(?=\s*data:|\s*\[DONE\])", RegexOptions.Singleline);
+        //private List<IChatCompletionChunk> DeserializeJsonData(string rawData)
+        //{
+        //    // Regular expression to match each JSON block prefixed by "data:"
+        //    var regex = new Regex(@"data:\s*(\{.*?\})(?=\s*data:|\s*\[DONE\])", RegexOptions.Singleline);
 
-            // Find matches in the raw data
-            var matches = regex.Matches(rawData);
+        //    // Find matches in the raw data
+        //    var matches = regex.Matches(rawData);
 
-            // List to store deserialized objects
-            var result = new List<IChatCompletionChunk>();
+        //    // List to store deserialized objects
+        //    var result = new List<IChatCompletionChunk>();
 
-            // Iterate over each match and deserialize it
-            foreach (Match match in matches)
-            {
-                string jsonObject = match.Groups[1].Value; // Extract the JSON part
-                try
-                {
-                    // Deserialize the JSON string into a IChatCompletionChunk object
-                    var chunk = JsonConvert.DeserializeObject<ChatCompletionChunk>(jsonObject);
-                    if (chunk != null)
-                    {
-                        result.Add(chunk); // Add to the result list
-                    }
-                }
-                catch (JsonException ex)
-                {
-                    Console.WriteLine($"Error deserializing JSON object: {ex.Message}");
-                }
-            }
+        //    // Iterate over each match and deserialize it
+        //    foreach (Match match in matches)
+        //    {
+        //        string jsonObject = match.Groups[1].Value; // Extract the JSON part
+        //        try
+        //        {
+        //            // Deserialize the JSON string into a IChatCompletionChunk object
+        //            var chunk = JsonConvert.DeserializeObject<ChatCompletionChunk>(jsonObject);
+        //            if (chunk != null)
+        //            {
+        //                result.Add(chunk); // Add to the result list
+        //            }
+        //        }
+        //        catch (JsonException ex)
+        //        {
+        //            Console.WriteLine($"Error deserializing JSON object: {ex.Message}");
+        //        }
+        //    }
 
-            return result;
-        }
-
+        //    return result;
+        //}
 
         private void SetAuthorization()
         {
