@@ -90,6 +90,37 @@ namespace LibreOpenAIUnitTestProject.Base
             };
         }
 
+        protected dynamic GetDynamicRequest(string contentMessage)
+        {
+            return new
+            {
+                model = defaultModel,
+                max_completion_tokens = defaultMaxCompletionTokens,
+                messages = new[] {
+                    new {
+                        role = defaultRole,
+                        content = new [] { contentMessage }
+                    }
+                }
+            };
+        }
+
+        protected dynamic GetDynamicStremRequest(string contentMessage)
+        {
+            return new
+            {
+                model = defaultModel,
+                max_completion_tokens = defaultMaxCompletionTokens,
+                stream = true,
+                messages = new[] {
+                    new {
+                        role = defaultRole,
+                        content = new [] { contentMessage }
+                    }
+                }
+            };
+        }
+
         protected IRequestBody GetRequestWithNoTokens(string contentMessage)
         {
             IRequestBody result = GetRequest(contentMessage);

@@ -4,6 +4,7 @@ using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response;
 using LibreOpenAI.OpenAi.Settings;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
@@ -93,33 +94,31 @@ namespace LibreOpenAI.DAL
             return result;
         }
 
-        public async Task<dynamic> GetChatGptResponseDynamic(IRequestBody request) // TODO: Unit Tests
+        public async Task<dynamic> GetChatGptResponseDynamic(IRequestBody request)
         {
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
-            string responseBody = await GetChatGptResponseJson(requestJson);
-            dynamic result = JsonConvert.DeserializeObject(responseBody);
+            dynamic result = await GetChatGptResponseDynamic(requestJson);
 
             return result;
         }
 
-        public async Task<dynamic> GetChatGptResponseDynamic(dynamic request) // TODO: Unit Tests
+        public async Task<dynamic> GetChatGptResponseDynamic(dynamic request)
         {
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
-            string responseBody = await GetChatGptResponseJson(requestJson);
-            dynamic result = JsonConvert.DeserializeObject(responseBody);
+            dynamic result = await GetChatGptResponseDynamic(requestJson);
 
             return result;
         }
 
-        public async Task<dynamic> GetChatGptResponseDynamic(string requestJson) // TODO: Unit Tests
+        public async Task<dynamic> GetChatGptResponseDynamic(string requestJson)
         {
             string responseBody = await GetChatGptResponseJson(requestJson);
-            dynamic result = JsonConvert.DeserializeObject(responseBody);
+            dynamic result = JToken.Parse(responseBody);
 
             return result;
         }
 
-        public async Task<string> GetChatGptResponseJson(IRequestBody request) // TODO: Unit Tests
+        public async Task<string> GetChatGptResponseJson(IRequestBody request)
         {
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
             string responseBody = await GetChatGptResponseJson(requestJson);
@@ -127,7 +126,7 @@ namespace LibreOpenAI.DAL
             return responseBody;
         }
 
-        public async Task<string> GetChatGptResponseJson(dynamic request) // TODO: Unit Tests
+        public async Task<string> GetChatGptResponseJson(dynamic request)
         {
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
             string responseBody = await GetChatGptResponseJson(requestJson);
@@ -135,7 +134,7 @@ namespace LibreOpenAI.DAL
             return responseBody;
         }
 
-        public async Task<string> GetChatGptResponseJson(string requestJson) // TODO: Unit Tests
+        public async Task<string> GetChatGptResponseJson(string requestJson)
         {
             try
             {
@@ -228,7 +227,7 @@ namespace LibreOpenAI.DAL
             return result;
         }
 
-        public async Task<dynamic> GetChatGptStreamingResponseDynamic(IRequestBody request) // TODO: Unit Tests
+        public async Task<dynamic> GetChatGptStreamingResponseDynamic(IRequestBody request)
         {
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
             string responseBody = await GetChatGptStreamingResponseJson(requestJson);
@@ -237,7 +236,7 @@ namespace LibreOpenAI.DAL
             return result;
         }
 
-        public async Task<dynamic> GetChatGptStreamingResponseDynamic(dynamic request) // TODO: Unit Tests
+        public async Task<dynamic> GetChatGptStreamingResponseDynamic(dynamic request)
         {
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
             string responseBody = await GetChatGptStreamingResponseJson(requestJson);
@@ -246,7 +245,7 @@ namespace LibreOpenAI.DAL
             return result;
         }
 
-        public async Task<dynamic> GetChatGptStreamingResponseDynamic(string requestJson) // TODO: Unit Tests
+        public async Task<dynamic> GetChatGptStreamingResponseDynamic(string requestJson) 
         {
             string responseBody = await GetChatGptStreamingResponseJson(requestJson);
             dynamic result = JsonConvert.DeserializeObject(responseBody);
@@ -254,7 +253,7 @@ namespace LibreOpenAI.DAL
             return result;
         }
 
-        public async Task<string> GetChatGptStreamingResponseJson(IRequestBody request) // TODO: Unit Tests
+        public async Task<string> GetChatGptStreamingResponseJson(IRequestBody request)
         {
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
             string responseBody = await GetChatGptStreamingResponseJson(requestJson);
@@ -262,7 +261,7 @@ namespace LibreOpenAI.DAL
             return responseBody;
         }
 
-        public async Task<string> GetChatGptStreamingResponseJson(dynamic request) // TODO: Unit Tests
+        public async Task<string> GetChatGptStreamingResponseJson(dynamic request)
         {
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
             string responseBody = await GetChatGptStreamingResponseJson(requestJson);
@@ -270,7 +269,7 @@ namespace LibreOpenAI.DAL
             return responseBody;
         }
 
-        public async Task<string> GetChatGptStreamingResponseJson(string requestJson) // TODO: Unit Tests
+        public async Task<string> GetChatGptStreamingResponseJson(string requestJson)
         {
             string responseBody = string.Empty;
 
