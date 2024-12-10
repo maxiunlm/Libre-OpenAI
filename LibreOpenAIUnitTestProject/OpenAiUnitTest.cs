@@ -9,13 +9,14 @@ using Newtonsoft.Json;
 using LibreOpenAI.DAL;
 using Newtonsoft.Json.Linq;
 using LibreOpenAI.Exceptions.OpenAI;
-using System.Xml.Serialization;
 
 namespace LibreOpenAIUnitTestProject
 {
     [TestClass]
     public class OpenAiUnitTest : OpenAiUnitTestBase
     {
+        #region Exceptions
+
         [TestMethod]
         public async Task OpenAiExceptionsUnitTest_WithFakeApiKey_ThrowsLibreOpenAiAuthenticationException()
         {
@@ -38,148 +39,9 @@ namespace LibreOpenAIUnitTestProject
             }
         }
 
-        [TestMethod]
-        public async Task OpenAiUnitTest_WhatIsTheCapitalofFrance()
-        {
-            IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
-            IOpenAI sut = GetSut(ResponseFakes.theCapitalOfFranceIsParisJson);
+        #endregion
 
-            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Choices.Count);
-            Assert.AreEqual(ResponseFakes.theCapitalOfFranceIsParis, result.Choices.First().Message.Content);
-        }
-
-        [TestMethod]
-        public async Task OpenAiUnitTest_YouAreAHelpfulAssistante()
-        {
-            IRequestBody request = GetRequest(ResponseFakes.youAreAHelpfulAssistant);
-            IOpenAI sut = GetSut(ResponseFakes.youAreAHelpfulAssistantJson);
-
-            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Choices.Count);
-            Assert.AreEqual(ResponseFakes.helloThereHowMayIAssistYouToday, result.Choices.First().Message.Content);
-        }
-
-        [TestMethod]
-        public async Task OpenAiUnitTest_MultiChoiceRequestJson()
-        {
-            IRequestBody request = GetRequestWithTemperature(ResponseFakes.testForMultipleChoices);
-            IOpenAI sut = GetSut(ResponseFakes.multiChoiceResponseJson);
-
-            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(2, result.Choices.Count);
-            Assert.AreEqual(ResponseFakes.testForMultipleChoicesResponseFirst, result.Choices.First().Message.Content);
-            Assert.AreEqual(ResponseFakes.testForMultipleChoicesResponseSecond, result.Choices.Last().Message.Content);
-        }
-
-        [TestMethod]
-        public async Task OpenAiUnitTest_TruncatedResponseJson()
-        {
-            IRequestBody request = GetRequestWithTemperature(ResponseFakes.testTruncatedResponse);
-            IOpenAI sut = GetSut(ResponseFakes.truncatedResponseJson);
-
-            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Choices.Count);
-            Assert.AreEqual(ResponseFakes.thisResponseWasCutShort, result.Choices.First().Message.Content);
-        }
-
-        [TestMethod]
-        public async Task OpenAiUnitTest_LogprobsResponseJson()
-        {
-            IRequestBody request = GetRequestWithTemperatureAndLogprobs(ResponseFakes.testForLogprobsPresent);
-            IOpenAI sut = GetSut(ResponseFakes.logprobsResponseJson);
-
-            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Choices.Count);
-            Assert.AreEqual(ResponseFakes.hereIAResponseWithLogprobs, result.Choices.First().Message.Content);
-        }
-
-        [TestMethod]
-        public async Task OpenAiUnitTest_HighTokenUsageResponseJson()
-        {
-            IRequestBody request = GetRequestWithALotOfTokens(ResponseFakes.testHighTokenUsageResponse);
-            IOpenAI sut = GetSut(ResponseFakes.highTokenUsageResponseJson);
-
-            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Choices.Count);
-            Assert.AreEqual(ResponseFakes.hereIsALongResponseToTestHighTokenUsage, result.Choices.First().Message.Content);
-        }
-
-        [TestMethod]
-        public async Task OpenAiUnitTest_EmptyChoicesResponseJson()
-        {
-            IRequestBody request = GetRequestWithNoTokens(ResponseFakes.testEmptyChoicesResponse);
-            IOpenAI sut = GetSut(ResponseFakes.emptyChoicesResponseJson);
-
-            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(noMaxCompletionTokens, result.Choices.Count);
-        }
-
-        [TestMethod]
-        public async Task OpenAiUnitTest_AStandardCompletionResponseFromChatGptJson()
-        {
-            IRequestBody request = GetRequest(ResponseFakes.testAStandardCompletionResponseFromChatGpt);
-            IOpenAI sut = GetSut(ResponseFakes.aStandardCompletionResponseFromChatGptJson);
-
-            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Choices.Count);
-            Assert.AreEqual(ResponseFakes.aStandardCompletionResponseFromChat, result.Choices.First().Message.Content);
-        }
-
-        [TestMethod]
-        public async Task OpenAiUnitTest_LogprobsResponseWithTextOffsetJson()
-        {
-            IRequestBody request = GetRequestWithLogprobs(ResponseFakes.testLogprobsResponseWithTextOffset);
-            IOpenAI sut = GetSut(ResponseFakes.logprobsResponseWithTextOffsetJson);
-
-            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Choices.Count);
-            Assert.AreEqual(ResponseFakes.logprobsResponseWithTextOffset, result.Choices.First().Message.Content);
-        }
-
-        [TestMethod]
-        public async Task OpenAiUnitTest_FunctionCallFinishReasonJson()
-        {
-            IRequestBody request = GetRequestWithLogprobsAndOffset(ResponseFakes.testFunctionCallFinishReasonSystem, ResponseFakes.testFunctionCallFinishReasonUser);
-            IOpenAI sut = GetSut(ResponseFakes.functionCallFinishReasonJson);
-
-            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Choices.Count);
-            Assert.AreEqual(ResponseFakes.functionCallFinishReason, result.Choices.First().Message.Content);
-        }
-
-        [TestMethod]
-        public async Task OpenAiUnitTest_DetailedTokenUsageResponseJson()
-        {
-            IRequestBody request = GetRequestForTokenUsage(ResponseFakes.testDtailedTokenUsageResponseSystem, ResponseFakes.testDetailedTokenUsageResponseUser);
-            IOpenAI sut = GetSut(ResponseFakes.detailedTokenUsageResponseJson);
-
-            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Choices.Count);
-            Assert.AreEqual(ResponseFakes.detailedTokenUsageResponse, result.Choices.First().Message.Content);
-        }
+        #region Exeption Content Parts
 
         [TestMethod]
         public void OpenAiExceptionsTextContentPart_WithListOfTextsX0_SetContentPropertyToNull()
@@ -545,21 +407,155 @@ namespace LibreOpenAIUnitTestProject
             Assert.AreSame(content, sut.Messages.First().Content);
         }
 
-        [TestMethod]
-        public async Task OpenAiUnitTest_WithStreamTrue_ReturnsChunksWithUsage()
-        {
-            IRequestBody request = GetRequestFrom(ChunkFakes.chuckRequest);
-            IOpenAI sut = GetSut(ChunkFakes.chuckResponse);
+        #endregion
 
-            List<IChatCompletionChunk> result = await sut.Chat.Completions.CreateStream(request);
+        #region Create
+
+        [TestMethod]
+        public async Task Create_WhatIsTheCapitalofFrance()
+        {
+            IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
+            IOpenAI sut = GetSut(ResponseFakes.theCapitalOfFranceIsParisJson);
+
+            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
 
             Assert.IsNotNull(result);
-            Assert.IsTrue(result.Any());
-            Assert.AreEqual(12, result.First().Usage.TotalTokens);
+            Assert.AreEqual(1, result.Choices.Count);
+            Assert.AreEqual(ResponseFakes.theCapitalOfFranceIsParis, result.Choices.First().Message.Content);
         }
 
         [TestMethod]
-        public async Task OpenAiUnitTest_WithJsonRequest_ReturnsIChatCompletionResponse()
+        public async Task Create_YouAreAHelpfulAssistante()
+        {
+            IRequestBody request = GetRequest(ResponseFakes.youAreAHelpfulAssistant);
+            IOpenAI sut = GetSut(ResponseFakes.youAreAHelpfulAssistantJson);
+
+            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Choices.Count);
+            Assert.AreEqual(ResponseFakes.helloThereHowMayIAssistYouToday, result.Choices.First().Message.Content);
+        }
+
+        [TestMethod]
+        public async Task Create_MultiChoiceRequestJson()
+        {
+            IRequestBody request = GetRequestWithTemperature(ResponseFakes.testForMultipleChoices);
+            IOpenAI sut = GetSut(ResponseFakes.multiChoiceResponseJson);
+
+            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(2, result.Choices.Count);
+            Assert.AreEqual(ResponseFakes.testForMultipleChoicesResponseFirst, result.Choices.First().Message.Content);
+            Assert.AreEqual(ResponseFakes.testForMultipleChoicesResponseSecond, result.Choices.Last().Message.Content);
+        }
+
+        [TestMethod]
+        public async Task Create_TruncatedResponseJson()
+        {
+            IRequestBody request = GetRequestWithTemperature(ResponseFakes.testTruncatedResponse);
+            IOpenAI sut = GetSut(ResponseFakes.truncatedResponseJson);
+
+            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Choices.Count);
+            Assert.AreEqual(ResponseFakes.thisResponseWasCutShort, result.Choices.First().Message.Content);
+        }
+
+        [TestMethod]
+        public async Task Create_LogprobsResponseJson()
+        {
+            IRequestBody request = GetRequestWithTemperatureAndLogprobs(ResponseFakes.testForLogprobsPresent);
+            IOpenAI sut = GetSut(ResponseFakes.logprobsResponseJson);
+
+            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Choices.Count);
+            Assert.AreEqual(ResponseFakes.hereIAResponseWithLogprobs, result.Choices.First().Message.Content);
+        }
+
+        [TestMethod]
+        public async Task Create_HighTokenUsageResponseJson()
+        {
+            IRequestBody request = GetRequestWithALotOfTokens(ResponseFakes.testHighTokenUsageResponse);
+            IOpenAI sut = GetSut(ResponseFakes.highTokenUsageResponseJson);
+
+            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Choices.Count);
+            Assert.AreEqual(ResponseFakes.hereIsALongResponseToTestHighTokenUsage, result.Choices.First().Message.Content);
+        }
+
+        [TestMethod]
+        public async Task Create_EmptyChoicesResponseJson()
+        {
+            IRequestBody request = GetRequestWithNoTokens(ResponseFakes.testEmptyChoicesResponse);
+            IOpenAI sut = GetSut(ResponseFakes.emptyChoicesResponseJson);
+
+            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(noMaxCompletionTokens, result.Choices.Count);
+        }
+
+        [TestMethod]
+        public async Task Create_AStandardCompletionResponseFromChatGptJson()
+        {
+            IRequestBody request = GetRequest(ResponseFakes.testAStandardCompletionResponseFromChatGpt);
+            IOpenAI sut = GetSut(ResponseFakes.aStandardCompletionResponseFromChatGptJson);
+
+            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Choices.Count);
+            Assert.AreEqual(ResponseFakes.aStandardCompletionResponseFromChat, result.Choices.First().Message.Content);
+        }
+
+        [TestMethod]
+        public async Task Create_LogprobsResponseWithTextOffsetJson()
+        {
+            IRequestBody request = GetRequestWithLogprobs(ResponseFakes.testLogprobsResponseWithTextOffset);
+            IOpenAI sut = GetSut(ResponseFakes.logprobsResponseWithTextOffsetJson);
+
+            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Choices.Count);
+            Assert.AreEqual(ResponseFakes.logprobsResponseWithTextOffset, result.Choices.First().Message.Content);
+        }
+
+        [TestMethod]
+        public async Task Create_FunctionCallFinishReasonJson()
+        {
+            IRequestBody request = GetRequestWithLogprobsAndOffset(ResponseFakes.testFunctionCallFinishReasonSystem, ResponseFakes.testFunctionCallFinishReasonUser);
+            IOpenAI sut = GetSut(ResponseFakes.functionCallFinishReasonJson);
+
+            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Choices.Count);
+            Assert.AreEqual(ResponseFakes.functionCallFinishReason, result.Choices.First().Message.Content);
+        }
+
+        [TestMethod]
+        public async Task Create_DetailedTokenUsageResponseJson()
+        {
+            IRequestBody request = GetRequestForTokenUsage(ResponseFakes.testDtailedTokenUsageResponseSystem, ResponseFakes.testDetailedTokenUsageResponseUser);
+            IOpenAI sut = GetSut(ResponseFakes.detailedTokenUsageResponseJson);
+
+            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, result.Choices.Count);
+            Assert.AreEqual(ResponseFakes.detailedTokenUsageResponse, result.Choices.First().Message.Content);
+        }
+
+        [TestMethod]
+        public async Task Create_WithJsonRequest_ReturnsIChatCompletionResponse()
         {
             string request = JsonConvert.SerializeObject(GetRequest(ResponseFakes.whatIsTheCapitalOfFrance), OpenAiData.jsonSettings);
             IOpenAI sut = GetSut(ResponseFakes.theCapitalOfFranceIsParisJson);
@@ -572,7 +568,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiUnitTest_WithIRequestBody_ReturnsDynamic()
+        public async Task CreateDynamic_WithIRequestBody_ReturnsDynamic()
         {
             IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
             IOpenAI sut = GetSut(ResponseFakes.theCapitalOfFranceIsParisJson);
@@ -585,7 +581,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiUnitTest_WithJsonRequest_ReturnsDynamic()
+        public async Task CreateDynamic_WithJsonRequest_ReturnsDynamic()
         {
             string request = JsonConvert.SerializeObject(GetRequest(ResponseFakes.whatIsTheCapitalOfFrance), OpenAiData.jsonSettings);
             IOpenAI sut = GetSut(ResponseFakes.theCapitalOfFranceIsParisJson);
@@ -598,7 +594,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiUnitTest_WithDynamicRequest_ReturnsDynamic()
+        public async Task CreateDynamic_WithDynamicRequest_ReturnsDynamic()
         {
             dynamic request = GetDynamicRequest(ResponseFakes.whatIsTheCapitalOfFrance);
             IOpenAI sut = GetSut(ResponseFakes.theCapitalOfFranceIsParisJson);
@@ -611,7 +607,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiUnitTest_WithIRequestBody_ReturnsJson()
+        public async Task CreateJson_WithIRequestBody_ReturnsJson()
         {
             IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
             IOpenAI sut = GetSut(ResponseFakes.theCapitalOfFranceIsParisJson);
@@ -623,7 +619,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiUnitTest_WithJsonRequest_ReturnsJson()
+        public async Task CreateJson_WithJsonRequest_ReturnsJson()
         {
             string request = JsonConvert.SerializeObject(GetRequest(ResponseFakes.whatIsTheCapitalOfFrance), OpenAiData.jsonSettings);
             IOpenAI sut = GetSut(ResponseFakes.theCapitalOfFranceIsParisJson);
@@ -635,7 +631,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiUnitTest_WithDynamicRequest_ReturnsJson()
+        public async Task CreateJson_WithDynamicRequest_ReturnsJson()
         {
             dynamic request = GetDynamicRequest(ResponseFakes.whatIsTheCapitalOfFrance);
             IOpenAI sut = GetSut(ResponseFakes.theCapitalOfFranceIsParisJson);
@@ -646,8 +642,25 @@ namespace LibreOpenAIUnitTestProject
             Assert.IsTrue(result.IndexOf(ResponseFakes.theCapitalOfFranceIsParis) > 0);
         }
 
+        #endregion
+
+        #region CreateStream
+
         [TestMethod]
-        public async Task OpenAiUnitTest_WithIRequestBody_ReturnsDynamicChunks()
+        public async Task CreateStream_WithStreamTrue_ReturnsChunksWithUsage()
+        {
+            IRequestBody request = GetRequestFrom(ChunkFakes.chuckRequest);
+            IOpenAI sut = GetSut(ChunkFakes.chuckResponse);
+
+            List<IChatCompletionChunk> result = await sut.Chat.Completions.CreateStream(request);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Any());
+            Assert.AreEqual(12, result.First().Usage.TotalTokens);
+        }
+
+        [TestMethod]
+        public async Task CreateStreamDynamic_WithIRequestBody_ReturnsDynamicChunks()
         {
             IRequestBody request = GetRequestFrom(ChunkFakes.chuckRequest);
             IOpenAI sut = GetSut(ChunkFakes.chuckResponse);
@@ -660,7 +673,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiUnitTest_WithJsonRequest_ReturnsDynamicChunks()
+        public async Task CreateStreamDynamic_WithJsonRequest_ReturnsDynamicChunks()
         {
             IRequestBody request = GetRequestFrom(ChunkFakes.chuckRequest);
             string requestJson = JsonConvert.SerializeObject(request, OpenAiData.jsonSettings);
@@ -674,7 +687,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiUnitTest_WithDynamicRequest_ReturnsDynamicChunks()
+        public async Task CreateStreamDynamic_WithDynamicRequest_ReturnsDynamicChunks()
         {
             dynamic request = GetDynamicStremRequest(ChunkFakes.chuckRequest);
             IOpenAI sut = GetSut(ChunkFakes.chuckResponse);
@@ -687,7 +700,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiUnitTest_WithIRequestBody_ReturnsJsonChunks()
+        public async Task CreateStreamJson_WithIRequestBody_ReturnsJsonChunks()
         {
             IRequestBody request = GetRequestFrom(ChunkFakes.chuckRequest);
             IOpenAI sut = GetSut(ChunkFakes.chuckResponse);
@@ -699,7 +712,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiUnitTest_WithJsonRequest_ReturnsJsonChunks()
+        public async Task CreateStreamJson_WithJsonRequest_ReturnsJsonChunks()
         {
             IRequestBody request = GetRequestFrom(ChunkFakes.chuckRequest);
             string requestJson = JsonConvert.SerializeObject(request, OpenAiData.jsonSettings);
@@ -712,7 +725,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiUnitTest_WithDynamicRequest_ReturnsJsonChunks()
+        public async Task CreateStreamJson_WithDynamicRequest_ReturnsJsonChunks()
         {
             dynamic request = GetDynamicStremRequest(ChunkFakes.chuckRequest);
             IOpenAI sut = GetSut(ChunkFakes.chuckResponse);
@@ -722,5 +735,44 @@ namespace LibreOpenAIUnitTestProject
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IndexOf("\"finish_reason\":\"stop\"") > 0);
         }
+
+        [TestMethod]
+        public async Task CreateStreamJson_WithIRequestBodyAndRaw_ReturnsRawJsonChunks()
+        {
+            IRequestBody request = GetRequestFrom(ChunkFakes.chuckRequest);
+            IOpenAI sut = GetSut(ChunkFakes.chuckResponse);
+
+            string result = await sut.Chat.Completions.CreateStreamJson(request, true);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.IndexOf("data:") == 0);
+        }
+
+        [TestMethod]
+        public async Task CreateStreamJson_WithJsonRequestAndRaw_ReturnsRawJsonChunks()
+        {
+            IRequestBody request = GetRequestFrom(ChunkFakes.chuckRequest);
+            string requestJson = JsonConvert.SerializeObject(request, OpenAiData.jsonSettings);
+            IOpenAI sut = GetSut(ChunkFakes.chuckResponse);
+
+            string result = await sut.Chat.Completions.CreateStreamJson(requestJson, true);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.IndexOf("data:") == 0);
+        }
+
+        [TestMethod]
+        public async Task CreateStreamJson_WithDynamicRequestAndRaw_ReturnsRawJsonChunks()
+        {
+            dynamic request = GetDynamicStremRequest(ChunkFakes.chuckRequest);
+            IOpenAI sut = GetSut(ChunkFakes.chuckResponse);
+
+            string result = await sut.Chat.Completions.CreateStreamJson(request, true);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.IndexOf("data:") == 0);
+        }
+
+        #endregion
     }
 }

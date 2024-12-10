@@ -213,23 +213,39 @@ namespace LibreOpenAI.DAL
         {
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
             List<IChatCompletionChunk> result = await GetChatGptStreamingResponse(requestJson);
-            
+
             return result;
         }
 
         public async Task<List<IChatCompletionChunk>> GetChatGptStreamingResponse(string requestJson)
         {
-            string responseBody = await GetChatGptStreamingResponseJson(requestJson);
-            //List<IChatCompletionChunk> result = DeserializeJsonData(responseBody);
-            List<ChatCompletionChunk> result = JsonConvert.DeserializeObject<List<ChatCompletionChunk>>(responseBody) ?? new List<ChatCompletionChunk>();
+            string responseBody = await GetChatGptStreamingResponseJson(requestJson, false);
+            List<ChatCompletionChunk> result;
 
-            return result.Select(o=>(IChatCompletionChunk)o).ToList();
+            try
+            {
+                result = JsonConvert.DeserializeObject<List<ChatCompletionChunk>>(responseBody) ?? new List<ChatCompletionChunk>();
+            }
+            catch (Exception ex)
+            {
+                result = DeserializeJsonData(responseBody);
+                Console.Error.WriteLine($"WARNIG: {ex.Message}\n{(ex.StackTrace != null ? ex.StackTrace.ToString() : string.Empty)}");
+                Exception? innerException = ex.InnerException;
+
+                while (innerException != null)
+                {
+                    Console.Error.WriteLine($"InnerException: {innerException.Message}\n{(innerException.StackTrace != null ? innerException.StackTrace.ToString() : string.Empty)}");
+                    innerException = innerException.InnerException;
+                }
+            }
+
+            return result.Select(o => (IChatCompletionChunk)o).ToList();
         }
 
         public async Task<dynamic> GetChatGptStreamingResponseDynamic(IRequestBody request)
         {
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
-            string responseBody = await GetChatGptStreamingResponseJson(requestJson);
+            string responseBody = await GetChatGptStreamingResponseJson(requestJson, false);
 
             dynamic result = JsonConvert.DeserializeObject(responseBody);
 
@@ -239,37 +255,37 @@ namespace LibreOpenAI.DAL
         public async Task<dynamic> GetChatGptStreamingResponseDynamic(dynamic request)
         {
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
-            string responseBody = await GetChatGptStreamingResponseJson(requestJson);
+            string responseBody = await GetChatGptStreamingResponseJson(requestJson, false);
             dynamic result = JsonConvert.DeserializeObject(responseBody);
 
             return result;
         }
 
-        public async Task<dynamic> GetChatGptStreamingResponseDynamic(string requestJson) 
+        public async Task<dynamic> GetChatGptStreamingResponseDynamic(string requestJson)
         {
-            string responseBody = await GetChatGptStreamingResponseJson(requestJson);
+            string responseBody = await GetChatGptStreamingResponseJson(requestJson, false);
             dynamic result = JsonConvert.DeserializeObject(responseBody);
 
             return result;
         }
 
-        public async Task<string> GetChatGptStreamingResponseJson(IRequestBody request)
+        public async Task<string> GetChatGptStreamingResponseJson(IRequestBody request, bool raw)
         {
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
-            string responseBody = await GetChatGptStreamingResponseJson(requestJson);
+            string responseBody = await GetChatGptStreamingResponseJson(requestJson, raw);
 
             return responseBody;
         }
 
-        public async Task<string> GetChatGptStreamingResponseJson(dynamic request)
+        public async Task<string> GetChatGptStreamingResponseJson(dynamic request, bool raw)
         {
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
-            string responseBody = await GetChatGptStreamingResponseJson(requestJson);
+            string responseBody = await GetChatGptStreamingResponseJson(requestJson, raw);
 
             return responseBody;
         }
 
-        public async Task<string> GetChatGptStreamingResponseJson(string requestJson)
+        public async Task<string> GetChatGptStreamingResponseJson(string requestJson, bool raw)
         {
             string responseBody = string.Empty;
 
@@ -280,6 +296,11 @@ namespace LibreOpenAI.DAL
 
                 response.EnsureSuccessStatusCode();
                 responseBody = await response.Content.ReadAsStringAsync();
+
+                if (raw)
+                {
+                    return responseBody;
+                }
 
                 string json = responseBody
                     .Replace("\n", string.Empty)
@@ -352,38 +373,38 @@ namespace LibreOpenAI.DAL
         /// </summary>
         /// <param name="rawData">The raw JSON string.</param>
         /// <returns>A list of deserialized ChatCompletionResponse objects.</returns>
-        //private List<IChatCompletionChunk> DeserializeJsonData(string rawData)
-        //{
-        //    // Regular expression to match each JSON block prefixed by "data:"
-        //    var regex = new Regex(@"data:\s*(\{.*?\})(?=\s*data:|\s*\[DONE\])", RegexOptions.Singleline);
+        private List<ChatCompletionChunk> DeserializeJsonData(string rawData)
+        {
+            // Regular expression to match each JSON block prefixed by "data:"
+            var regex = new Regex(@"data:\s*(\{.*?\})(?=\s*data:|\s*\[DONE\])", RegexOptions.Singleline);
 
-        //    // Find matches in the raw data
-        //    var matches = regex.Matches(rawData);
+            // Find matches in the raw data
+            var matches = regex.Matches(rawData);
 
-        //    // List to store deserialized objects
-        //    var result = new List<IChatCompletionChunk>();
+            // List to store deserialized objects
+            var result = new List<ChatCompletionChunk>();
 
-        //    // Iterate over each match and deserialize it
-        //    foreach (Match match in matches)
-        //    {
-        //        string jsonObject = match.Groups[1].Value; // Extract the JSON part
-        //        try
-        //        {
-        //            // Deserialize the JSON string into a IChatCompletionChunk object
-        //            var chunk = JsonConvert.DeserializeObject<ChatCompletionChunk>(jsonObject);
-        //            if (chunk != null)
-        //            {
-        //                result.Add(chunk); // Add to the result list
-        //            }
-        //        }
-        //        catch (JsonException ex)
-        //        {
-        //            Console.WriteLine($"Error deserializing JSON object: {ex.Message}");
-        //        }
-        //    }
+            // Iterate over each match and deserialize it
+            foreach (Match match in matches)
+            {
+                string jsonObject = match.Groups[1].Value; // Extract the JSON part
+                try
+                {
+                    // Deserialize the JSON string into a IChatCompletionChunk object
+                    var chunk = JsonConvert.DeserializeObject<ChatCompletionChunk>(jsonObject);
+                    if (chunk != null)
+                    {
+                        result.Add(chunk); // Add to the result list
+                    }
+                }
+                catch (JsonException ex)
+                {
+                    Console.WriteLine($"Error deserializing JSON object: {ex.Message}");
+                }
+            }
 
-        //    return result;
-        //}
+            return result;
+        }
 
         private void SetAuthorization()
         {

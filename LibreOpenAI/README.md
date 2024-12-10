@@ -26,6 +26,7 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     IOpenAI openAi = new OpenAI();
 
     IChatCompletionResponse result = await openAi.Chat.Completions.Create(request);
+    string contentResult = result.Choices.First().Message.Content;
 ```
 #### Using JSON
 ```cs
@@ -33,6 +34,7 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     IOpenAI openAi = new OpenAI();
 
     IChatCompletionResponse result = await openAi.Chat.Completions.Create(request);
+    string contentResult = result.Choices.First().Message.Content;
 ```
 #### Using dynamic type
 ```cs
@@ -49,6 +51,7 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     IOpenAI openAi = new OpenAI();
 
     IChatCompletionResponse result = await openAi.Chat.Completions.Create(request);
+    string contentResult = result.Choices.First().Message.Content;
 ```
 
 ##### Returning Dynamic type
@@ -68,6 +71,7 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     IOpenAI openAi = new OpenAI();
 
     dynamic result = await openAi.Chat.Completions.CreateDynamic(request);
+    string contentResult = ((JValue)result["choices"][0]["message"]["content"]).Value;
 ```
 ###### Using JSON
 ```cs
@@ -75,6 +79,7 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     IOpenAI openAi = new OpenAI();
 
     dynamic result = await openAi.Chat.Completions.CreateDynamic(request);
+    string contentResult = ((JValue)result["choices"][0]["message"]["content"]).Value;
 ```
 ###### Using dynamic type
 ```cs
@@ -91,6 +96,7 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     IOpenAI openAi = new OpenAI();
 
     dynamic result = await openAi.Chat.Completions.CreateDynamic(request);
+    string contentResult = ((JValue)result["choices"][0]["message"]["content"]).Value;
 ```
 
 ##### Returning JSON
@@ -109,14 +115,16 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     };
     IOpenAI openAi = new OpenAI();
 
-    string result = await openAi.Chat.Completions.CreateJson(request);
+    string result = await openAi.Chat.Completions.CreateJson(request);  
+    // result will be a JSON
 ```
 ###### Using JSON
 ```cs
     string request = "{\"max_completion_tokens\":50,\"model\":\"gpt-3.5-turbo\",\"messages\":[{\"role\":\"user\",\"content\":\"What is the capital of France?\"}],\"n\":1}";
     IOpenAI openAi = new OpenAI();
 
-    string result = await openAi.Chat.Completions.CreateJson(request);
+    string result = await openAi.Chat.Completions.CreateJson(request);  
+    // result will be a JSON
 ```
 ###### Using dynamic type
 ```cs
@@ -132,7 +140,8 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     };
     IOpenAI openAi = new OpenAI();
 
-    string result = await openAi.Chat.Completions.CreateJson(request);
+    string result = await openAi.Chat.Completions.CreateJson(request);    
+    // result will be a JSON
 ```
 
 
@@ -158,6 +167,8 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     IOpenAI openAi = new OpenAI();
     
     List<IChatCompletionChunk> result = await sut.Chat.Completions.CreateStream(request);
+    // For ex.: contentResult will contain all the result prats separated by "\t" (TAB character).
+    string contentResult = string.Join('\t', result.SelectMany(o => o.Choices.Select(o => o.Delta.Content)).ToList());
 ```
 #### Using JSON
 ```cs
@@ -165,6 +176,8 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     IOpenAI openAi = new OpenAI();
     
     List<IChatCompletionChunk> result = await sut.Chat.Completions.CreateStream(request);
+    // For ex.: contentResult will contain all the result prats separated by "\t" (TAB character).
+    string contentResult = string.Join('\t', result.SelectMany(o => o.Choices.Select(o => o.Delta.Content)).ToList());
 ```
 #### Using dynamic type
 ```cs
@@ -181,9 +194,11 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     IOpenAI openAi = new OpenAI();
     
     List<IChatCompletionChunk> result = await sut.Chat.Completions.CreateStream(request);
+    // For ex.: contentResult will contain all the result prats separated by "\t" (TAB character).
+    string contentResult = string.Join('\t', result.SelectMany(o => o.Choices.Select(o => o.Delta.Content)).ToList());
 ```
 
-##### Returning Dynamic type // TODO: Review if it is possible returning DYNAMIC of CHUNKS !!!!!!!!!!!!!!!!!!!!
+##### Returning Dynamic type 
 ###### Using IRequestBody
 ```cs
     IRequestBody request = new RequestBody
@@ -205,6 +220,7 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     IOpenAI openAi = new OpenAI();
     
     dynamic result = await sut.Chat.Completions.CreateStreamDynamic(request);
+    string firstPartOfResult = ((JValue)((JToken)result)[1]["choices"][0]["delta"]["content"]).Value;
 ```
 ###### Using JSON
 ```cs
@@ -212,6 +228,7 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     IOpenAI openAi = new OpenAI();
     
     dynamic result = await sut.Chat.Completions.CreateStreamDynamic(request);
+    string firstPartOfResult = ((JValue)((JToken)result)[1]["choices"][0]["delta"]["content"]).Value;
 ```
 ###### Using dynamic type
 ```cs
@@ -228,6 +245,7 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     IOpenAI openAi = new OpenAI();
     
     dynamic result = await sut.Chat.Completions.CreateStreamDynamic(request);
+    string firstPartOfResult = ((JValue)((JToken)result)[1]["choices"][0]["delta"]["content"]).Value;
 ```
 
 ##### Returning JSON
@@ -252,6 +270,7 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     IOpenAI openAi = new OpenAI();
     
     string result = await sut.Chat.Completions.CreateStreamJson(request);
+    // result will be a JSON array
 ```
 ###### Using JSON
 ```cs
@@ -259,6 +278,7 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     IOpenAI openAi = new OpenAI();
     
     string result = await sut.Chat.Completions.CreateStreamJson(request);
+    // result will be a JSON array
 ```
 ###### Using dynamic type
 ```cs
@@ -275,5 +295,14 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     IOpenAI openAi = new OpenAI();
     
     string result = await sut.Chat.Completions.CreateStreamJson(request);
+    // result will be a JSON array
 ```
+###### Expecting raw JSON
+```cs
+    string request = "{\"max_completion_tokens\":50,\"model\":\"gpt-4o\",\"messages\":[{\"role\":\"user\",\"content\":\"What is the capital of France?\"}],\"n\":1}";
+    IOpenAI openAi = new OpenAI();
+    
+    string result = await sut.Chat.Completions.CreateStreamJson(request, true);
 
+    // result will contain a list of "data: {...}" JSON objects that can't be parsed directly as JSON !
+```

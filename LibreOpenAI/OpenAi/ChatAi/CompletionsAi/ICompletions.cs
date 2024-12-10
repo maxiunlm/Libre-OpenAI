@@ -83,8 +83,8 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
         Task<dynamic> CreateStreamDynamic(IRequestBody request);
         Task<dynamic> CreateStreamDynamic(dynamic request);
         Task<dynamic> CreateStreamDynamic(string requestJson);
-        Task<string> CreateStreamJson(IRequestBody request);
-        Task<string> CreateStreamJson(dynamic request);
-        Task<string> CreateStreamJson(string requestJson);
+        Task<string> CreateStreamJson(IRequestBody request, bool raw = false);
+        Task<string> CreateStreamJson(dynamic request, bool raw = false);
+        Task<string> CreateStreamJson(string requestJson, bool raw = false);
     }
 }

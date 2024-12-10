@@ -23,8 +23,8 @@ namespace LibreOpenAI.DAL
         Task<dynamic> GetChatGptStreamingResponseDynamic(IRequestBody request);
         Task<dynamic> GetChatGptStreamingResponseDynamic(dynamic request);
         Task<dynamic> GetChatGptStreamingResponseDynamic(string requestJson);
-        Task<string> GetChatGptStreamingResponseJson(IRequestBody request);
-        Task<string> GetChatGptStreamingResponseJson(dynamic request);
-        Task<string> GetChatGptStreamingResponseJson(string requestJson);
+        Task<string> GetChatGptStreamingResponseJson(IRequestBody request, bool raw);
+        Task<string> GetChatGptStreamingResponseJson(dynamic request, bool raw);
+        Task<string> GetChatGptStreamingResponseJson(string requestJson, bool raw);
     }
 }

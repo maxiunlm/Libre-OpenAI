@@ -144,23 +144,23 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
             return response;
         }
 
-        public async Task<string> CreateStreamJson(IRequestBody request)
+        public async Task<string> CreateStreamJson(IRequestBody request, bool raw = false)
         {
             request.Stream = true;
-            string response = await OpenAiData.GetChatGptStreamingResponseJson(request);
+            string response = await OpenAiData.GetChatGptStreamingResponseJson(request, raw);
             return response;
         }
 
-        public async Task<string> CreateStreamJson(dynamic request)
+        public async Task<string> CreateStreamJson(dynamic request, bool raw = false)
         {
             VerifyStreamDynamicValue(request);
-            string response = await OpenAiData.GetChatGptStreamingResponseJson(request);
+            string response = await OpenAiData.GetChatGptStreamingResponseJson(request, raw);
             return response;
         }
 
-        public async Task<string> CreateStreamJson(string requestJson)
+        public async Task<string> CreateStreamJson(string requestJson, bool raw = false)
         {
-            string response = await OpenAiData.GetChatGptStreamingResponseJson(requestJson);
+            string response = await OpenAiData.GetChatGptStreamingResponseJson(requestJson, raw);
             return response;
         }
 
