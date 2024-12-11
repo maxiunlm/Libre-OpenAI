@@ -1,43 +1,64 @@
-﻿using LibreOpenAIUnitTestProject.Base;
+﻿using LibreOpenAI.DAL;
+using LibreOpenAI.Exceptions.OpenAI;
+using LibreOpenAI.OpenAi;
+using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests;
+using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response;
+using LibreOpenAIUnitTestProject.Base;
+using LibreOpenAIUnitTestProject.Fakes;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace LibreOpenAIUnitTestProject
 {
     [TestClass]
     public class OpenAiPaidUnitTest : OpenAiUnitTestBase
     {
-        /* 
+        //* 
 #if DEBUG
+        #region Create
+
+        //// NOTE: this test is only when your API Key doesn't have money
+        //[TestMethod]
+        //public async Task Create_ADynmicResquestWithMaxCompletionTokensExceded_ThrowsLibreOpenAITooManyRequestsException()
+        //{
+
+        //    dynamic request = new
+        //    {
+        //        model = defaultModel,
+        //        max_completion_tokens = defaultMaxCompletionTokens,
+        //        messages = new [] {
+        //            new {
+        //                role = defaultRole,
+        //                content = new [] { ResponseFakes.whatIsTheCapitalOfFrance }
+        //            }
+        //        }
+        //    };
+        //    IOpenAI sut = new OpenAI();
+
+        //    try
+        //    {
+        //        IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+
+        //        Assert.IsTrue(false, "An Exception was expected.");
+        //    }
+        //    catch (LibreOpenAITooManyRequestsException ex)
+        //    {
+        //        Assert.IsTrue(true);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Assert.IsTrue(false, $"An LibreOpenAITooManyRequestsException was expected, but it was '{ex.GetType().ToString()}'.");
+        //    }
+        //}
 
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_MaxTokensExceded()
-        {
-            //IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
-            IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
-            IOpenAI sut = new OpenAI();
-
-            try
-            {
-                IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
-
-                Assert.IsTrue(false, "An Exception was expected.");
-            }
-            catch (LibreOpenAITooManyRequestsException ex)
-            {
-                Assert.IsTrue(true);
-            }
-            catch (Exception ex)
-            {
-                Assert.IsTrue(false, $"An LibreOpenAITooManyRequestsException was expected, but it was '{ex.GetType().ToString()}'.");
-            }
-        }
-
-        [TestMethod]
-        public async Task OpenAiTest_WithFunctions_CallsOpenAiApi()
+        public async Task Create_AJsonRequestWithFunctions_CallsOpenAiApi()
         {
             IRequestBody request = GetRequestFrom(RequestFakes.functionsResquest);
+            string jsonRequest = JsonConvert.SerializeObject(request);
             IOpenAI sut = new OpenAI();
 
-            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+            IChatCompletionResponse result = await sut.Chat.Completions.Create(jsonRequest);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result.Choices.Count);
@@ -45,25 +66,12 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiUnitTest_WithImageInputResquest_CallsOpenAiApi()
-        {
-            IRequestBody request = GetRequestFrom(RequestFakes.imageInputResquest);
-            IOpenAI sut = new OpenAI();
-
-            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Choices.Count);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(result.Choices.First().Message.Content));
-        }
-
-        [TestMethod]
-        public async Task OpenAiUnitTest_WithLogprobsEqualsTrue_CallsOpenAiApi()
+        public async Task Create_WithLogprobsEqualsTrue_CallsOpenAiApi()
         {
             IRequestBody request = GetRequestFrom(RequestFakes.logprobsResquest);
             IOpenAI sut = new OpenAI();
 
-            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+            dynamic result = await sut.Chat.Completions.CreateDynamic(request);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result.Choices.Count);
@@ -72,38 +80,40 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiUnitTest_WithStreamingEqualsTrue_CallsOpenAiApi()
+        public async Task CreateDynamic_WithImageInputResquest_CallsOpenAiApiAndReturnsDynamic()
         {
-            IRequestBody request = GetRequestFrom(RequestFakes.streamingResquest);
+            IRequestBody request = GetRequestFrom(RequestFakes.imageInputResquest);
             IOpenAI sut = new OpenAI();
 
-            List<IChatCompletionChunk> result = await sut.Chat.Completions.CreateStream(request);
+            dynamic result = await sut.Chat.Completions.CreateDynamic(request);
 
             Assert.IsNotNull(result);
-            Assert.IsTrue(result.Any());
-            Assert.IsTrue(result.SelectMany(o => o.Choices.Select(o => o.Delta.Content)).Any(content => !string.IsNullOrWhiteSpace(content)));
+            Assert.AreEqual(1, result["choices"].Count);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(((JValue)result["choices"][0]["message"]["content"]).Value.ToString()));
         }
 
         [TestMethod]
-        public async Task OpenAiUnitTest_WithDefaultRequest_CallsOpenAiApi()
+        public async Task CreateDynamic_AJsonRequestWithDefaultRequest_CallsOpenAiApiAndReturnsDynamic()
         {
             IRequestBody request = GetRequestFrom(RequestFakes.defaultResquest);
+            string jsonRequest = JsonConvert.SerializeObject(request);
             IOpenAI sut = new OpenAI();
 
-            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+            dynamic result = await sut.Chat.Completions.CreateDynamic(jsonRequest);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Choices.Count);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(result.Choices.First().Message.Content));
+            Assert.AreEqual(1, result["choices"].Count);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(((JValue)result["choices"][0]["message"]["content"]).Value.ToString()));
         }
 
         [TestMethod]
-        public async Task OpenAiUnitTest_WithJsonRequestParam_WhatIsTheCapitalofFrance()
+        public async Task CreateJson_WithJsonRequestParam_ReturnsWhatIsTheCapitalofFranceAsJson()
         {
             string request = JsonConvert.SerializeObject(GetRequest(ResponseFakes.whatIsTheCapitalOfFrance), OpenAiData.jsonSettings);
             IOpenAI sut = new OpenAI();
 
-            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+            string jsonResult = await sut.Chat.Completions.CreateJson(request);
+            IChatCompletionResponse result = JsonConvert.DeserializeObject<ChatCompletionResponse>(jsonResult);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result.Choices.Count);
@@ -111,7 +121,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiUnitTest_WithDynamicRequestParam_WhatIsTheCapitalofFrance()
+        public async Task Create_WithDynamicRequestParam_ReturnsWhatIsTheCapitalofFranceAsJson()
         {
             dynamic request = new {
                 model = defaultModel,
@@ -125,15 +135,33 @@ namespace LibreOpenAIUnitTestProject
             };
             IOpenAI sut = new OpenAI();
 
-            IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
+            string jsonResult = await sut.Chat.Completions.CreateJson(request);
+            IChatCompletionResponse result = JsonConvert.DeserializeObject<ChatCompletionResponse>(jsonResult);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result.Choices.Count);
             Assert.IsTrue(result.Choices.First().Message.Content.Contains("Paris"));
         }
 
+        #endregion
+
+        #region CreateStream
+
         [TestMethod]
-        public async Task OpenAiUnitTest_WithStreamingEqualsTrueAndJsonRequestParam_CallsOpenAiApi()
+        public async Task CreateStream_WithStreamingEqualsTrue_CallsOpenAiApi()
+        {
+            IRequestBody request = GetRequestFrom(RequestFakes.streamingResquest);
+            IOpenAI sut = new OpenAI();
+
+            List<IChatCompletionChunk> result = await sut.Chat.Completions.CreateStream(request);
+
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Any());
+            Assert.IsTrue(result.SelectMany(o => o.Choices.Select(o => o.Delta.Content)).Any(content => !string.IsNullOrWhiteSpace(content)));
+        }
+
+        [TestMethod]
+        public async Task CreateStream_AJsonRequestWithStreamingEqualsTrueAndJsonRequestParam_CallsOpenAiApi()
         {
             string request = RequestFakes.streamingResquest;
             IOpenAI sut = new OpenAI();
@@ -146,7 +174,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task OpenAiUnitTest_WithStreamingEqualsTrueAndDynamicRequestParam_CallsOpenAiApi()
+        public async Task CreateStream_ADynamicRequestWithStreamingEqualsTrueAndDynamicRequestParam_CallsOpenAiApi()
         {
             dynamic request = new
             {
@@ -166,6 +194,8 @@ namespace LibreOpenAIUnitTestProject
             Assert.IsTrue(result.Any());
             Assert.IsTrue(result.SelectMany(o => o.Choices.Select(o => o.Delta.Content)).Any(content => !string.IsNullOrWhiteSpace(content)));
         }
+
+        #endregion
 #endif
         // */
     }

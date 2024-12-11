@@ -21,8 +21,11 @@ namespace LibreOpenAI.OpenAi.Settings
 
         private string GetSpiKey(string openAiApiKey)
         {
-            openAiApiKey = (string.IsNullOrWhiteSpace(openAiApiKey) ? Environment.GetEnvironmentVariable("OPENAI_API_KEY"): openAiApiKey) ?? string.Empty;
-
+            if(string.IsNullOrEmpty(openAiApiKey))
+            {
+                openAiApiKey = Environment.GetEnvironmentVariable("LIBRE_OPEN_AI_API_KEY") ?? Environment.GetEnvironmentVariable("OPENAI_API_KEY") ?? string.Empty;
+            }
+            
             return openAiApiKey;
         }
     }

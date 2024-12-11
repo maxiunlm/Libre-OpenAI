@@ -18,7 +18,7 @@ namespace LibreOpenAIUnitTestProject
         #region Exceptions
 
         [TestMethod]
-        public async Task OpenAiExceptionsUnitTest_WithFakeApiKey_ThrowsLibreOpenAiAuthenticationException()
+        public async Task OpenAiExceptionsUnitTest_WithFakeApiKey_ThrowsLibreOpenAiInternalServerErrorException()
         {
             IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
             IOpenAI sut = new OpenAI("LALALALALALA");
@@ -27,15 +27,15 @@ namespace LibreOpenAIUnitTestProject
             {
                 IChatCompletionResponse result = await sut.Chat.Completions.Create(request);
 
-                Assert.IsTrue(false, "A LibreOpenAiAuthenticationException was expected.");
+                Assert.IsTrue(false, "A LibreOpenAiInternalServerErrorException was expected.");
             }
-            catch (LibreOpenAiAuthenticationException ex)
+            catch (LibreOpenAiInternalServerErrorException ex)
             {
                 Assert.IsTrue(true);
             }
             catch (Exception ex)
             {
-                Assert.IsTrue(false, $"An LibreOpenAiAuthenticationException was expected, but it was '{ex.GetType().ToString()}'.");
+                Assert.IsTrue(false, $"An LibreOpenAiInternalServerErrorException was expected, but it was '{ex.GetType().ToString()}'.");
             }
         }
 
