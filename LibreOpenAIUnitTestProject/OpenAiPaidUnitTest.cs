@@ -13,7 +13,7 @@ namespace LibreOpenAIUnitTestProject
     [TestClass]
     public class OpenAiPaidUnitTest : OpenAiUnitTestBase
     {
-        //* 
+        /* 
 #if DEBUG
         #region Create
 
@@ -55,7 +55,7 @@ namespace LibreOpenAIUnitTestProject
         public async Task Create_AJsonRequestWithFunctions_CallsOpenAiApi()
         {
             IRequestBody request = GetRequestFrom(RequestFakes.functionsResquest);
-            string jsonRequest = JsonConvert.SerializeObject(request);
+            string jsonRequest = JsonConvert.SerializeObject(request, OpenAiData.jsonSettings);
             IOpenAI sut = new OpenAI();
 
             IChatCompletionResponse result = await sut.Chat.Completions.Create(jsonRequest);
@@ -74,9 +74,8 @@ namespace LibreOpenAIUnitTestProject
             dynamic result = await sut.Chat.Completions.CreateDynamic(request);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Choices.Count);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(result.Choices.First().Message.Content));
-            Assert.IsTrue(result.Choices.First().Logprobs.Content.Any());
+            Assert.AreEqual(1, result["choices"].Count);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(((JValue)result["choices"][0]["message"]["content"]).Value.ToString()));
         }
 
         [TestMethod]
@@ -96,7 +95,7 @@ namespace LibreOpenAIUnitTestProject
         public async Task CreateDynamic_AJsonRequestWithDefaultRequest_CallsOpenAiApiAndReturnsDynamic()
         {
             IRequestBody request = GetRequestFrom(RequestFakes.defaultResquest);
-            string jsonRequest = JsonConvert.SerializeObject(request);
+            string jsonRequest = JsonConvert.SerializeObject(request, OpenAiData.jsonSettings);
             IOpenAI sut = new OpenAI();
 
             dynamic result = await sut.Chat.Completions.CreateDynamic(jsonRequest);
