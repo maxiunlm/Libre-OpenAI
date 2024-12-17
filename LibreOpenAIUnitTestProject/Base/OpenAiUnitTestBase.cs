@@ -90,7 +90,7 @@ namespace LibreOpenAIUnitTestProject.Base
             };
         }
 
-        protected dynamic GetDynamicRequest(string contentMessage)
+        protected dynamic GetJTokenRequest(string contentMessage)
         {
             return new
             {
@@ -105,7 +105,7 @@ namespace LibreOpenAIUnitTestProject.Base
             };
         }
 
-        protected dynamic GetDynamicStremRequest(string contentMessage)
+        protected dynamic GetJTokenStremRequest(string contentMessage)
         {
             return new
             {

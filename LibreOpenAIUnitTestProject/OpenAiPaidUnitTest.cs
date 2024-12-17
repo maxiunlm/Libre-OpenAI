@@ -71,7 +71,7 @@ namespace LibreOpenAIUnitTestProject
             IRequestBody request = GetRequestFrom(RequestFakes.logprobsResquest);
             IOpenAI sut = new OpenAI();
 
-            dynamic result = await sut.Chat.Completions.CreateDynamic(request);
+            JToken result = await sut.Chat.Completions.CreateJToken(request);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result["choices"].Count);
@@ -79,12 +79,12 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task CreateDynamic_WithImageInputResquest_CallsOpenAiApiAndReturnsDynamic()
+        public async Task CreateJToken_WithImageInputResquest_CallsOpenAiApiAndReturnsJToken()
         {
             IRequestBody request = GetRequestFrom(RequestFakes.imageInputResquest);
             IOpenAI sut = new OpenAI();
 
-            dynamic result = await sut.Chat.Completions.CreateDynamic(request);
+            JToken result = await sut.Chat.Completions.CreateJToken(request);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result["choices"].Count);
@@ -92,13 +92,13 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task CreateDynamic_AJsonRequestWithDefaultRequest_CallsOpenAiApiAndReturnsDynamic()
+        public async Task CreateJToken_AJsonRequestWithDefaultRequest_CallsOpenAiApiAndReturnsJToken()
         {
             IRequestBody request = GetRequestFrom(RequestFakes.defaultResquest);
             string jsonRequest = JsonConvert.SerializeObject(request, OpenAiData.jsonSettings);
             IOpenAI sut = new OpenAI();
 
-            dynamic result = await sut.Chat.Completions.CreateDynamic(jsonRequest);
+            JToken result = await sut.Chat.Completions.CreateJToken(jsonRequest);
 
             Assert.IsNotNull(result);
             Assert.AreEqual(1, result["choices"].Count);
@@ -120,7 +120,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task Create_WithDynamicRequestParam_ReturnsWhatIsTheCapitalofFranceAsJson()
+        public async Task Create_WithJTokenRequestParam_ReturnsWhatIsTheCapitalofFranceAsJson()
         {
             dynamic request = new {
                 model = defaultModel,
@@ -173,7 +173,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task CreateStream_ADynamicRequestWithStreamingEqualsTrueAndDynamicRequestParam_CallsOpenAiApi()
+        public async Task CreateStream_AJTokenRequestWithStreamingEqualsTrueAndJTokenRequestParam_CallsOpenAiApi()
         {
             dynamic request = new
             {

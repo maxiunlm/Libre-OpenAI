@@ -1,6 +1,7 @@
 ﻿using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests;
 using LibreOpenAI.DAL;
+using Newtonsoft.Json.Linq;
 
 namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
 {
@@ -40,9 +41,12 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
         /// <seealso cref="https://platform.openai.com/docs/api-reference/chat/object"/>
         /// <seealso cref="https://platform.openai.com/docs/api-reference/chat/streaming"/>
         Task<IChatCompletionResponse> Create(string requestJson);
-        Task<dynamic> CreateDynamic(IRequestBody request);
-        Task<dynamic> CreateDynamic(dynamic request);
-        Task<dynamic> CreateDynamic(string requestJson);
+        Task<JToken> CreateJToken(IRequestBody request);
+        Task<JToken> CreateJToken(dynamic request);
+        Task<JToken> CreateJToken(string requestJson);
+        Task<dynamic> CreateDynamic(IRequestBody request); // TODO: Unit Tests.
+        Task<dynamic> CreateDynamic(dynamic request); // TODO: Unit Tests.
+        Task<dynamic> CreateDynamic(string requestJson); // TODO: Unit Tests.
         Task<string> CreateJson(IRequestBody request);
         Task<string> CreateJson(dynamic request);
         Task<string> CreateJson(string requestJson);
@@ -80,9 +84,12 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
         /// <seealso cref="https://platform.openai.com/docs/api-reference/chat/object"/>
         /// <seealso cref="https://platform.openai.com/docs/api-reference/chat/streaming"/>
         Task<List<IChatCompletionChunk>> CreateStream(string requestJson);
-        Task<dynamic> CreateStreamDynamic(IRequestBody request);
-        Task<dynamic> CreateStreamDynamic(dynamic request);
-        Task<dynamic> CreateStreamDynamic(string requestJson);
+        Task<JToken> CreateStreamJToken(IRequestBody request);
+        Task<JToken> CreateStreamJToken(dynamic request);
+        Task<JToken> CreateStreamJToken(string requestJson);
+        Task<dynamic> CreateStreamDynamic(IRequestBody request); // TODO: Unit Tests.
+        Task<dynamic> CreateStreamDynamic(dynamic request); // TODO: Unit Tests.
+        Task<dynamic> CreateStreamDynamic(string requestJson); // TODO: Unit Tests.
         Task<string> CreateStreamJson(IRequestBody request, bool raw = false);
         Task<string> CreateStreamJson(dynamic request, bool raw = false);
         Task<string> CreateStreamJson(string requestJson, bool raw = false);

@@ -1,14 +1,17 @@
-﻿using LibreOpenAI.DAL.Http;
+﻿using LibreOpenAI.Converters;
+using LibreOpenAI.DAL.Http;
 using LibreOpenAI.Exceptions.OpenAI;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response;
 using LibreOpenAI.OpenAi.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
+using System.Dynamic;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
+using JsonSerializerOptions = System.Text.Json.JsonSerializerOptions;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace LibreOpenAI.DAL
 {
@@ -18,6 +21,11 @@ namespace LibreOpenAI.DAL
         {
             NullValueHandling = NullValueHandling.Ignore,
             // DefaultValueHandling = DefaultValueHandling.Ignore
+        };
+        public static readonly JsonSerializerOptions jsonDynamicOptions = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            Converters = { new ExpandoObjectConverter() }
         };
         private IHttpClientAi? client;
         private AuthenticationHeaderValue? authorization;
@@ -92,6 +100,30 @@ namespace LibreOpenAI.DAL
             return result;
         }
 
+        public async Task<JToken> GetChatGptResponseJToken(IRequestBody request)
+        {
+            string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
+            JToken result = await GetChatGptResponseJToken(requestJson);
+
+            return result;
+        }
+
+        public async Task<JToken> GetChatGptResponseJToken(dynamic request)
+        {
+            string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
+            JToken result = await GetChatGptResponseJToken(requestJson);
+
+            return result;
+        }
+
+        public async Task<JToken> GetChatGptResponseJToken(string requestJson)
+        {
+            string responseBody = await GetChatGptResponseJson(requestJson);
+            JToken result = JToken.Parse(responseBody);
+
+            return result;
+        }
+
         public async Task<dynamic> GetChatGptResponseDynamic(IRequestBody request)
         {
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
@@ -111,7 +143,7 @@ namespace LibreOpenAI.DAL
         public async Task<dynamic> GetChatGptResponseDynamic(string requestJson)
         {
             string responseBody = await GetChatGptResponseJson(requestJson);
-            dynamic result = JToken.Parse(responseBody);
+            dynamic result = JsonSerializer.Deserialize<ExpandoObject>(responseBody, jsonDynamicOptions)!;
 
             return result;
         }
@@ -242,12 +274,34 @@ namespace LibreOpenAI.DAL
             return result.Select(o => (IChatCompletionChunk)o).ToList();
         }
 
+        public async Task<JToken> GetChatGptStreamingResponseJToken(IRequestBody request)
+        {
+            string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
+            JToken result = await GetChatGptStreamingResponseJToken(requestJson);
+
+            return result;
+        }
+
+        public async Task<JToken> GetChatGptStreamingResponseJToken(dynamic request)
+        {
+            string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
+            JToken result = await GetChatGptStreamingResponseJToken(requestJson);
+
+            return result;
+        }
+
+        public async Task<JToken> GetChatGptStreamingResponseJToken(string requestJson)
+        {
+            string responseBody = await GetChatGptStreamingResponseJson(requestJson, false);
+            JToken result = JToken.Parse(responseBody);
+
+            return result;
+        }
+
         public async Task<dynamic> GetChatGptStreamingResponseDynamic(IRequestBody request)
         {
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
-            string responseBody = await GetChatGptStreamingResponseJson(requestJson, false);
-
-            dynamic result = JsonConvert.DeserializeObject(responseBody);
+            dynamic result = await GetChatGptStreamingResponseDynamic(requestJson);
 
             return result;
         }
@@ -255,8 +309,7 @@ namespace LibreOpenAI.DAL
         public async Task<dynamic> GetChatGptStreamingResponseDynamic(dynamic request)
         {
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
-            string responseBody = await GetChatGptStreamingResponseJson(requestJson, false);
-            dynamic result = JsonConvert.DeserializeObject(responseBody);
+            dynamic result = await GetChatGptStreamingResponseDynamic(requestJson);
 
             return result;
         }
@@ -264,7 +317,7 @@ namespace LibreOpenAI.DAL
         public async Task<dynamic> GetChatGptStreamingResponseDynamic(string requestJson)
         {
             string responseBody = await GetChatGptStreamingResponseJson(requestJson, false);
-            dynamic result = JsonConvert.DeserializeObject(responseBody);
+            dynamic result = JsonSerializer.Deserialize<ExpandoObject>(responseBody, jsonDynamicOptions)!;
 
             return result;
         }
