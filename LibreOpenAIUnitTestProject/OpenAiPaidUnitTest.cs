@@ -71,38 +71,38 @@ namespace LibreOpenAIUnitTestProject
             IRequestBody request = GetRequestFrom(RequestFakes.logprobsResquest);
             IOpenAI sut = new OpenAI();
 
-            JToken result = await sut.Chat.Completions.CreateJToken(request);
+            dynamic result = await sut.Chat.Completions.CreateDynamic(request);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(1, result["choices"].Count);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(((JValue)result["choices"][0]["message"]["content"]).Value.ToString()));
+            Assert.AreEqual(1, result.Count);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(result.choices[0].message.content).Value.ToString());
         }
 
         [TestMethod]
-        public async Task CreateJToken_WithImageInputResquest_CallsOpenAiApiAndReturnsJToken()
+        public async Task CreateDynamic_WithImageInputResquest_CallsOpenAiApiAndReturnsDynamic()
         {
             IRequestBody request = GetRequestFrom(RequestFakes.imageInputResquest);
             IOpenAI sut = new OpenAI();
 
-            JToken result = await sut.Chat.Completions.CreateJToken(request);
+            dynamic result = await sut.Chat.Completions.CreateDynamic(request);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(1, result["choices"].Count);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(((JValue)result["choices"][0]["message"]["content"]).Value.ToString()));
+            Assert.AreEqual(1, result.Count);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(result.choices[0].message.content).Value.ToString());
         }
 
         [TestMethod]
-        public async Task CreateJToken_AJsonRequestWithDefaultRequest_CallsOpenAiApiAndReturnsJToken()
+        public async Task CreateDynamic_AJsonRequestWithDefaultRequest_CallsOpenAiApiAndReturnsDynamic()
         {
             IRequestBody request = GetRequestFrom(RequestFakes.defaultResquest);
             string jsonRequest = JsonConvert.SerializeObject(request, OpenAiData.jsonSettings);
             IOpenAI sut = new OpenAI();
 
-            JToken result = await sut.Chat.Completions.CreateJToken(jsonRequest);
+            dynamic result = await sut.Chat.Completions.CreateDynamic(jsonRequest);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(1, result["choices"].Count);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(((JValue)result["choices"][0]["message"]["content"]).Value.ToString()));
+            Assert.AreEqual(1, result.Count);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(result.choices[0].message.content).Value.ToString());
         }
 
         [TestMethod]
@@ -120,7 +120,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task Create_WithJTokenRequestParam_ReturnsWhatIsTheCapitalofFranceAsJson()
+        public async Task Create_WithDynamicRequestParam_ReturnsWhatIsTheCapitalofFranceAsJson()
         {
             dynamic request = new {
                 model = defaultModel,
@@ -173,7 +173,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task CreateStream_AJTokenRequestWithStreamingEqualsTrueAndJTokenRequestParam_CallsOpenAiApi()
+        public async Task CreateStream_ADynamicRequestWithStreamingEqualsTrueAndDynamicRequestParam_CallsOpenAiApi()
         {
             dynamic request = new
             {

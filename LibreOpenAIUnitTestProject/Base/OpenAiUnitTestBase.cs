@@ -90,7 +90,7 @@ namespace LibreOpenAIUnitTestProject.Base
             };
         }
 
-        protected dynamic GetJTokenRequest(string contentMessage)
+        protected dynamic GetDynamicRequest(string contentMessage)
         {
             return new
             {

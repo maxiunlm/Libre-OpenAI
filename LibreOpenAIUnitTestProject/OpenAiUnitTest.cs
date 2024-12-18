@@ -568,45 +568,6 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task CreateJToken_WithIRequestBody_ReturnsJToken()
-        {
-            IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
-            IOpenAI sut = GetSut(ResponseFakes.theCapitalOfFranceIsParisJson);
-
-            JToken result = await sut.Chat.Completions.CreateJToken(request);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result["choices"].Count());
-            Assert.AreEqual(ResponseFakes.theCapitalOfFranceIsParis, ((JValue)result["choices"][0]["message"]["content"]).Value);
-        }
-
-        [TestMethod]
-        public async Task CreateJToken_WithJsonRequest_ReturnsJToken()
-        {
-            string request = JsonConvert.SerializeObject(GetRequest(ResponseFakes.whatIsTheCapitalOfFrance), OpenAiData.jsonSettings);
-            IOpenAI sut = GetSut(ResponseFakes.theCapitalOfFranceIsParisJson);
-
-            JToken result = await sut.Chat.Completions.CreateJToken(request);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result["choices"].Count());
-            Assert.AreEqual(ResponseFakes.theCapitalOfFranceIsParis, ((JValue)result["choices"][0]["message"]["content"]).Value);
-        }
-
-        [TestMethod]
-        public async Task CreateJToken_WithJTokenRequest_ReturnsJToken()
-        {
-            dynamic request = GetJTokenRequest(ResponseFakes.whatIsTheCapitalOfFrance);
-            IOpenAI sut = GetSut(ResponseFakes.theCapitalOfFranceIsParisJson);
-
-            JToken result = await sut.Chat.Completions.CreateJToken(request);
-
-            Assert.IsNotNull(result);
-            Assert.AreEqual(1, result["choices"].Count());
-            Assert.AreEqual(ResponseFakes.theCapitalOfFranceIsParis, ((JValue)result["choices"][0]["message"]["content"]).Value);
-        }
-
-        [TestMethod]
         public async Task CreateJson_WithIRequestBody_ReturnsJson()
         {
             IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
@@ -631,9 +592,9 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task CreateJson_WithJTokenRequest_ReturnsJson()
+        public async Task CreateJson_WithDynamicRequest_ReturnsJson()
         {
-            dynamic request = GetJTokenRequest(ResponseFakes.whatIsTheCapitalOfFrance);
+            dynamic request = GetDynamicRequest(ResponseFakes.whatIsTheCapitalOfFrance);
             IOpenAI sut = GetSut(ResponseFakes.theCapitalOfFranceIsParisJson);
 
             string result = await sut.Chat.Completions.CreateJson(request);
@@ -657,46 +618,6 @@ namespace LibreOpenAIUnitTestProject
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Any());
             Assert.AreEqual(12, result.First().Usage.TotalTokens);
-        }
-
-        [TestMethod]
-        public async Task CreateStreamJToken_WithIRequestBody_ReturnsJTokenChunks()
-        {
-            IRequestBody request = GetRequestFrom(ChunkFakes.chuckRequest);
-            IOpenAI sut = GetSut(ChunkFakes.chuckResponse);
-
-            JToken result = await sut.Chat.Completions.CreateStreamJToken(request);
-
-            Assert.IsNotNull(result);
-            Assert.IsTrue(((JArray)result).ToList().Any());
-            Assert.AreEqual("Why", ((JValue)result [1]["choices"][0]["delta"]["content"]).Value);
-        }
-
-        [TestMethod]
-        public async Task CreateStreamJToken_WithJsonRequest_ReturnsJTokenChunks()
-        {
-            IRequestBody request = GetRequestFrom(ChunkFakes.chuckRequest);
-            string requestJson = JsonConvert.SerializeObject(request, OpenAiData.jsonSettings);
-            IOpenAI sut = GetSut(ChunkFakes.chuckResponse);
-
-            JToken result = await sut.Chat.Completions.CreateStreamJToken(requestJson);
-
-            Assert.IsNotNull(result);
-            Assert.IsTrue(((JArray)result).ToList().Any());
-            Assert.AreEqual("Why", ((JValue)result [1]["choices"][0]["delta"]["content"]).Value);
-        }
-
-        [TestMethod]
-        public async Task CreateStreamJToken_WithJTokenRequest_ReturnsJTokenChunks()
-        {
-            dynamic request = GetJTokenStremRequest(ChunkFakes.chuckRequest);
-            IOpenAI sut = GetSut(ChunkFakes.chuckResponse);
-
-            JToken result = await sut.Chat.Completions.CreateStreamJToken(request);
-
-            Assert.IsNotNull(result);
-            Assert.IsTrue(((JArray)result).ToList().Any());
-            Assert.AreEqual("Why", ((JValue)result[1]["choices"][0]["delta"]["content"]).Value);
         }
 
         [TestMethod]
@@ -725,7 +646,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task CreateStreamJson_WithJTokenRequest_ReturnsJsonChunks()
+        public async Task CreateStreamJson_WithDynamicRequest_ReturnsJsonChunks()
         {
             dynamic request = GetJTokenStremRequest(ChunkFakes.chuckRequest);
             IOpenAI sut = GetSut(ChunkFakes.chuckResponse);
@@ -762,7 +683,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task CreateStreamJson_WithJTokenRequestAndRaw_ReturnsRawJsonChunks()
+        public async Task CreateStreamJson_WithDynamicRequestAndRaw_ReturnsRawJsonChunks()
         {
             dynamic request = GetJTokenStremRequest(ChunkFakes.chuckRequest);
             IOpenAI sut = GetSut(ChunkFakes.chuckResponse);
