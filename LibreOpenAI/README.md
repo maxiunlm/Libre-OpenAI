@@ -242,6 +242,7 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     
     dynamic result = await sut.Chat.Completions.CreateStreamDynamic(request);  
     // result will be a dynamic array of objects based on the JSON result
+    string content = result[1].choices[0].delta.content.Value;
 ```
 ###### Using JSON
 ```cs
@@ -250,6 +251,7 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     
     dynamic result = await sut.Chat.Completions.CreateStreamDynamic(request);
     // result will be a dynamic array of objects based on the JSON result
+    string content = result[1].choices[0].delta.content.Value;
 ```
 ###### Using dynamic type
 ```cs
@@ -267,6 +269,7 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     
     dynamic result = await sut.Chat.Completions.CreateStreamDynamic(request);
     // result will be a dynamic array of objects based on the JSON result
+    string content = result[1].choices[0].delta.content.Value;
 ```
 
 ##### Returning JSON

@@ -194,6 +194,19 @@ namespace LibreOpenAIUnitTestProject
             Assert.IsTrue(result.SelectMany(o => o.Choices.Select(o => o.Delta.Content)).Any(content => !string.IsNullOrWhiteSpace(content)));
         }
 
+        [TestMethod]
+        public async Task CreateStreamDynamic_AJsonRequestWithStreamingEqualsTrueAndJsonRequestParam_CallsOpenAiApi()
+        {
+            string request = RequestFakes.streamingResquest;
+            IOpenAI sut = new OpenAI();
+
+            dynamic result = await sut.Chat.Completions.CreateStreamDynamic(request);
+            string content = result[1].choices[0].delta.content.Value;
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(content));
+        }
+
         #endregion
 #endif
         // */

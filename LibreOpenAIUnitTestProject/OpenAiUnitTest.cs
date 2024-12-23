@@ -660,6 +660,46 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
+        public async Task CreateStreamDynamic_WithIRequestBody_ReturnsJsonChunks()
+        {
+            IRequestBody request = GetRequestFrom(ChunkFakes.chuckRequest);
+            IOpenAI sut = GetSut(ChunkFakes.chuckResponse);
+
+            dynamic result = await sut.Chat.Completions.CreateStreamDynamic(request);
+            string content = result[1].choices[0].delta.content.Value;
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(content));
+        }
+
+        [TestMethod]
+        public async Task CreateStreamDynamic_WithJsonRequest_ReturnsJsonChunks()
+        {
+            IRequestBody request = GetRequestFrom(ChunkFakes.chuckRequest);
+            string requestJson = JsonConvert.SerializeObject(request, OpenAiData.jsonSettings);
+            IOpenAI sut = GetSut(ChunkFakes.chuckResponse);
+
+            dynamic result = await sut.Chat.Completions.CreateStreamDynamic(requestJson);
+            string content = result[1].choices[0].delta.content.Value;
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(content));
+        }
+
+        [TestMethod]
+        public async Task CreateStreamDynamic_WithDynamicRequest_ReturnsJsonChunks()
+        {
+            dynamic request = GetJTokenStremRequest(ChunkFakes.chuckRequest);
+            IOpenAI sut = GetSut(ChunkFakes.chuckResponse);
+
+            dynamic result = await sut.Chat.Completions.CreateStreamDynamic(request);
+            string content = result[1].choices[0].delta.content.Value;
+
+            Assert.IsNotNull(result);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(content));
+        }
+
+        [TestMethod]
         public async Task CreateStreamJson_WithIRequestBody_ReturnsJsonChunks()
         {
             IRequestBody request = GetRequestFrom(ChunkFakes.chuckRequest);
