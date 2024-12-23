@@ -41,9 +41,9 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
         /// <seealso cref="https://platform.openai.com/docs/api-reference/chat/object"/>
         /// <seealso cref="https://platform.openai.com/docs/api-reference/chat/streaming"/>
         Task<IChatCompletionResponse> Create(string requestJson);
-        Task<IDictionary<string, object>> CreateDynamic(IRequestBody request); // TODO: Unit Tests.
-        Task<IDictionary<string, object>> CreateDynamic(dynamic request); // TODO: Unit Tests.
-        Task<IDictionary<string, object>> CreateDynamic(string requestJson); // TODO: Unit Tests.
+        Task<dynamic> CreateDynamic(IRequestBody request);
+        Task<dynamic> CreateDynamic(dynamic request);
+        Task<dynamic> CreateDynamic(string requestJson);
         Task<string> CreateJson(IRequestBody request);
         Task<string> CreateJson(dynamic request);
         Task<string> CreateJson(string requestJson);

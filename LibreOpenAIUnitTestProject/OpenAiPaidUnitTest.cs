@@ -70,15 +70,12 @@ namespace LibreOpenAIUnitTestProject
         {
             IRequestBody request = GetRequestFrom(RequestFakes.logprobsResquest);
             IOpenAI sut = new OpenAI();
-        
-            IDictionary<string, object> result = await sut.Chat.Completions.CreateDynamic(request);
+            
+            dynamic result = await sut.Chat.Completions.CreateDynamic(request);
+            string content = result.choices[0].message.content.Value;
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(1, ((IList<object>)result["choices"]).Count);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(
-                ((IDictionary<string, object>)
-                    ((IDictionary<string, object>)
-                        ((IList<object>)result["choices"])[0])["message"])["content"].ToString()));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(content));
         }
 
         [TestMethod]
@@ -87,14 +84,11 @@ namespace LibreOpenAIUnitTestProject
             IRequestBody request = GetRequestFrom(RequestFakes.imageInputResquest);
             IOpenAI sut = new OpenAI();
         
-            IDictionary<string, object> result = await sut.Chat.Completions.CreateDynamic(request);
+            dynamic result = await sut.Chat.Completions.CreateDynamic(request);
+            string content = result.choices[0].message.content.Value;
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(1, ((IList<object>)result["choices"]).Count);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(
-                ((IDictionary<string, object>)
-                    ((IDictionary<string, object>)
-                        ((IList<object>)result["choices"])[0])["message"])["content"].ToString()));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(content));
         }
 
         [TestMethod]
@@ -104,14 +98,11 @@ namespace LibreOpenAIUnitTestProject
             string jsonRequest = JsonConvert.SerializeObject(request, OpenAiData.jsonSettings);
             IOpenAI sut = new OpenAI();
         
-            IDictionary<string, object> result = await sut.Chat.Completions.CreateDynamic(request);
+            dynamic result = await sut.Chat.Completions.CreateDynamic(request);
+            string content = result.choices[0].message.content.Value;
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(1, ((IList<object>)result["choices"]).Count);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(
-                ((IDictionary<string, object>)
-                    ((IDictionary<string, object>)
-                        ((IList<object>)result["choices"])[0])["message"])["content"].ToString()));
+            Assert.IsFalse(string.IsNullOrWhiteSpace(content));
         }
 
         [TestMethod]

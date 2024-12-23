@@ -1,5 +1,4 @@
-﻿using LibreOpenAI.Converters;
-using LibreOpenAI.DAL.Http;
+﻿using LibreOpenAI.DAL.Http;
 using LibreOpenAI.Exceptions.OpenAI;
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Response;
 using LibreOpenAI.OpenAi.Settings;
@@ -7,7 +6,6 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text.RegularExpressions;
-using JsonSerializerOptions = System.Text.Json.JsonSerializerOptions;
 
 namespace LibreOpenAI.DAL
 {
@@ -17,11 +15,6 @@ namespace LibreOpenAI.DAL
         {
             NullValueHandling = NullValueHandling.Ignore,
             // DefaultValueHandling = DefaultValueHandling.Ignore
-        };
-        public static readonly JsonSerializerOptions jsonDynamicOptions = new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true,
-            Converters = { new DictionaryConverter() }
         };
         private IHttpClientAi? client;
         private AuthenticationHeaderValue? authorization;
