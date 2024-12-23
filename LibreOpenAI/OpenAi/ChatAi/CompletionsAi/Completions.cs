@@ -7,6 +7,8 @@ using JsonSerializerOptions = System.Text.Json.JsonSerializerOptions;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 using Newtonsoft.Json;
 using System.Dynamic;
+using System.Collections.Generic;
+using LibreOpenAI.Converters;
 
 namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
 {
@@ -66,7 +68,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
             return response;
         }
 
-        public async Task<dynamic> CreateDynamic(IRequestBody request)
+        public async Task<IDictionary<string, object>> CreateDynamic(IRequestBody request)
         {
             if (request.Stream != null && request.Stream.Value == true)
             {
@@ -78,7 +80,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
             return response;
         }
 
-        public async Task<dynamic> CreateDynamic(dynamic request)
+        public async Task<IDictionary<string, object>> CreateDynamic(dynamic request)
         {
             VerifyNonStreamJTokenValue(request);
             string requestJson = JsonConvert.SerializeObject(request, jsonSettings);
@@ -86,11 +88,12 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
             return response;
         }
 
-        public async Task<dynamic> CreateDynamic(string requestJson)
+        public async Task<IDictionary<string, object>> CreateDynamic(string requestJson)
         {
             string responseBody = await CreateJson(requestJson); 
-            dynamic response = JsonSerializer.Deserialize<ExpandoObject>(responseBody, jsonDynamicOptions)!;
-            return response;
+            dynamic response = JsonSerializer.Deserialize<IDictionary<string, object>>(responseBody, jsonDynamicOptions)!;
+
+            return response as IDictionary<string, object>;
         }
 
         public async Task<string> CreateJson(IRequestBody request)

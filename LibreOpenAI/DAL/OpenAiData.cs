@@ -21,7 +21,7 @@ namespace LibreOpenAI.DAL
         public static readonly JsonSerializerOptions jsonDynamicOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
-            Converters = { new ExpandoObjectConverter() }
+            Converters = { new DictionaryConverter() }
         };
         private IHttpClientAi? client;
         private AuthenticationHeaderValue? authorization;

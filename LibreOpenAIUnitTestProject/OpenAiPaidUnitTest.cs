@@ -66,16 +66,19 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task Create_WithLogprobsEqualsTrue_CallsOpenAiApi()
+        public async Task CreateDynamic_WithLogprobsEqualsTrue_CallsOpenAiApi()
         {
             IRequestBody request = GetRequestFrom(RequestFakes.logprobsResquest);
             IOpenAI sut = new OpenAI();
-
-            dynamic result = await sut.Chat.Completions.CreateDynamic(request);
+        
+            IDictionary<string, object> result = await sut.Chat.Completions.CreateDynamic(request);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Count);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(result.choices[0].message.content).Value.ToString());
+            Assert.AreEqual(1, ((IList<object>)result["choices"]).Count);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(
+                ((IDictionary<string, object>)
+                    ((IDictionary<string, object>)
+                        ((IList<object>)result["choices"])[0])["message"])["content"].ToString()));
         }
 
         [TestMethod]
@@ -83,12 +86,15 @@ namespace LibreOpenAIUnitTestProject
         {
             IRequestBody request = GetRequestFrom(RequestFakes.imageInputResquest);
             IOpenAI sut = new OpenAI();
-
-            dynamic result = await sut.Chat.Completions.CreateDynamic(request);
+        
+            IDictionary<string, object> result = await sut.Chat.Completions.CreateDynamic(request);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Count);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(result.choices[0].message.content).Value.ToString());
+            Assert.AreEqual(1, ((IList<object>)result["choices"]).Count);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(
+                ((IDictionary<string, object>)
+                    ((IDictionary<string, object>)
+                        ((IList<object>)result["choices"])[0])["message"])["content"].ToString()));
         }
 
         [TestMethod]
@@ -97,12 +103,15 @@ namespace LibreOpenAIUnitTestProject
             IRequestBody request = GetRequestFrom(RequestFakes.defaultResquest);
             string jsonRequest = JsonConvert.SerializeObject(request, OpenAiData.jsonSettings);
             IOpenAI sut = new OpenAI();
-
-            dynamic result = await sut.Chat.Completions.CreateDynamic(jsonRequest);
+        
+            IDictionary<string, object> result = await sut.Chat.Completions.CreateDynamic(request);
 
             Assert.IsNotNull(result);
-            Assert.AreEqual(1, result.Count);
-            Assert.IsFalse(string.IsNullOrWhiteSpace(result.choices[0].message.content).Value.ToString());
+            Assert.AreEqual(1, ((IList<object>)result["choices"]).Count);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(
+                ((IDictionary<string, object>)
+                    ((IDictionary<string, object>)
+                        ((IList<object>)result["choices"])[0])["message"])["content"].ToString()));
         }
 
         [TestMethod]
