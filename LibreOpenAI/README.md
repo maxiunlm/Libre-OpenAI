@@ -70,16 +70,22 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     };
     IOpenAI openAi = new OpenAI();
 
-    dynamic result = await openAi.Chat.Completions.CreateDynamic(request);  
-    // result will be a dynamic object based on the JSON result
+    IDictionary<string, object> result = await openAi.Chat.Completions.CreateDynamic(request);  
+    // result will be a IDictionary<string, object> object based on the JSON result
+    ((IDictionary<string, object>)
+        ((IDictionary<string, object>)
+            ((IList<object>)result["choices"])[0])["message"])["content"]
 ```
 ###### Using JSON
 ```cs
     string request = "{\"max_completion_tokens\":50,\"model\":\"gpt-3.5-turbo\",\"messages\":[{\"role\":\"user\",\"content\":\"What is the capital of France?\"}],\"n\":1}";
     IOpenAI openAi = new OpenAI();
 
-    dynamic result = await openAi.Chat.Completions.CreateDynamic(request);  
-    // result will be a dynamic object based on the JSON result
+    IDictionary<string, object> result = await openAi.Chat.Completions.CreateDynamic(request);  
+    // result will be a IDictionary<string, object> object based on the JSON result
+    ((IDictionary<string, object>)
+        ((IDictionary<string, object>)
+            ((IList<object>)result["choices"])[0])["message"])["content"]
 ```
 ###### Using dynamic type
 ```cs
@@ -95,8 +101,11 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
     };
     IOpenAI openAi = new OpenAI();
 
-    dynamic result = await openAi.Chat.Completions.CreateDynamic(request);   
-    // result will be a dynamic object based on the JSON result
+    IDictionary<string, object> result = await openAi.Chat.Completions.CreateDynamic(request);   
+    // result will be a IDictionary<string, object> object based on the JSON result
+    ((IDictionary<string, object>)
+        ((IDictionary<string, object>)
+            ((IList<object>)result["choices"])[0])["message"])["content"]
 ```
 
 ##### Returning JSON

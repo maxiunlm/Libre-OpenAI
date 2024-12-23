@@ -568,6 +568,54 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
+        public async Task CreateDynamic_WithIRequestBody_ReturnsJson()
+        {
+            IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);
+            IOpenAI sut = GetSut(ResponseFakes.theCapitalOfFranceIsParisJson);
+
+            IDictionary<string, object> result = await sut.Chat.Completions.CreateDynamic(request);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, ((IList<object>)result["choices"]).Count);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(
+                ((IDictionary<string, object>)
+                    ((IDictionary<string, object>)
+                        ((IList<object>)result["choices"])[0])["message"])["content"].ToString()));
+        }
+
+        [TestMethod]
+        public async Task CreateDynamic_WithJsonRequest_ReturnsJson()
+        {
+            string request = JsonConvert.SerializeObject(GetRequest(ResponseFakes.whatIsTheCapitalOfFrance), OpenAiData.jsonSettings);
+            IOpenAI sut = GetSut(ResponseFakes.theCapitalOfFranceIsParisJson);
+
+            IDictionary<string, object> result = await sut.Chat.Completions.CreateDynamic(request);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, ((IList<object>)result["choices"]).Count);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(
+                ((IDictionary<string, object>)
+                    ((IDictionary<string, object>)
+                        ((IList<object>)result["choices"])[0])["message"])["content"].ToString()));
+        }
+
+        [TestMethod]
+        public async Task CreateDynamic_WithDynamicRequest_ReturnsJson()
+        {
+            dynamic request = GetDynamicRequest(ResponseFakes.whatIsTheCapitalOfFrance);
+            IOpenAI sut = GetSut(ResponseFakes.theCapitalOfFranceIsParisJson);
+
+            IDictionary<string, object> result = await sut.Chat.Completions.CreateDynamic(request);
+
+            Assert.IsNotNull(result);
+            Assert.AreEqual(1, ((IList<object>)result["choices"]).Count);
+            Assert.IsFalse(string.IsNullOrWhiteSpace(
+                ((IDictionary<string, object>)
+                    ((IDictionary<string, object>)
+                        ((IList<object>)result["choices"])[0])["message"])["content"].ToString()));
+        }
+
+        [TestMethod]
         public async Task CreateJson_WithIRequestBody_ReturnsJson()
         {
             IRequestBody request = GetRequest(ResponseFakes.whatIsTheCapitalOfFrance);

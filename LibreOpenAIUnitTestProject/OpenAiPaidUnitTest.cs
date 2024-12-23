@@ -66,7 +66,7 @@ namespace LibreOpenAIUnitTestProject
         }
 
         [TestMethod]
-        public async Task Create_WithLogprobsEqualsTrue_CallsOpenAiApi()
+        public async Task CreateDynamic_WithLogprobsEqualsTrue_CallsOpenAiApi()
         {
             IRequestBody request = GetRequestFrom(RequestFakes.logprobsResquest);
             IOpenAI sut = new OpenAI();
