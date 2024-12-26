@@ -4,7 +4,10 @@ namespace LibreOpenAI.OpenAi.Settings
 {
     public class OpenAiSettings : IOpenAiSettings
     {
-        public Uri OpenAiUrl { get; set; } = new Uri("https://api.openai.com/v1/chat/completions");
+        public Uri OpenAiUrlCompletions { get; set; } = new Uri("https://api.openai.com/v1/chat/completions");
+        public Uri OpenAiUrlEmbeddings { get; set; } = new Uri("https://api.openai.com/v1/embeddings");
+        public Uri OpenAiUrlFileTuningJobs { get; set; } = new Uri("https://api.openai.com/v1/fine_tuning/jobs");
+        
         public Encoding Encoding { get; set; } = Encoding.UTF8;
         public string MediaType { get; set; } = "application/json";
         public string OpenAiApiKey { get; set; } = string.Empty;

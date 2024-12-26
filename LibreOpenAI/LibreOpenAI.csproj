@@ -45,9 +45,7 @@
     <Folder Include="OpenAi\AudioAi\TranscriptionsAi\" />
     <Folder Include="OpenAi\AudioAi\TranslationsAi\" />
     <Folder Include="OpenAi\BatchesAi\" />
-    <Folder Include="OpenAi\EmbeddingsAi\" />
     <Folder Include="OpenAi\FilesAi\" />
-    <Folder Include="OpenAi\FineTuningAi\JobsAi\" />
     <Folder Include="OpenAi\ImagesAi\" />
     <Folder Include="OpenAi\ModelsAi\" />
     <Folder Include="OpenAi\ModerationsAi\" />

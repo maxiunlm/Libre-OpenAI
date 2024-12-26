@@ -6,7 +6,9 @@ namespace LibreOpenAI.OpenAi.Settings
     {
         Encoding Encoding { get; set; }
         string MediaType { get; set; }
-        Uri OpenAiUrl { get; set; }
+        Uri OpenAiUrlCompletions { get; set; }
+        Uri OpenAiUrlEmbeddings { get; set; }
+        Uri OpenAiUrlFileTuningJobs { get; set; }
         string OpenAiApiKey { get; set; }
     }
 }
