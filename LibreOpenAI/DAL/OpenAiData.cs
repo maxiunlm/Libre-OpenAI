@@ -65,13 +65,13 @@ namespace LibreOpenAI.DAL
             }
         }
 
-        public async Task<string> GetChatGptResponseJson(string requestJson)
+        public async Task<string> GetChatGptResponseJson(string requestJson, Uri url)
         {
             try
             {
                 string responseBody = string.Empty;
                 StringContent content = new StringContent(requestJson, settings.Encoding, settings.MediaType);
-                HttpResponseMessage response = await Client.PostAsync(settings.OpenAiUrl, content);
+                HttpResponseMessage response = await Client.PostAsync(url, content);
 
                 response.EnsureSuccessStatusCode();
                 responseBody = await response.Content.ReadAsStringAsync();
@@ -166,7 +166,7 @@ namespace LibreOpenAI.DAL
             try
             {
                 StringContent content = new StringContent(requestJson, settings.Encoding, settings.MediaType);
-                HttpResponseMessage response = await Client.PostAsync(settings.OpenAiUrl, content);
+                HttpResponseMessage response = await Client.PostAsync(settings.OpenAiUrlCompletions, content);
 
                 response.EnsureSuccessStatusCode();
                 responseBody = await response.Content.ReadAsStringAsync();
