@@ -7,7 +7,11 @@ namespace LibreOpenAI.OpenAi.Settings
         public Uri OpenAiUrlCompletions { get; set; } = new Uri("https://api.openai.com/v1/chat/completions");
         public Uri OpenAiUrlEmbeddings { get; set; } = new Uri("https://api.openai.com/v1/embeddings");
         public Uri OpenAiUrlFileTuningJobs { get; set; } = new Uri("https://api.openai.com/v1/fine_tuning/jobs");
-        
+        public Uri OpenAiUrlFileTuningJobsCancel { get; set; } = new Uri("https://api.openai.com/v1/fine_tuning/jobs/{fine_tuning_job_id}/cancel");
+        public Uri OpenAiUrlFileTuningJobsRetrieve { get; set; } = new Uri("https://api.openai.com/v1/fine_tuning/jobs/{fine_tuning_job_id}");
+        public Uri OpenAiUrlFileTuningEvents { get; set; } = new Uri("https://api.openai.com/v1/fine_tuning/jobs/{fine_tuning_job_id}/events");
+        // TODO: CURL: public Uri OpenAiUrlFileTuningCheckpoints { get; set; } = new Uri("https://api.openai.com/v1/fine_tuning/jobs/{fine_tuning_job_id}/checkpoints");
+
         public Encoding Encoding { get; set; } = Encoding.UTF8;
         public string MediaType { get; set; } = "application/json";
         public string OpenAiApiKey { get; set; } = string.Empty;

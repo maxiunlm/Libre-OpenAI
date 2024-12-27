@@ -41,5 +41,19 @@ namespace LibreOpenAI.DAL.Http
 
             return response;
         }
+
+        public async Task<HttpResponseMessage> PostAsync(Uri requestUri)
+        {
+            HttpResponseMessage response = await Client.PostAsync(requestUri);
+
+            return response;
+        }
+
+        public async Task<HttpResponseMessage> GetAsync(Uri requestUri)
+        {
+            HttpResponseMessage response = await Client.GetAsync(requestUri);
+
+            return response;
+        }
     }
 }

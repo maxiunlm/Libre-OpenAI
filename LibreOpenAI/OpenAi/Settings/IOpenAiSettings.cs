@@ -9,6 +9,10 @@ namespace LibreOpenAI.OpenAi.Settings
         Uri OpenAiUrlCompletions { get; set; }
         Uri OpenAiUrlEmbeddings { get; set; }
         Uri OpenAiUrlFileTuningJobs { get; set; }
+        Uri OpenAiUrlFileTuningJobsCancel { get; set; }
+        Uri OpenAiUrlFileTuningJobsRetrieve { get; set; }
+        Uri OpenAiUrlFileTuningEvents { get; set; }
+        // Uri OpenAiUrlFileTuningCheckpoints { get; set; }
         string OpenAiApiKey { get; set; }
     }
 }

@@ -65,13 +65,22 @@ namespace LibreOpenAI.DAL
             }
         }
 
-        public async Task<string> GetChatGptResponseJson(string requestJson, Uri url)
+        public async Task<string> PostChatGptResponseJson(string requestJson, Uri url)
         {
             try
             {
                 string responseBody = string.Empty;
-                StringContent content = new StringContent(requestJson, settings.Encoding, settings.MediaType);
-                HttpResponseMessage response = await Client.PostAsync(url, content);
+                HttpResponseMessage response;
+
+                if (string.IsNullOrEmpty(requestJson))
+                {
+                    response = await Client.PostAsync(url);
+                }
+                else
+                {
+                    StringContent content = new StringContent(requestJson, settings.Encoding, settings.MediaType);
+                    response = await Client.PostAsync(url, content);
+                }
 
                 response.EnsureSuccessStatusCode();
                 responseBody = await response.Content.ReadAsStringAsync();
@@ -134,9 +143,76 @@ namespace LibreOpenAI.DAL
             }
         }
 
-        public async Task<List<IChatCompletionChunk>> GetChatGptStreamingResponse(string requestJson)
+        public async Task<string> GetChatGptResponseJson(Uri url)
         {
-            string responseBody = await GetChatGptStreamingResponseJson(requestJson, false);
+            try
+            {
+                string responseBody = string.Empty;
+                HttpResponseMessage response = await Client.GetAsync(url);
+
+                response.EnsureSuccessStatusCode();
+                responseBody = await response.Content.ReadAsStringAsync();
+
+                return responseBody;
+                //return null;
+            }
+            // Specific OpenAI API exceptions
+            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.TooManyRequests)
+            {
+                throw new LibreOpenAITooManyRequestsException(e);
+            }
+            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.Unauthorized)
+            {
+                throw new LibreOpenAiAuthenticationException(e);
+            }
+            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                throw new LibreOpenAiInternalServerErrorException(e);
+            }
+            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.BadGateway)
+            {
+                throw new LibreOpenAiBadGatewayException(e);
+            }
+            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.ServiceUnavailable)
+            {
+                throw new LibreOpenAiServiceUnavailableException(e);
+            }
+            catch (HttpRequestException e) when (e.StatusCode == HttpStatusCode.GatewayTimeout)
+            {
+                throw new LibreOpenAiGatewayTimeoutException(e);
+            }
+            // Deserialization errors
+            catch (JsonSerializationException e)
+            {
+                throw new LibreOpenAiJsonSerializationException(e);
+            }
+            catch (JsonReaderException e)
+            {
+                throw new LibreOpenAiJsonReaderException(e);
+            }
+            // Invalid argument exceptions
+            catch (ArgumentException e)
+            {
+                throw new LibreOpenAiArgumentException(e);
+            }
+            // Timeout or cancellation errors
+            catch (TaskCanceledException e)
+            {
+                throw new LibreOpenAiTaskCanceledException(e);
+            }
+            catch (OperationCanceledException e)
+            {
+                throw new LibreOpenAiOperationCanceledException(e);
+            }
+            // Catch any other unexpected exception
+            catch (Exception e)
+            {
+                throw new LibreOpenAiUnexpectedException(e);
+            }
+        }
+        public async Task<List<IChatCompletionChunk>> PostChatGptStreamingResponse(string requestJson)
+        {
+            string responseBody = await PostChatGptStreamingResponseJson(requestJson, false);
             List<ChatCompletionChunk> result;
 
             try
@@ -159,7 +235,7 @@ namespace LibreOpenAI.DAL
             return result.Select(o => (IChatCompletionChunk)o).ToList();
         }
 
-        public async Task<string> GetChatGptStreamingResponseJson(string requestJson, bool raw)
+        public async Task<string> PostChatGptStreamingResponseJson(string requestJson, bool raw)
         {
             string responseBody = string.Empty;
 

@@ -82,7 +82,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
 
         public async Task<List<IChatCompletionChunk>> CreateStream(string requestJson)
         {
-            List<IChatCompletionChunk> response = await OpenAiData.GetChatGptStreamingResponse(requestJson);
+            List<IChatCompletionChunk> response = await OpenAiData.PostChatGptStreamingResponse(requestJson);
             return response;
         }
 
@@ -127,7 +127,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
 
         public async Task<string> CreateStreamJson(string requestJson, bool raw = false)
         {
-            string responseBody = await OpenAiData.GetChatGptStreamingResponseJson(requestJson, raw);
+            string responseBody = await OpenAiData.PostChatGptStreamingResponseJson(requestJson, raw);
             return responseBody;
         }
 

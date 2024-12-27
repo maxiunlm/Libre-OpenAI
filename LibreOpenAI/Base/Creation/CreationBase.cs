@@ -5,11 +5,11 @@ using LibreOpenAI.OpenAi.Settings;
 
 namespace LibreOpenAI.Base.Creation
 {
-    public abstract class CreationBase
+    public abstract class CreationBase : ICreationBase
     {
         private IOpenAiData openAiData;
-        private IOpenAiSettings settings;
         private readonly Uri openAiUrl;
+        protected IOpenAiSettings settings;
         protected readonly JsonSerializerSettings jsonSettings = DAL.OpenAiData.jsonSettings;
 
         protected CreationBase(IOpenAiSettings settings, Uri openAiUrl)
@@ -60,7 +60,13 @@ namespace LibreOpenAI.Base.Creation
 
         public async Task<string> CreateJson(string requestJson)
         {
-            string response = await OpenAiData.GetChatGptResponseJson(requestJson, openAiUrl);
+            string response = await CreateJson(requestJson, openAiUrl);
+            return response;
+        }
+
+        public async Task<string> CreateJson(string requestJson, Uri openAiUrl)
+        {
+            string response = await OpenAiData.PostChatGptResponseJson(requestJson, openAiUrl);
             return response;
         }
     }

@@ -6,8 +6,9 @@ namespace LibreOpenAI.DAL
     public interface IOpenAiData
     {
         IHttpClientAi Client { get; set; }
-        Task<string> GetChatGptResponseJson(string requestJson, Uri url);
-        Task<string> GetChatGptStreamingResponseJson(string requestJson, bool raw);
-        Task<List<IChatCompletionChunk>> GetChatGptStreamingResponse(string requestJson);
+        Task<string> GetChatGptResponseJson(Uri url);
+        Task<string> PostChatGptResponseJson(string requestJson, Uri url);
+        Task<string> PostChatGptStreamingResponseJson(string requestJson, bool raw);
+        Task<List<IChatCompletionChunk>> PostChatGptStreamingResponse(string requestJson);
     }
 }

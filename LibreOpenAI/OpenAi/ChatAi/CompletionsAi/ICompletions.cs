@@ -2,10 +2,11 @@
 using LibreOpenAI.OpenAi.ChatAi.CompletionsAi.Requests;
 using LibreOpenAI.DAL;
 using Newtonsoft.Json.Linq;
+using LibreOpenAI.Base.Creation;
 
 namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
 {
-    public interface ICompletions
+    public interface ICompletions: ICreationBase
     {
         IOpenAiData OpenAiData { get; set; }
         /// <summary>
@@ -42,11 +43,7 @@ namespace LibreOpenAI.OpenAi.ChatAi.CompletionsAi
         /// <seealso cref="https://platform.openai.com/docs/api-reference/chat/streaming"/>
         Task<IChatCompletionResponse> Create(string requestJson);
         Task<dynamic> CreateDynamic(IRequestBody request);
-        Task<dynamic> CreateDynamic(dynamic request);
-        Task<dynamic> CreateDynamic(string requestJson);
         Task<string> CreateJson(IRequestBody request);
-        Task<string> CreateJson(dynamic request);
-        Task<string> CreateJson(string requestJson);
 
         /// <summary>
         /// Creates a model response for the given chat conversation.

@@ -6,6 +6,8 @@ namespace LibreOpenAI.DAL.Http
     {
         HttpRequestHeaders DefaultRequestHeaders { get; }
         Task<HttpResponseMessage> PostAsync(Uri? requestUri, HttpContent? content);
+        Task<HttpResponseMessage> PostAsync(Uri? requestUri);
+        Task<HttpResponseMessage> GetAsync(Uri? requestUri);
     }
 
 }
