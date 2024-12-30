@@ -20,5 +20,15 @@ If you find these projects useful, consider supporting us by making a donation v
 ### Libre-OpenAI (Beta)
 - Donate to **Libre-OpenAI (Beta)**: [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/donate?hosted_button_id=94GX8T4KXEDLQ&item_name=LibreOpenAI&custom=CsharpSolution)
 
+#### Donate via QR Code
+You can also scan the QR code below to make a donation:
+
+![QR Code](./images/Libre-OpenAI-Beta-QR.png)
+
 ### Libre-OpenAI extensions (Beta)
 - Donate to **Libre-OpenAI extensions (Beta)**: [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/donate?hosted_button_id=N3W62T7XBJCRU&item_name=LibreOpenAIExtensions&custom=CsharpSolution)
+
+#### Donate via QR Code
+You can also scan the QR code below to make a donation:
+
+![QR Code](./images/Libre-OpenAI-extensions-Beta-QR.png)

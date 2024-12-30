@@ -24,3 +24,8 @@ https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIUnitTestProject/Op
 If you find this project useful, consider supporting us by making a donation via PayPal. Your support helps keep this project alive and maintained.
 
 - Donate to **Libre-OpenAI extensions (Beta)**: [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/donate?hosted_button_id=N3W62T7XBJCRU&item_name=LibreOpenAIExtensions&custom=CsharpSolution)
+
+### Donate via QR Code
+You can also scan the QR code below to make a donation:
+
+![QR Code](./images/Libre-OpenAI-extensions-Beta-QR.png)

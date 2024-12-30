@@ -18,6 +18,11 @@ If you find this project useful, consider supporting us by making a donation via
 
 - Donate to **Libre-OpenAI (Beta)**: [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/donate?hosted_button_id=94GX8T4KXEDLQ&item_name=LibreOpenAI&custom=CsharpSolution)
 
+### Donate via QR Code
+You can also scan the QR code below to make a donation:
+
+![QR Code](./images/Libre-OpenAI-Beta-QR.png)
+
 ## How to use Libre Open AI
 ### Create Completions
 #### Using IRequestBody
@@ -346,3 +351,8 @@ If you find this project useful, consider supporting us by making a donation via
 If you find this project useful, consider supporting us by making a donation via PayPal. Your support helps keep this project alive and maintained.
 
 - Donate to **Libre-OpenAI (Beta)**: [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/donate?hosted_button_id=94GX8T4KXEDLQ&item_name=LibreOpenAI&custom=CsharpSolution)
+
+### Donate via QR Code
+You can also scan the QR code below to make a donation:
+
+![QR Code](./images/Libre-OpenAI-Beta-QR.png)
