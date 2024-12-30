@@ -13,7 +13,7 @@ You can download our Nuget from:
 https://www.nuget.org/packages/LibreOpenAI/
 
 
-## Support this project 💖
+## Support these projects 💖
 
 If you find these projects useful, consider supporting us by making a donation via PayPal. Your support helps keep these projects alive and maintained.
 
@@ -23,7 +23,7 @@ If you find these projects useful, consider supporting us by making a donation v
 #### Donate via QR Code
 You can also scan the QR code below to make a donation:
 
-![QR Code](./images/Libre-OpenAI-Beta-QR.png)
+![QR Code](https://raw.githubusercontent.com/maxiunlm/Libre-OpenAI/refs/heads/main/images/Libre-OpenAI-Beta-QR.png)
 
 ### Libre-OpenAI extensions (Beta)
 - Donate to **Libre-OpenAI extensions (Beta)**: [![Donate](https://img.shields.io/badge/Donate-PayPal-blue.svg)](https://www.paypal.com/donate?hosted_button_id=N3W62T7XBJCRU&item_name=LibreOpenAIExtensions&custom=CsharpSolution)
