@@ -21,7 +21,7 @@ If you find this project useful, consider supporting us by making a donation via
 ### Donate via QR Code
 You can also scan the QR code below to make a donation:
 
-![QR Code](./images/Libre-OpenAI-Beta-QR.png)
+![QR Code](https://raw.githubusercontent.com/maxiunlm/Libre-OpenAI/refs/heads/main/images/Libre-OpenAI-Beta-QR.png)
 
 ## How to use Libre Open AI
 ### Create Completions
@@ -355,4 +355,4 @@ If you find this project useful, consider supporting us by making a donation via
 ### Donate via QR Code
 You can also scan the QR code below to make a donation:
 
-![QR Code](./images/Libre-OpenAI-Beta-QR.png)
+![QR Code](https://raw.githubusercontent.com/maxiunlm/Libre-OpenAI/refs/heads/main/images/Libre-OpenAI-Beta-QR.png)

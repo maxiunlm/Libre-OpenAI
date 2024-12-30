@@ -31,4 +31,4 @@ You can also scan the QR code below to make a donation:
 #### Donate via QR Code
 You can also scan the QR code below to make a donation:
 
-![QR Code](./images/Libre-OpenAI-extensions-Beta-QR.png)
+![QR Code](https://raw.githubusercontent.com/maxiunlm/Libre-OpenAI/refs/heads/main/images/Libre-OpenAI-extensions-Beta-QR.png)
