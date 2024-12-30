@@ -12,6 +12,13 @@ You can download our Nuget from:
 
 https://www.nuget.org/packages/LibreOpenAI/
 
+## Continue reading about Libre-OpenAI (Beta) here:
+
+https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAI/README.md
+
+## Then, continue reading about Libre-OpenAI extensions here:
+
+https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAIExtensions/README.md
 
 ## Support these projects 💖
 
