@@ -1,18 +1,15 @@
 ﻿# Libre-OpenAI extensions (Beta)
 An Open AI Nuget for .NET applications (.NET 8 or higher), It is "Libre" (free and for free).
+Remember, Libre-OpenAI and its Extensions are Beta versions, they are under construction!
 This is an extention Nuget that contains:
 	* Deprecated attributes.
 	* CURL utilities.
 	* BETA stuff.
 	* etc.
 
-## See: Libre-OpenAI (Beta) on:
+See the Libre OpenAI Nuget to learn how to use this before the current extensions:
 
-https://www.nuget.org/packages/LibreOpenAI/
-
-An Open AI Nuget for .NET applications (.NET 8 or higher), It is "Libre" (free and for free).
-
-Remember, Libre-OpenAI and its Extensions are Beta versions, they are under construction!
+https://github.com/maxiunlm/Libre-OpenAI/blob/main/LibreOpenAI/README.md
 
 Please, see these unit tests to learn how to use this Nuget:
 

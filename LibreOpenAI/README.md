@@ -1,8 +1,10 @@
 ﻿# Libre-OpenAI (Beta)
 An Open AI Nuget for .NET applications (.NET 8 or higher), It is "Libre" (free and for free).
-Libre-OpenAI is under construction, for now we are working only in Text Content generation.
+Remember, Libre-OpenAI and its Extensions are Beta versions, they are under construction!
 
-The current Beta version is 0.1.3.
+You can download our Nuget from:
+
+https://www.nuget.org/packages/LibreOpenAI/
 
 Please, see these unit tests to learn how to use this Nuget:
 
