@@ -72,7 +72,7 @@ namespace LibreOpenAI.DAL
                 string responseBody = string.Empty;
                 HttpResponseMessage response;
 
-                if (string.IsNullOrEmpty(requestJson))
+                if (string.IsNullOrWhiteSpace(requestJson))
                 {
                     response = await Client.PostAsync(url);
                 }
