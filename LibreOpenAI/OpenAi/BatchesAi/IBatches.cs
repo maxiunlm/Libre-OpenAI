@@ -1,5 +1,4 @@
 ﻿using LibreOpenAI.Base.Creation;
-using Microsoft.Extensions.Options;
 
 namespace LibreOpenAI.OpenAi.BatchesAi
 {
