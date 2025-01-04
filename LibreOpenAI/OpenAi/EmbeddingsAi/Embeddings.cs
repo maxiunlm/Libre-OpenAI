@@ -8,7 +8,5 @@ namespace LibreOpenAI.OpenAi.EmbeddingsAi
         public Embeddings(IOpenAiSettings settings) : base(settings, settings.OpenAiUrlEmbeddings)
         {
         }
-
-        // TODO: Unit Tests !!!!!!!!!!!!!!!!!!!!!!!!
     }
 }
