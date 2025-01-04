@@ -2,6 +2,7 @@
 {
     internal class BatchesFakes
     {
+        public const string resquestBatchId = "batch_abc123";
         public const string resquestCreate = @"{
     ""input_file_id"": ""file-abc123"",
     ""endpoint"": ""/v1/chat/completions"",
@@ -129,7 +130,6 @@
         ""batch_description"": ""Nightly job"",
       }
     },
-    { ... },
   ],
   ""first_id"": ""batch_abc123"",
   ""last_id"": ""batch_abc456"",

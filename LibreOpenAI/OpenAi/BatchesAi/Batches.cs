@@ -10,11 +10,9 @@ namespace LibreOpenAI.OpenAi.BatchesAi
         {
         }
 
-        // TODO: Unit Tests !!!!!!!!!!!!!!!!!!!!!!!!
-
         public async Task<dynamic> RetrieveDynamic(string batchId)
         {
-            string responseBody = await RetrieveDynamic(batchId);
+            string responseBody = await RetrieveJson(batchId);
             dynamic response = JToken.Parse(responseBody);
             return response;
         }
@@ -29,7 +27,7 @@ namespace LibreOpenAI.OpenAi.BatchesAi
 
         public async Task<dynamic> CancelDynamic(string batchId)
         {
-            string responseBody = await CancelDynamic(batchId);
+            string responseBody = await CancelJson(batchId);
             dynamic response = JToken.Parse(responseBody);
             return response;
         }

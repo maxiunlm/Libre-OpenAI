@@ -830,7 +830,7 @@ namespace LibreOpenAIUnitTestProject
         [TestMethod]
         public async Task CreateJson_FineTuningJobs_WithJsonRequest_ReturnsJson()
         {
-            IOpenAI sut = GetFineTuningJobsSut(FineTuningJobsFakes.responseCreateDefault);
+            IOpenAI sut = GetPostFineTuningJobsSut(FineTuningJobsFakes.responseCreateDefault);
 
             string result = await sut.FineTuning.Jobs.CreateJson(FineTuningJobsFakes.resquestCreateDefault);
 
@@ -841,7 +841,7 @@ namespace LibreOpenAIUnitTestProject
         public async Task CreateJson_FineTuningJobs_WithDynamicRequest_ReturnsJson()
         {
             dynamic request = JToken.Parse(FineTuningJobsFakes.resquestCreateDefault);
-            IOpenAI sut = GetFineTuningJobsSut(FineTuningJobsFakes.responseCreateDefault);
+            IOpenAI sut = GetPostFineTuningJobsSut(FineTuningJobsFakes.responseCreateDefault);
 
             string result = await sut.FineTuning.Jobs.CreateJson(request);
 
@@ -852,7 +852,7 @@ namespace LibreOpenAIUnitTestProject
         [TestMethod]
         public async Task CreateDynamic_FineTuningJobs_WithJsonRequest_ReturnsDynamic()
         {
-            IOpenAI sut = GetFineTuningJobsSut(FineTuningJobsFakes.responseCreateDefault);
+            IOpenAI sut = GetPostFineTuningJobsSut(FineTuningJobsFakes.responseCreateDefault);
 
             dynamic result = await sut.FineTuning.Jobs.CreateDynamic(FineTuningJobsFakes.resquestCreateDefault);
             string id = result.id.Value;
@@ -864,7 +864,7 @@ namespace LibreOpenAIUnitTestProject
         public async Task CreateDynamic_FineTuningJobs_WithDynamicRequest_ReturnsDynamic()
         {
             dynamic request = JToken.Parse(FineTuningJobsFakes.resquestCreateDefault);
-            IOpenAI sut = GetFineTuningJobsSut(FineTuningJobsFakes.responseCreateDefault);
+            IOpenAI sut = GetPostFineTuningJobsSut(FineTuningJobsFakes.responseCreateDefault);
 
             dynamic result = await sut.FineTuning.Jobs.CreateDynamic(request);
             string id = result.id.Value;
@@ -875,7 +875,7 @@ namespace LibreOpenAIUnitTestProject
         [TestMethod]
         public async Task CreateJson_FineTuningJobs_Epochs_WithJsonRequest_ReturnsJson()
         {
-            IOpenAI sut = GetFineTuningJobsSut(FineTuningJobsFakes.responseCreateEpochs);
+            IOpenAI sut = GetPostFineTuningJobsSut(FineTuningJobsFakes.responseCreateEpochs);
 
             string result = await sut.FineTuning.Jobs.CreateJson(FineTuningJobsFakes.resquestCreateEpochs);
 
@@ -886,7 +886,7 @@ namespace LibreOpenAIUnitTestProject
         public async Task CreateJson_FineTuningJobs_Epochs_WithDynamicRequest_ReturnsJson()
         {
             dynamic request = JToken.Parse(FineTuningJobsFakes.resquestCreateEpochs);
-            IOpenAI sut = GetFineTuningJobsSut(FineTuningJobsFakes.responseCreateEpochs);
+            IOpenAI sut = GetPostFineTuningJobsSut(FineTuningJobsFakes.responseCreateEpochs);
 
             string result = await sut.FineTuning.Jobs.CreateJson(request);
 
@@ -897,7 +897,7 @@ namespace LibreOpenAIUnitTestProject
         [TestMethod]
         public async Task CreateDynamic_FineTuningJobs_Epochs_WithJsonRequest_ReturnsDynamic()
         {
-            IOpenAI sut = GetFineTuningJobsSut(FineTuningJobsFakes.responseCreateEpochs);
+            IOpenAI sut = GetPostFineTuningJobsSut(FineTuningJobsFakes.responseCreateEpochs);
 
             dynamic result = await sut.FineTuning.Jobs.CreateDynamic(FineTuningJobsFakes.resquestCreateEpochs);
             string id = result.id.Value;
@@ -909,7 +909,7 @@ namespace LibreOpenAIUnitTestProject
         public async Task CreateDynamic_FineTuningJobs_Epochs_WithDynamicRequest_ReturnsDynamic()
         {
             dynamic request = JToken.Parse(FineTuningJobsFakes.resquestCreateEpochs);
-            IOpenAI sut = GetFineTuningJobsSut(FineTuningJobsFakes.responseCreateEpochs);
+            IOpenAI sut = GetPostFineTuningJobsSut(FineTuningJobsFakes.responseCreateEpochs);
 
             dynamic result = await sut.FineTuning.Jobs.CreateDynamic(request);
             string id = result.id.Value;
@@ -920,7 +920,7 @@ namespace LibreOpenAIUnitTestProject
         [TestMethod]
         public async Task CreateJson_FineTuningJobs_ValidationFile_WithJsonRequest_ReturnsJson()
         {
-            IOpenAI sut = GetFineTuningJobsSut(FineTuningJobsFakes.responseCreateValidationFile);
+            IOpenAI sut = GetPostFineTuningJobsSut(FineTuningJobsFakes.responseCreateValidationFile);
 
             string result = await sut.FineTuning.Jobs.CreateJson(FineTuningJobsFakes.resquestCreateValidationFile);
 
@@ -931,7 +931,7 @@ namespace LibreOpenAIUnitTestProject
         public async Task CreateJson_FineTuningJobs_ValidationFile_WithDynamicRequest_ReturnsJson()
         {
             dynamic request = JToken.Parse(FineTuningJobsFakes.resquestCreateValidationFile);
-            IOpenAI sut = GetFineTuningJobsSut(FineTuningJobsFakes.responseCreateValidationFile);
+            IOpenAI sut = GetPostFineTuningJobsSut(FineTuningJobsFakes.responseCreateValidationFile);
 
             string result = await sut.FineTuning.Jobs.CreateJson(request);
 
@@ -942,7 +942,7 @@ namespace LibreOpenAIUnitTestProject
         [TestMethod]
         public async Task CreateDynamic_FineTuningJobs_ValidationFile_WithJsonRequest_ReturnsDynamic()
         {
-            IOpenAI sut = GetFineTuningJobsSut(FineTuningJobsFakes.responseCreateValidationFile);
+            IOpenAI sut = GetPostFineTuningJobsSut(FineTuningJobsFakes.responseCreateValidationFile);
 
             dynamic result = await sut.FineTuning.Jobs.CreateDynamic(FineTuningJobsFakes.resquestCreateValidationFile);
             string id = result.id.Value;
@@ -954,7 +954,7 @@ namespace LibreOpenAIUnitTestProject
         public async Task CreateDynamic_FineTuningJobs_ValidationFile_WithDynamicRequest_ReturnsDynamic()
         {
             dynamic request = JToken.Parse(FineTuningJobsFakes.resquestCreateValidationFile);
-            IOpenAI sut = GetFineTuningJobsSut(FineTuningJobsFakes.responseCreateValidationFile);
+            IOpenAI sut = GetPostFineTuningJobsSut(FineTuningJobsFakes.responseCreateValidationFile);
 
             dynamic result = await sut.FineTuning.Jobs.CreateDynamic(request);
             string id = result.id.Value;
@@ -965,6 +965,7 @@ namespace LibreOpenAIUnitTestProject
         #endregion
 
         #region Batches
+        #region Create
 
         [TestMethod]
         public async Task CreateJson_Batches_WithJsonRequest_ReturnsJson()
@@ -1011,6 +1012,85 @@ namespace LibreOpenAIUnitTestProject
             Assert.AreEqual("batch_abc123", id);
         }
 
+        #endregion
+
+        #region Retrieve
+
+        [TestMethod]
+        public async Task RetrieveJson_Batches_WithRetrieveBatchId_ReturnsJson()
+        {
+            IOpenAI sut = GetBatchesSut(BatchesFakes.responseRetrieve);
+
+            string result = await sut.Batches.RetrieveJson(BatchesFakes.resquestBatchId);
+
+
+            Assert.AreEqual(BatchesFakes.responseRetrieve, result);
+        }
+
+        [TestMethod]
+        public async Task RetrieveDynamic_Batches_WithRetrieveBatchId_ReturnsDynamic()
+        {
+            IOpenAI sut = GetBatchesSut(BatchesFakes.responseRetrieve);
+
+            dynamic result = await sut.Batches.RetrieveDynamic(BatchesFakes.resquestBatchId);
+            string id = result.id.Value;
+
+            Assert.AreEqual("batch_abc123", id);
+        }
+
+        #endregion
+
+        #region Cancel
+
+        [TestMethod]
+        public async Task CancelJson_Batches_WithRetrieveBatchId_ReturnsJson()
+        {
+            IOpenAI sut = GetBatchesSut(BatchesFakes.responseCancel);
+
+            string result = await sut.Batches.CancelJson(BatchesFakes.resquestBatchId);
+
+
+            Assert.AreEqual(BatchesFakes.responseCancel, result);
+        }
+
+        [TestMethod]
+        public async Task CancelDynamic_Batches_WithRetrieveBatchId_ReturnsDynamic()
+        {
+            IOpenAI sut = GetBatchesSut(BatchesFakes.responseCancel);
+
+            dynamic result = await sut.Batches.CancelDynamic(BatchesFakes.resquestBatchId);
+            string id = result.id.Value;
+
+            Assert.AreEqual("batch_abc123", id);
+        }
+
+        #endregion
+
+        #region List
+
+        [TestMethod]
+        public async Task ListJson_Batches_WithRetrieveBatchId_ReturnsJson()
+        {
+            IOpenAI sut = GetBatchesSut(BatchesFakes.responseList);
+
+            string result = await sut.Batches.ListJson();
+
+
+            Assert.AreEqual(BatchesFakes.responseList, result);
+        }
+
+        [TestMethod]
+        public async Task ListDynamic_Batches_WithRetrieveBatchId_ReturnsDynamic()
+        {
+            IOpenAI sut = GetBatchesSut(BatchesFakes.responseList);
+
+            dynamic result = await sut.Batches.ListDynamic();
+            string id = result.data[0].id.Value;
+
+            Assert.AreEqual("batch_abc123", id);
+        }
+
+        #endregion
         #endregion
     }
 }

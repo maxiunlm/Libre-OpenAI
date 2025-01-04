@@ -406,6 +406,64 @@ You can also scan the QR code below to make a donation:
     // result will be a JSON
 ```
 
+#### Retrieve
+##### Returning dynamic
+```cs
+    string batchId = "batch_abc123";
+    IOpenAI openAi = new OpenAI();
+
+    dynamic result = await openAi.Batches.RetrieveDynamic(batchId);
+    // result will be a dynamic object based on the JSON result
+    string id = result.id.Value;
+```
+
+##### Returning JSON
+```cs
+    string batchId = "batch_abc123";
+    IOpenAI openAi = new OpenAI();
+
+    string result = await openAi.Batches.RetrieveJson(batchId);
+    // result will be a JSON
+```
+
+#### Cancel
+##### Returning dynamic
+```cs
+    string batchId = "batch_abc123";
+    IOpenAI openAi = new OpenAI();
+
+    dynamic result = await openAi.Batches.CancelDynamic(batchId);
+    // result will be a dynamic object based on the JSON result
+    string id = result.id.Value;
+```
+
+##### Returning JSON
+```cs
+    string batchId = "batch_abc123";
+    IOpenAI openAi = new OpenAI();
+
+    string result = await openAi.Batches.CancelJson(batchId);
+    // result will be a JSON
+```
+
+#### List
+##### Returning dynamic
+```cs
+    IOpenAI openAi = new OpenAI();
+
+    dynamic result = await openAi.Batches.ListDynamic();
+    // result will be a dynamic object based on the JSON result
+    string id = result.id.Value;
+```
+
+##### Returning JSON
+```cs
+    IOpenAI openAi = new OpenAI();
+
+    string result = await openAi.Batches.ListJson();
+    // result will be a JSON
+```
+
 
 
 ### Create Embeddings
