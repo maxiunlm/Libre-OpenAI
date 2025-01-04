@@ -6,7 +6,6 @@ using LibreOpenAI.OpenAi;
 using Moq;
 using LibreOpenAIExtensions.OpenAi.ChatAi.CompletionsAi.Requests;
 using Newtonsoft.Json;
-using LibreOpenAIUnitTestProject.Fakes;
 
 namespace LibreOpenAIUnitTestProject.Base
 {
@@ -18,6 +17,42 @@ namespace LibreOpenAIUnitTestProject.Base
         protected const int noMaxCompletionTokens = 0;
         public const int defaultMaxCompletionTokens = 50;
         protected const int aLotOfMaxCompletionTokens = 800;
+
+        protected IOpenAI GetFineTuningJobsSut(string responseJson)
+        {
+            Mock<IHttpClientAi> httpClientAiMock = new Mock<IHttpClientAi>();
+            HttpResponseMessage response = new HttpResponseMessage { Content = new StringContent(responseJson) };
+            httpClientAiMock.Setup(o => o.PostAsync(It.IsAny<Uri>(), It.IsAny<StringContent>())).Returns(Task.FromResult(response));
+            IOpenAiData openAiData = new OpenAiData { Client = httpClientAiMock.Object };
+            IOpenAI sut = new OpenAI();
+            sut.FineTuning.Jobs.OpenAiData = openAiData;
+
+            return sut;
+        }
+
+        protected IOpenAI GetBatchesSut(string responseJson)
+        {
+            Mock<IHttpClientAi> httpClientAiMock = new Mock<IHttpClientAi>();
+            HttpResponseMessage response = new HttpResponseMessage { Content = new StringContent(responseJson) };
+            httpClientAiMock.Setup(o => o.PostAsync(It.IsAny<Uri>(), It.IsAny<StringContent>())).Returns(Task.FromResult(response));
+            IOpenAiData openAiData = new OpenAiData { Client = httpClientAiMock.Object };
+            IOpenAI sut = new OpenAI();
+            sut.Batches.OpenAiData = openAiData;
+
+            return sut;
+        }
+
+        protected IOpenAI GetEmbeddingsSut(string responseJson)
+        {
+            Mock<IHttpClientAi> httpClientAiMock = new Mock<IHttpClientAi>();
+            HttpResponseMessage response = new HttpResponseMessage { Content = new StringContent(responseJson) };
+            httpClientAiMock.Setup(o => o.PostAsync(It.IsAny<Uri>(), It.IsAny<StringContent>())).Returns(Task.FromResult(response));
+            IOpenAiData openAiData = new OpenAiData { Client = httpClientAiMock.Object };
+            IOpenAI sut = new OpenAI();
+            sut.Embeddings.OpenAiData = openAiData;
+
+            return sut;
+        }
 
         protected IOpenAI GetSut(string responseJson)
         {

@@ -13,7 +13,7 @@ namespace LibreOpenAI.OpenAi.Settings
         public Uri OpenAiUrlBatches { get; set; } = new Uri("https://api.openai.com/v1/batches");
         public Uri OpenAiUrlBatchesRetrieve { get; set; } = new Uri("https://api.openai.com/v1/batches/{batch_id}");
         public Uri OpenAiUrlBatchesCancel { get; set; } = new Uri("https://api.openai.com/v1/batches/{batch_id}/cancel");
-        // TODO: CURL: public Uri OpenAiUrlFileTuningCheckpoints { get; set; } = new Uri("https://api.openai.com/v1/fine_tuning/jobs/{fine_tuning_job_id}/checkpoints");
+        // TODO: CURL: Extensions: public Uri OpenAiUrlFileTuningCheckpoints { get; set; } = new Uri("https://api.openai.com/v1/fine_tuning/jobs/{fine_tuning_job_id}/checkpoints");
 
         public Encoding Encoding { get; set; } = Encoding.UTF8;
         public string MediaType { get; set; } = "application/json";

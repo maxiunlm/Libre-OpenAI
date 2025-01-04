@@ -15,7 +15,7 @@ namespace LibreOpenAI.OpenAi.Settings
         Uri OpenAiUrlBatches { get; set; }
         Uri OpenAiUrlBatchesRetrieve { get; set; }
         Uri OpenAiUrlBatchesCancel { get; set; }
-        // Uri OpenAiUrlFileTuningCheckpoints { get; set; }
+        // TODO: CURL: Extensions: Uri OpenAiUrlFileTuningCheckpoints { get; set; }
         string OpenAiApiKey { get; set; }
     }
 }

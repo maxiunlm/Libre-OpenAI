@@ -348,6 +348,249 @@ You can also scan the QR code below to make a donation:
     // result will contain a list of "data: {...}" JSON objects that can't be parsed directly as JSON !
 ```
 
+
+
+### Batches
+#### Create
+##### Returning dynamic
+###### Using JSON
+```cs
+    string request = @"{
+        ""input_file_id"": ""file-abc123"",
+        ""endpoint"": ""/v1/chat/completions"",
+        ""completion_window"": ""24h""
+    }";
+    IOpenAI openAi = new OpenAI();
+
+    dynamic result = await openAi.Batches.CreateDynamic(request);
+    // result will be a dynamic object based on the JSON result
+    string id = result.id.Value;
+```
+###### Using dynamic type
+```cs
+    dynamic request = new {
+        input_file_id = "file-abc123",
+        endpoint = "/v1/chat/completions",
+        completion_window = "24h"
+    };
+    IOpenAI openAi = new OpenAI();
+
+    dynamic result = await openAi.Batches.CreateDynamic(request);
+    // result will be a dynamic object based on the JSON result
+    string id = result.id.Value;
+```
+
+##### Returning JSON
+###### Using JSON
+```cs
+    string request = @"{
+        ""input_file_id"": ""file-abc123"",
+        ""endpoint"": ""/v1/chat/completions"",
+        ""completion_window"": ""24h""
+    }";
+    IOpenAI openAi = new OpenAI();
+
+    string result = await openAi.Batches.CreateJson(request);
+    // result will be a JSON
+```
+###### Using dynamic type
+```cs
+    dynamic request = new {
+        input_file_id = "file-abc123",
+        endpoint = "/v1/chat/completions",
+        completion_window = "24h"
+    };
+    IOpenAI openAi = new OpenAI();
+
+    string result = await openAi.Batches.CreateJson(request);
+    // result will be a JSON
+```
+
+
+
+### Create Embeddings
+#### Returning dynamic
+##### Using JSON
+```cs
+    string request = @"{
+        model: ""text-embedding-ada-002"",
+        input: ""The quick brown fox jumped over the lazy dog"",
+        encoding_format: ""float"",
+    }";
+    IOpenAI openAi = new OpenAI();
+
+    dynamic result = await openAi.Embeddings.CreateDynamic(request);
+    // result will be a dynamic array of numbers based on the JSON result
+    double first = result.data[0].embedding[0].Value;
+```
+##### Using dynamic type
+```cs
+    dynamic request = new {
+        model = "text-embedding-ada-002",
+        input = "The quick brown fox jumped over the lazy dog",
+        encoding_format = "float",
+    };
+    IOpenAI openAi = new OpenAI();
+
+    dynamic result = await openAi.Embeddings.CreateDynamic(request);
+    // result will be a dynamic array of numbers based on the JSON result
+    double first = result.data[0].embedding[0].Value;
+```
+
+#### Returning JSON
+##### Using JSON
+```cs
+    string request = @"{
+        model: ""text-embedding-ada-002"",
+        input: ""The quick brown fox jumped over the lazy dog"",
+        encoding_format: ""float"",
+    }";
+    IOpenAI openAi = new OpenAI();
+
+    string result = await openAi.Embeddings.CreateJson(request);
+    // result will be a JSON
+```
+##### Using dynamic type
+```cs
+    dynamic request = new {
+        model = "text-embedding-ada-002",
+        input = "The quick brown fox jumped over the lazy dog",
+        encoding_format = "float",
+    };
+    IOpenAI openAi = new OpenAI();
+
+    string result = await openAi.Embeddings.CreateJson(request);
+    // result will be a JSON
+```
+
+
+
+### Fine-tuning - Jobs
+#### Create
+##### Returning dynamic
+###### Using JSON
+```cs
+    string request = @"{
+      ""object"": ""fine_tuning.job"",
+      ""id"": ""ftjob-abc123"",
+      ""model"": ""gpt-4o-mini-2024-07-18"",
+      ""created_at"": 1721764800,
+      ""fine_tuned_model"": null,
+      ""organization_id"": ""org-123"",
+      ""result_files"": [],
+      ""status"": ""queued"",
+      ""validation_file"": null,
+      ""training_file"": ""file-abc123"",
+      ""method"": {
+        ""type"": ""supervised"",
+        ""supervised"": {
+          ""hyperparameters"": {
+            ""batch_size"": ""auto"",
+            ""learning_rate_multiplier"": ""auto"",
+            ""n_epochs"": ""auto"",
+          }
+        }
+      }
+    }";
+    IOpenAI openAi = new OpenAI();
+
+    dynamic result = await openAi.FineTuning.Jobs.CreateDynamic(request);
+    // result will be a dynamic object based on the JSON result
+    string id = result.id.Value;;
+```
+###### Using dynamic type
+```cs
+    dynamic request = new {
+      object = "fine_tuning.job",
+      id = "ftjob-abc123",
+      model = "gpt-4o-mini-2024-07-18",
+      created_at = 1721764800,
+      fine_tuned_model = null,
+      organization_id = "org-123",
+      result_files = new [],
+      status = "queued",
+      validation_file = null,
+      training_file = "file-abc123",
+      method = new {
+        type = "supervised",
+        supervised = new {
+          hyperparameters = new {
+            batch_size = "auto",
+            learning_rate_multiplier = "auto",
+            n_epochs = "auto",
+          }
+        }
+      }
+    };
+    IOpenAI openAi = new OpenAI();
+
+    dynamic result = await openAi.FineTuning.Jobs.CreateDynamic(request);
+    // result will be a dynamic object based on the JSON result
+    string id = result.id.Value;
+```
+
+##### Returning JSON
+###### Using JSON
+```cs
+    string request = @"{
+      ""object"": ""fine_tuning.job"",
+      ""id"": ""ftjob-abc123"",
+      ""model"": ""gpt-4o-mini-2024-07-18"",
+      ""created_at"": 1721764800,
+      ""fine_tuned_model"": null,
+      ""organization_id"": ""org-123"",
+      ""result_files"": [],
+      ""status"": ""queued"",
+      ""validation_file"": null,
+      ""training_file"": ""file-abc123"",
+      ""method"": {
+        ""type"": ""supervised"",
+        ""supervised"": {
+          ""hyperparameters"": {
+            ""batch_size"": ""auto"",
+            ""learning_rate_multiplier"": ""auto"",
+            ""n_epochs"": ""auto"",
+          }
+        }
+      }
+    }";
+    IOpenAI openAi = new OpenAI();
+
+    string result = await openAi.FineTuning.Jobs.CreateJson(request);
+    // result will be a JSON
+```
+###### Using dynamic type
+```cs
+    dynamic request = new {
+      object = "fine_tuning.job",
+      id = "ftjob-abc123",
+      model = "gpt-4o-mini-2024-07-18",
+      created_at = 1721764800,
+      fine_tuned_model = null,
+      organization_id = "org-123",
+      result_files = new [],
+      status = "queued",
+      validation_file = null,
+      training_file = "file-abc123",
+      method = new {
+        type = "supervised",
+        supervised = new {
+          hyperparameters = new {
+            batch_size = "auto",
+            learning_rate_multiplier = "auto",
+            n_epochs = "auto",
+          }
+        }
+      }
+    };
+    IOpenAI openAi = new OpenAI();
+
+    string result = await openAi.FineTuning.Jobs.CreateJson(request);
+    // result will be a JSON
+```
+
+
+
 ## Support this project 💖
 
 If you find this project useful, consider supporting us by making a donation via PayPal. Your support helps keep this project alive and maintained.
