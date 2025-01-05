@@ -521,6 +521,84 @@ You can also scan the QR code below to make a donation:
     // result will be a JSON
 ```
 
+#### Retrieve
+##### Returning dynamic
+```cs
+    string fineTuningJobId = "ftjob-abc123";
+    IOpenAI openAi = new OpenAI();
+
+    dynamic result = await openAi.FineTuning.Jobs.RetrieveDynamic(fineTuningJobId);
+    // result will be a dynamic object based on the JSON result
+    string id = result.id.Value;
+```
+
+##### Returning JSON
+```cs
+    string fineTuningJobId = "ftjob-abc123";
+    IOpenAI openAi = new OpenAI();
+
+    string result = await openAi.FineTuning.Jobs.RetrieveJson(fineTuningJobId);
+    // result will be a JSON
+```
+
+#### Cancel
+##### Returning dynamic
+```cs
+    string fineTuningJobId = "ftjob-abc123";
+    IOpenAI openAi = new OpenAI();
+
+    dynamic result = await openAi.FineTuning.Jobs.CancelDynamic(fineTuningJobId);
+    // result will be a dynamic object based on the JSON result
+    string id = result.id.Value;
+```
+
+##### Returning JSON
+```cs
+    string fineTuningJobId = "ftjob-abc123";
+    IOpenAI openAi = new OpenAI();
+
+    string result = await openAi.FineTuning.Jobs.CancelJson(fineTuningJobId);
+    // result will be a JSON
+```
+
+#### List
+##### Returning dynamic
+```cs
+    IOpenAI openAi = new OpenAI();
+
+    dynamic result = await openAi.FineTuning.Jobs.ListDynamic();
+    // result will be a dynamic object based on the JSON result
+    string type = result.data[0].type.Value;
+```
+
+##### Returning JSON
+```cs
+    IOpenAI openAi = new OpenAI();
+
+    string result = await openAi.FineTuning.Jobs.ListJson();
+    // result will be a JSON
+```
+
+#### List Events
+##### Returning dynamic
+```cs
+    string fineTuningJobId = "ftjob-abc123";
+    IOpenAI openAi = new OpenAI();
+
+    dynamic result = await openAi.FineTuning.Jobs.ListEventsDynamic(fineTuningJobId);
+    // result will be a dynamic object based on the JSON result
+    string type = result.data[0].type.Value;
+```
+
+##### Returning JSON
+```cs
+    string fineTuningJobId = "ftjob-abc123";
+    IOpenAI openAi = new OpenAI();
+
+    string result = await openAi.FineTuning.Jobs.ListEventsJson(fineTuningJobId);
+    // result will be a JSON
+```
+
 
 
 ### Fine-tuning - Jobs
