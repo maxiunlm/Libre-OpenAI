@@ -2,6 +2,7 @@
 {
     internal class FineTuningJobsFakes
     {
+        public const string responseListDataType = "message";
         public const string resquestCreateDefault = @"{
     training_file: ""file-abc123""
   }";
@@ -222,8 +223,6 @@
       ""data"": null,
       ""type"": ""message""
     },
-    { ... },
-    { ... }
   ], ""has_more"": true
 }";
         public const string resquestListEvents = "ftjob-abc123";
@@ -251,8 +250,8 @@
   ],
   ""has_more"": true
 }";
-        public const string resquestListRetrieve = "ftjob-abc123";
-        public const string responseListRetrieve = @"{
+        public const string resquestRetrieve = "ftjob-abc123";
+        public const string responseRetrieve = @"{
   ""object"": ""fine_tuning.job"",
   ""id"": ""ftjob-abc123"",
   ""model"": ""davinci-002"",
@@ -286,8 +285,8 @@
     }
   }
 }";
-        public const string resquestListCancel = "ftjob-abc123";
-        public const string responseListCancel = @"{
+        public const string resquestCancel = "ftjob-abc123";
+        public const string responseCancel = @"{
   ""object"": ""fine_tuning.job"",
   ""id"": ""ftjob-abc123"",
   ""model"": ""gpt-4o-mini-2024-07-18"",
