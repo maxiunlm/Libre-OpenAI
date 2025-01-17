@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace LibreOpenAI.OpenAi.ImagesAi
 {
-    public class Images : IImages
+    public class Images : IImages // TODO: Unit Testing
     {
         private IOpenAiData openAiData;
         private readonly Uri openAiUrl;

@@ -1,5 +1,5 @@
 ﻿
-namespace LibreOpenAIExtensions.OpenAi.CurlAi
+namespace LibreOpenAI.OpenAi.CurlAi
 {
     public interface ICurl
     {

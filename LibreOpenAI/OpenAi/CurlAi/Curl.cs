@@ -1,6 +1,6 @@
 ﻿using LibreOpenAI.DAL.Http;
 
-namespace LibreOpenAIExtensions.OpenAi.CurlAi
+namespace LibreOpenAI.OpenAi.CurlAi
 {
     public class Curl : ICurl // TODO: Unit Testing
     {
@@ -18,6 +18,7 @@ namespace LibreOpenAIExtensions.OpenAi.CurlAi
         {
             return await CurlAsync(new Uri(url), method, headers);
         }
+
         public async Task<HttpResponseMessage> CurlAsync(
             string url,
             string method,
@@ -34,6 +35,7 @@ namespace LibreOpenAIExtensions.OpenAi.CurlAi
         {
             return await client.CurlAsync(url, method, headers);
         }
+
         public async Task<HttpResponseMessage> CurlAsync(
             Uri url,
             string method,

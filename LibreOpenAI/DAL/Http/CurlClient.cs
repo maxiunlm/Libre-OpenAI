@@ -5,7 +5,7 @@ namespace LibreOpenAI.DAL.Http
 {
     internal class CurlClient // TODO: Unit Testing
     {
-        private IHttpExtensionClient? client;
+        private IHttpClient? client;
 
         public HttpRequestHeaders DefaultRequestHeaders
         {
@@ -15,7 +15,7 @@ namespace LibreOpenAI.DAL.Http
             }
         }
 
-        public IHttpExtensionClient Client
+        public IHttpClient Client
         {
             get
             {
@@ -27,7 +27,7 @@ namespace LibreOpenAI.DAL.Http
 
                     IHttpClientFactory clientFactory = serviceProvider.GetRequiredService<IHttpClientFactory>();
                     HttpClient client = clientFactory.CreateClient();
-                    this.client = new CustomHttpExtensionClient(client);
+                    this.client = new CustomHttpClient(client);
                 }
 
                 return client;

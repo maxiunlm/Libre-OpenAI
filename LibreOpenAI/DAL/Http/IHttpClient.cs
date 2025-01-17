@@ -8,6 +8,9 @@ namespace LibreOpenAI.DAL.Http
         Task<HttpResponseMessage> PostAsync(Uri? requestUri, HttpContent? content);
         Task<HttpResponseMessage> PostAsync(Uri? requestUri);
         Task<HttpResponseMessage> GetAsync(Uri? requestUri);
+        Task<HttpResponseMessage> PutAsync(Uri? requestUri, HttpContent? content);
+        Task<HttpResponseMessage> PatchAsync(Uri? requestUri, HttpContent? content);
+        Task<HttpResponseMessage> DeleteAsync(Uri? requestUri);
     }
 
 }
