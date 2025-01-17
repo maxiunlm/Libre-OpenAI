@@ -1191,5 +1191,56 @@ namespace LibreOpenAIUnitTestProject
 
         #endregion
         #endregion
+
+        #region CURL
+
+        [TestMethod]
+        public async Task CurlAsync_GET_Batches_WithRetrieveBatchId_ReturnsHttpResponseMessage()
+        {
+            IOpenAI sut = GetCurlSut(CurlFakes.curlRetrieveBatchResponse);
+            Dictionary<string, string> headers = new Dictionary<string, string>();
+            headers.Add("Authorization", "Bearer " + sut.Settings.OpenAiApiKey);
+            headers.Add("Content-Type", "application/json");
+
+            HttpResponseMessage response = await sut.Curl.CurlAsync("https://api.openai.com/v1/batches/batch_abc123", "GET", headers); // "GET", null, "" or string.Empty for GET method
+            string result = await response.Content.ReadAsStringAsync();
+
+            Assert.AreEqual(CurlFakes.curlRetrieveBatchResponse, result);
+        }
+
+        [TestMethod]
+        public async Task CurlAsync_DELETE_Files_WithFileId_ReturnsHttpResponseMessage()
+        {
+            IOpenAI sut = GetCurlSut(CurlFakes.curlDeleteFileResponse);
+            Dictionary<string, string> headers = new Dictionary<string, string>();
+            headers.Add("Authorization", "Bearer " + sut.Settings.OpenAiApiKey);
+
+            HttpResponseMessage response = await sut.Curl.CurlAsync("https://api.openai.com/v1/files/file-abc123", "DELETE", headers);
+            string result = await response.Content.ReadAsStringAsync();
+
+            Assert.AreEqual(CurlFakes.curlDeleteFileResponse, result);
+        }
+
+        [TestMethod]
+        public async Task CurlAsync_POST_Uploads_WithUploadData_ReturnsHttpResponseMessage()
+        {
+            IOpenAI sut = GetCurlSut(CurlFakes.curlPostCreateUploadResponse);
+            Dictionary<string, string> headers = new Dictionary<string, string>();
+            headers.Add("Authorization", "Bearer " + sut.Settings.OpenAiApiKey);
+            headers.Add("Content-Type", "application/json");
+            string body = @"{
+                ""purpose"": ""fine-tune"",
+                ""filename"": ""training_examples.jsonl"",
+                ""bytes"": 2147483648,
+                ""mime_type"": ""text/jsonl""
+            }";
+
+            HttpResponseMessage response = await sut.Curl.CurlAsync("https://api.openai.com/v1/uploads", "POST", headers, body); // "POST", null, "" or string.Empty for POST method
+            string result = await response.Content.ReadAsStringAsync();
+
+            Assert.AreEqual(CurlFakes.curlPostCreateUploadResponse, result);
+        }
+
+        #endregion
     }
 }

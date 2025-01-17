@@ -18,6 +18,20 @@ namespace LibreOpenAIUnitTestProject.Base
         public const int defaultMaxCompletionTokens = 50;
         protected const int aLotOfMaxCompletionTokens = 800;
 
+        protected IOpenAI GetCurlSut(string responseJson)
+        {
+            Mock<IHttpClient> httpClientAiMock = new Mock<IHttpClient>();
+            HttpResponseMessage response = new HttpResponseMessage { Content = new StringContent(responseJson) };
+            httpClientAiMock.Setup(o => o.GetAsync(It.IsAny<Uri>())).Returns(Task.FromResult(response));
+            httpClientAiMock.Setup(o => o.PostAsync(It.IsAny<Uri>(), It.IsAny<StringContent>())).Returns(Task.FromResult(response));
+            httpClientAiMock.Setup(o => o.PostAsync(It.IsAny<Uri>())).Returns(Task.FromResult(response));
+            httpClientAiMock.Setup(o => o.DeleteAsync(It.IsAny<Uri>())).Returns(Task.FromResult(response));
+            IOpenAI sut = new OpenAI();
+            sut.Curl.Client.Client = httpClientAiMock.Object;
+
+            return sut;
+        }
+
         protected IOpenAI GetFineTuningJobsSut(string responseJson)
         {
             Mock<IHttpClientAi> httpClientAiMock = new Mock<IHttpClientAi>();

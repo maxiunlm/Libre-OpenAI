@@ -1,9 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http.Headers;
+using System.Text;
 
 namespace LibreOpenAI.DAL.Http
 {
-    internal class CurlClient // TODO: Unit Testing
+    public class CurlClient : ICurlClient // TODO: Unit Testing
     {
         private IHttpClient? client;
 
@@ -40,13 +41,20 @@ namespace LibreOpenAI.DAL.Http
             string method,
             Dictionary<string, string> headers)
         {
-            method = (method ?? "GET").ToUpper();
+            method = string.IsNullOrWhiteSpace(method) ? "GET" : method.Trim().ToUpper();
 
             using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod(method), url))
             {
                 foreach (var header in headers)
                 {
-                    request.Headers.Add(header.Key, header.Value);
+                    if(header.Key.ToLower() == "content-type")
+                    {
+                        request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(header.Value));
+                    }
+                    else
+                    {
+                        request.Headers.Add(header.Key, header.Value);
+                    }
                 }
 
                 switch (method)
@@ -65,13 +73,20 @@ namespace LibreOpenAI.DAL.Http
             Dictionary<string, string> headers,
             HttpContent content)
         {
-            method = (method ?? "POST").ToUpper();
+            method = string.IsNullOrWhiteSpace(method) ? "POST" : method.Trim().ToUpper();
 
             using (HttpRequestMessage request = new HttpRequestMessage(new HttpMethod(method), url))
             {
                 foreach (var header in headers)
                 {
-                    request.Headers.Add(header.Key, header.Value);
+                    if (header.Key.ToLower() == "content-type")
+                    {
+                        request.Content = new StringContent("{ \"key\": \"value\" }", Encoding.UTF8, header.Value);
+                    }
+                    else
+                    {
+                        request.Headers.Add(header.Key, header.Value);
+                    }
                 }
 
                 if (content != null)

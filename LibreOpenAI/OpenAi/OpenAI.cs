@@ -1,6 +1,7 @@
 ﻿using LibreOpenAI.OpenAi.AudioAi;
 using LibreOpenAI.OpenAi.BatchesAi;
 using LibreOpenAI.OpenAi.ChatAi;
+using LibreOpenAI.OpenAi.CurlAi;
 using LibreOpenAI.OpenAi.EmbeddingsAi;
 using LibreOpenAI.OpenAi.FineTuningAi;
 using LibreOpenAI.OpenAi.ImagesAi;
@@ -12,6 +13,8 @@ namespace LibreOpenAI.OpenAi
     {
         private readonly IOpenAiSettings settings;
 
+        public IOpenAiSettings Settings { get => settings; }
+
         public OpenAI()
         {
             settings = new OpenAiSettings();
@@ -21,6 +24,7 @@ namespace LibreOpenAI.OpenAi
             Batches = new Batches(settings);
             Audio = new Audio(settings);
             Images = new Images(settings);
+            Curl = new Curl();
         }
 
         public OpenAI(string openAiApiKey)
@@ -32,6 +36,7 @@ namespace LibreOpenAI.OpenAi
             Batches = new Batches(settings);
             Audio = new Audio(settings);
             Images = new Images(settings);
+            Curl = new Curl();
         }
 
         public OpenAI(OpenAiSettings settings)
@@ -43,6 +48,7 @@ namespace LibreOpenAI.OpenAi
             Batches = new Batches(settings);
             Audio = new Audio(settings);
             Images = new Images(settings);
+            Curl = new Curl();
         }
 
         public IChat Chat { get; set; }
@@ -51,5 +57,6 @@ namespace LibreOpenAI.OpenAi
         public IBatches Batches { get; set; }
         public IAudio Audio { get; set; }
         public IImages Images { get; set; }
+        public ICurl Curl { get; set; }
     }
 }
