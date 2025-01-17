@@ -42,7 +42,6 @@
 
   <ItemGroup>
     <Folder Include="OpenAi\FilesAi\" />
-    <Folder Include="OpenAi\ImagesAi\" />
     <Folder Include="OpenAi\ModelsAi\" />
     <Folder Include="OpenAi\ModerationsAi\" />
   </ItemGroup>

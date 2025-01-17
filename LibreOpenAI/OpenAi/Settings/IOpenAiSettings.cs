@@ -18,6 +18,9 @@ namespace LibreOpenAI.OpenAi.Settings
         Uri OpenAiUrlAudioSpeech { get; set; }
         Uri OpenAiUrlAudioTranscriptions { get; set; }
         Uri OpenAiUrlAudioTranslations { get; set; }
+        Uri OpenAiUrlImageGenerations { get; set; }
+        Uri OpenAiUrlImageEdits { get; set; }
+        Uri OpenAiUrlImageVariations { get; set; }
         // TODO: CURL: Extensions: Uri OpenAiUrlFileTuningCheckpoints { get; set; }
         string OpenAiApiKey { get; set; }
     }
