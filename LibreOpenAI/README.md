@@ -25,6 +25,38 @@ You can also scan the QR code below to make a donation:
 
 ![QR Code](https://raw.githubusercontent.com/maxiunlm/Libre-OpenAI/refs/heads/main/images/Libre-OpenAI-Beta-QR.png)
 
+## Settings & Setup
+
+Before you can use the OpenAI API, you need to set up an account and create an API key. You can do this by following the instructions on the OpenAI website.
+Unce you have your API key, you can use it to authenticate your requests to the OpenAI API. For that, you need to set the API key in the `OPENAI_API_KEY` or  `LIBRE_OPEN_AI_API_KEY` environment variables, they are th same for this Nuget.
+
+ - `OPENAI_API_KEY` is most standard environment variable name for OpenAI API key.
+ - `LIBRE_OPEN_AI_API_KEY` is the environment variable name for Libre OpenAI API key. This environment variable lets you using `OPENAI_API_KEY` for other APIs or Nugets or even if you need to test more than one API KEY for each.
+
+### OpenAI API Key Setup  
+
+However, this little guide will help you to set up your API key in a few simple steps.
+
+#### 1. Create an OpenAI Account  
+To generate an API key, you first need to create an OpenAI account:  
+
+- Go to [OpenAI Sign-Up](https://platform.openai.com/signup).  
+- Fill out the registration form with your email and password.  
+- Verify your email address by following the instructions in your inbox.  
+
+#### 2. Generate an API Key  
+Once your account is set up, follow these steps to create an API key:  
+
+1. Log in to [OpenAI Platform](https://platform.openai.com/).  
+2. Click on your profile avatar in the top-right corner.  
+3. Select **"View API Keys"**.  
+4. Click **"Create new secret key"**.  
+5. Copy and store the generated key securely (it will only be displayed once).  
+
+## 3. OpenAI Documentation  
+For more details, visit the official OpenAI API documentation:  
+[OpenAI API Docs](https://platform.openai.com/docs/)  
+
 ## How to use Libre Open AI
 ### Create Completions
 #### Using IRequestBody

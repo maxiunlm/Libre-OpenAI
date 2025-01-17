@@ -13,6 +13,9 @@ namespace LibreOpenAI.OpenAi.Settings
         public Uri OpenAiUrlBatches { get; set; } = new Uri("https://api.openai.com/v1/batches");
         public Uri OpenAiUrlBatchesRetrieve { get; set; } = new Uri("https://api.openai.com/v1/batches/{batch_id}");
         public Uri OpenAiUrlBatchesCancel { get; set; } = new Uri("https://api.openai.com/v1/batches/{batch_id}/cancel");
+        public Uri OpenAiUrlAudioSpeech { get; set; } = new Uri("https://api.openai.com/v1/audio/speech");
+        public Uri OpenAiUrlAudioTranscriptions { get; set; } = new Uri("https://api.openai.com/v1/audio/transcriptions");
+        public Uri OpenAiUrlAudioTranslations { get; set; } = new Uri("https://api.openai.com/v1/audio/translations");
         // TODO: CURL: Extensions: public Uri OpenAiUrlFileTuningCheckpoints { get; set; } = new Uri("https://api.openai.com/v1/fine_tuning/jobs/{fine_tuning_job_id}/checkpoints");
 
         public Encoding Encoding { get; set; } = Encoding.UTF8;
